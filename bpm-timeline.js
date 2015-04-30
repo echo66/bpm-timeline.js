@@ -2,6 +2,8 @@ function BPMTimeline(initialBPM) {
 
 	var initialBPM = initialBPM;
 
+	var F = new Formulas();
+
 	var bpmMarkers = {
 		// 0 : {
 		// 	type        : "linear",
@@ -19,17 +21,24 @@ function BPMTimeline(initialBPM) {
 	// converter from beat to time
 	this.time = function (beat) {
 
-		var marker;
-		for (var i=1; i<bpmMarkers.length; i++) 
-			if (bpmMarkers[i].endBeat > beat) {
-				marker = bpmMarkers[i];
+		var next;
+		var previous;
+		for (var i=0; i<index.length; i++) 
+			if (bpmMarkers[index[i]].endBeat > beat) {
+				next = bpmMarkers[index[i]];
 				break;
-			}
+			} else
+				previous = bpmMarkers[index[i]];
 
-		if (!marker) // constant BPM
-			return initialBeatPeriod * beat;
+		if (!next)
+			if (!previous)
+				return bpm_to_beat_period(initialBPM) * beat; // constant BPM
+			else {
+				var previousTotalTime = previous.total_time(previous.endBeat);
+				return (beat-previous.endBeat) * bpm_to_beat_period(previous.endBPM) + previousTotalTime;
+			}
 		else 
-			return marker.total_time(beat);
+			return next.total_time(beat);
 	}
 
 	// converter from time to beat
@@ -85,7 +94,7 @@ function BPMTimeline(initialBPM) {
 						bpm_to_beat_period(this.previous.endBPM) : 
 						this.timeline.get_initial_bpm();
 
-				return Formulas[type+"_integral_inverse"](start, end, startBeatPeriod, endBeatPeriod, start, time);
+				return F[this.type+"_integral_inverse"](start, end, startBeatPeriod, endBeatPeriod, start, time);
 			};
 
 			totalTimeFn  = function (beats) {
@@ -101,14 +110,14 @@ function BPMTimeline(initialBPM) {
 
 				var totalTimeAtStart;
 
-				if (this.previous) {
+				if (!this.previous) {
 					totalTimeAtStart = 0;
 				} else 
 					totalTimeAtStart = 
 						this.previous.cache.total_time_at_end 
 							= this.previous.total_time(start);
 
-				return Formulas[type+"_integral"](start, end, startBeatPeriod, endBeatPeriod, totalTimeAtStart, beats);
+				return F[this.type+"_integral"](start, end, startBeatPeriod, endBeatPeriod, totalTimeAtStart, beats);
 			};
 
 			valueAtBeatFn = function (beats) {
@@ -118,7 +127,7 @@ function BPMTimeline(initialBPM) {
 				var start = (this.previous)? this.previous.endBeat : 0;
 				var startBeatPeriod = (this.previous)? bpm_to_beat_period(this.previous.endBPM) : this.timeline.get_initial_bpm();
 
-				return Formulas[type](start, end, startBeatPeriod, endBeatPeriod, beats);
+				return F[this.type](start, end, startBeatPeriod, endBeatPeriod, beats);
 			};
 
 		} else {
@@ -181,11 +190,32 @@ function BPMTimeline(initialBPM) {
 	}
 
 	this.get_markers = function() {
-		return bpmMarkers;
+		var toReturn = [];
+		for (var i=0; i<index.length; i++) {
+			var m = bpmMarkers[index[i]];
+			var obj = {
+				endBeat : m.endBeat,
+				endBPM  : m.endBPM, 
+				type    : m.type,
+			}
+			toReturn.splice(toReturn.length, 0, obj);
+		}
+		return toReturn;
 	}
 
 	this.get_initial_bpm = function() {
 		return initialBPM;
+	}
+
+	this.set_initial_bpm = function(newBPM) {
+		initialBPM = newBPM;
+	}
+
+	this.countMarkers = function() {
+		var c = 0;
+		for (var v in bpmMarkers)
+			c++;
+		return c;
 	}
 
 	/* 
