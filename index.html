@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en-EN">
+	<head>
+		<script type="text/javascript" src="modified-binary-search.js"></script>
+		<script type="text/javascript" src="formulas.js"></script>
+		<script type="text/javascript" src="bpm-timeline.js"></script>
+	</head>
+	<body>
+		<script type="text/javascript">
+			var m1 = {
+				type: "linear",
+				endBeat: 10,
+				endBPM : 125
+			};
+			var m2 = {
+				type: "linear",
+				endBeat: 20,
+				endBPM : 130
+			};
+			var m3 = {
+				type: "linear",
+				endBeat: 25,
+				endBPM : 128
+			};
+			var m3 = {
+				type: "linear",
+				endBeat: 70,
+				endBPM : 140
+			};
+			var automation = new BPMTimeline(120);
+			automation.add_bpm_marker(m1);
+			automation.add_bpm_marker(m2);
+			automation.add_bpm_marker(m3);
+		</script>
+	</body>
+</html>
