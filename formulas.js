@@ -45,17 +45,17 @@ Formulas.prototype.linear_integral = function(x0, x1, y0, y1, constant, x) {
 	
 	dy  = y1 - y0;
 	dx  = x1 - x0;
-	M   = dy / (2*dx);
+	M   = dy / dx;
 	C   = y0;
 
-	return M * Math.pow((x - x0), 2) + y0 * (x - x0) + constant;
+	return (M/2) * Math.pow((x - x0), 2) + C * (x - x0) + constant;
 }
 
 Formulas.prototype.linear_integral_inverse = function(x0, x1, y0, y1, constant, y) {
 
 	dx  = x1 - x0;
 	dy  = y1 - y0;
-	A   = 0.5 * dy / dx;
+	A   = 0.5 * (dy / dx);
 	B   = y0 - 2 * A * x0;
 	C   = A * (x0*x0) - y0 * x0 + constant;
 
@@ -63,7 +63,7 @@ Formulas.prototype.linear_integral_inverse = function(x0, x1, y0, y1, constant, 
 	sol1 = (-B + square_root) / (2*A);
 	sol2 = (-B - square_root) / (2*A);
 
-	if (sol1>0)
+	if (sol1>=0)
 		return sol1;
 	else 
 		return sol2;
