@@ -4,16 +4,7 @@ function BPMTimeline(initialBPM) {
 
 	var F = new Formulas();
 
-	var bpmMarkers = {
-		// 0 : {
-		// 	type        : "linear",
-		// 	endBeat     : undefined, 
-		// 	endBPM      : initialBPM, 
-		// 	total_time   : function() { return  }, // TODO
-		// 	total_beats  : function() { return  }, // TODO
-		// 	value_at_beat : function() { return bpm_to_beat_period(initialBPM); }
-		// }
-	};
+	var bpmMarkers = {};
 
 	var index = [];
 
@@ -21,24 +12,29 @@ function BPMTimeline(initialBPM) {
 	// converter from beat to time
 	this.time = function (beat) {
 
-		var next;
-		var previous;
-		for (var i=0; i<index.length; i++) 
-			if (bpmMarkers[index[i]].endBeat > beat) {
-				next = bpmMarkers[index[i]];
-				break;
-			} else
-				previous = bpmMarkers[index[i]];
+		if (index.length == 0) 
+			return bpm_to_beat_period(initialBPM) * beat; // constant BPM
+		else {
+			var idx  = find_index(index, beat);
+			var previous;
+			var next;
+			if (idx.length == 1) {
+				previous = bpmMarkers[index[idx[0]]];
+				next     = index[index[idx[0]+1]];
+			} else if (idx[0]!=undefined && idx[1]!=undefined) {
+				previous = bpmMarkers[index[idx[0]]];
+				next     = bpmMarkers[index[idx[1]]];
+			} else if (idx[0]!=undefined && idx[1]==undefined) 
+				previous = bpmMarkers[index[idx[0]]];
+			else if (idx[0]==undefined && idx[1]!=undefined) 
+				next = bpmMarkers[index[idx[1]]];
 
-		if (!next)
-			if (!previous)
-				return bpm_to_beat_period(initialBPM) * beat; // constant BPM
-			else {
-				var previousTotalTime = previous.total_time(previous.endBeat);
-				return (beat-previous.endBeat) * bpm_to_beat_period(previous.endBPM) + previousTotalTime;
-			}
-		else 
-			return next.total_time(beat);
+			if (!next) 
+				return (beat-previous.endBeat) * bpm_to_beat_period(previous.endBPM) + previous.total_time(previous.endBeat);
+			else 
+				return next.total_time(beat);
+		}
+		
 	}
 
 	// converter from time to beat
@@ -46,6 +42,7 @@ function BPMTimeline(initialBPM) {
 		// TODO
 		var previous;
 		var next;
+
 		for (var i=0; i<bpmMarkers.length; i++) {
 			if (bpmMarkers[i].time > time) {
 				next = bpmMarkers[i];
@@ -67,11 +64,11 @@ function BPMTimeline(initialBPM) {
 		bpmMarkers.sort(function(m1, m2) { return m1.beat - m2.beat; });
 	}
 
-	function bpm_at_beat(b) {
+	function bpm_at_beat(beat) {
 		// TODO
 	}
 
-	function bpm_at_time(t) {
+	function bpm_at_time(time) {
 		// TODO
 	}
 
