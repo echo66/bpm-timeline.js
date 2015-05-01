@@ -279,8 +279,12 @@ function BPMTimeline(initialBPM) {
 	}
 
 	this.set_initial_bpm = function(newBPM) {
-		// TODO: recalculated all marker.endTime values.
+		// TODO: Test this function.
 		initialBPM = newBPM;
+		for (var i in beatsIndex) {
+			var m = bpmMarkers[beatsIndex[i]+""];
+			m.endTime = m.total_time(m.endBeat);
+		}
 	}
 
 	/* 
@@ -289,9 +293,10 @@ function BPMTimeline(initialBPM) {
 	 * Useful function to return the time period of, for example, a segment 
 	 * of 4 beats.
 	 */
-	function get_period(b0, difB) {
+	this.get_period = function(b0, difB) {
+		// TODO: Test this function.
 		var startTime = this.time(b0);
-		var endTime   = this.time(b0+difB);
+		var endTime   = this.time(b0 + difB);
 		return endTime - startTime;
 	}
 
