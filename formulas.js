@@ -29,9 +29,9 @@ Formulas.prototype.exponential_integral_inverse = function(x0, x1, y0, y1, const
 	U  = ry ^ (1/dx);
 	V  = y0 * (ry ^ (-x0/dx));
 
-	aux = (y * log(U) / V) - constant;
+	aux = (y * Math.log(U) / V) - constant;
 
-	res = log(aux) / log(U);
+	res = Math.log(aux) / Math.log(U);
 }
 
 
@@ -59,7 +59,7 @@ Formulas.prototype.linear_integral_inverse = function(x0, x1, y0, y1, constant, 
 	B   = y0 - 2 * A * x0;
 	C   = A * (x0*x0) - y0 * x0 + constant;
 
-	square_root = sqrt(B*B - 4*A*(C-y));
+	square_root = Math.sqrt(B*B - 4*A*(C-y));
 	sol1 = (-B + square_root) / (2*A);
 	sol2 = (-B - square_root) / (2*A);
 
