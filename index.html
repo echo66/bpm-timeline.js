@@ -4,7 +4,8 @@
 		<script type="text/javascript" src="modified-binary-search.js"></script>
 		<script type="text/javascript" src="formulas.js"></script>
 		<script type="text/javascript" src="bpm-timeline.js"></script>
-		<script type="text/javascript" src="http://mbostock.github.com/d3/d3.v2.js"></script>
+		<script type="text/javascript" src="d3.v2.js"></script>
+		<script type="text/javascript" src="create-d3-xy-graph.js"></script>
 		<style>
 			/* tell the SVG path to be a thin blue line without any area fill */
 			path {
@@ -31,96 +32,89 @@
 		</style>
 	</head>
 	<body>
-		<div id="graph" class="aGraph" style="position:absolute;top:0px;left:0; float:left;"></div>
+		<h3>Beat to Time</h3>
+		<div id="graph1" class="aGraph" style=""></div>
+		<h3>Time to Beat</h3>
+		<div id="graph2" class="aGraph" style=""></div>
+		<h3>Value at Beat</h3>
+		<div id="graph3" class="aGraph" style=""></div>
+		<h3>Value at Time</h3>
+		<div id="graph3" class="aGraph" style=""></div>
+
 		<script type="text/javascript">
-			var automation = new BPMTimeline(60);
-			automation.add_bpm_marker({
-				type: "linear",
-				endBeat: 50,
-				endBPM : 10
-			});
-			automation.add_bpm_marker({
-				type: "linear",
-				endBeat: 100,
-				endBPM : 140
-			});
-			automation.add_bpm_marker({
-				type: "linear",
-				endBeat: 120,
-				endBPM : 50
-			});
-			automation.add_bpm_marker({
-				type: "linear",
-				endBeat: 125,
-				endBPM : 10
-			});
-			automation.add_bpm_marker({
-				type: "linear",
-				endBeat: 130,
-				endBPM : 100
-			});
-			automation.add_bpm_marker({
-				type: "linear",
-				endBeat: 160,
-				endBPM : -200
-			});
-			automation.add_bpm_marker({
-				type: "linear",
-				endBeat: 200,
-				endBPM : -1800
-			});
-			automation.add_bpm_marker({
-				type: "linear",
-				endBeat: 250,
-				endBPM : -100
-			});
-
-
-			var data = [];
-			var markers = automation.get_markers();
-			var xmax = markers[markers.length-1].endBeat;
-			for (var i = 0; i < xmax; i+=0.01) {
-				data.push({ y: automation.time(i), x: i });
-			}
-			var ymax = data[data.length-1].y;
 
 			// define dimensions of graph
-			var m = [80, 80, 80, 80]; // margins
+			var m = [0, 0, 20, 80]; // margins
 			var w = 600 - m[1] - m[3]; // width
 			var h = 400 - m[0] - m[2]; // height
 
-			var x = d3.scale.linear().domain([0, xmax]).range([0, w]);
-			var y = d3.scale.linear().domain([0, ymax]).range([h, 0]);
-			var line = d3.svg.line()
-			    .x(function(d) {
-			        return x(d.x);
-			    })
-			    .y(function(d) {
-			        return y(d.y);
-			    })
+			d3.select("#graph1")
+				.append("svg:svg")
+					.attr("width", w + m[1] + m[3])
+					.attr("height", h + m[0] + m[2]);
 
-			var graph = d3.select("#graph").append("svg:svg")
-			.attr("width", w + m[1] + m[3])
-			.attr("height", h + m[0] + m[2])
-			.append("svg:g")
-			.attr("transform", "translate(" + m[3] + "," + m[0] + ")");
+			d3.select("#graph2")
+				.append("svg:svg")
+					.attr("width", w + m[1] + m[3])
+					.attr("height", h + m[0] + m[2]);
 
-			var xAxis = d3.svg.axis().scale(x).tickSize(-h).tickSubdivide(true);
-			graph.append("svg:g")
-			.attr("class", "x axis")
-			.attr("transform", "translate(0," + h + ")")
-			.call(xAxis);
+			d3.select("#graph3")
+				.append("svg:svg")
+					.attr("width", w + m[1] + m[3])
+					.attr("height", h + m[0] + m[2]);
+
+			d3.select("#graph4")
+				.append("svg:svg")
+					.attr("width", w + m[1] + m[3])
+					.attr("height", h + m[0] + m[2]);
 
 
-			var yAxisLeft = d3.svg.axis().scale(y).ticks(4).orient("left");
-			graph.append("svg:g")
-			.attr("class", "y axis")
-			.attr("transform", "translate(-25,0)")
-			.call(yAxisLeft);
+			var automation = new BPMTimeline(60);
+			automation.add_bpm_marker({type: "linear", endBeat: 50,  endBPM : 120    });
+			automation.add_bpm_marker({type: "linear", endBeat: 100, endBPM : 140   });
+			automation.add_bpm_marker({type: "linear", endBeat: 120, endBPM : 50    });
+			automation.add_bpm_marker({type: "linear", endBeat: 125, endBPM : 10    });
+			automation.add_bpm_marker({type: "linear", endBeat: 130, endBPM : 100   });
+			// automation.add_bpm_marker({type: "linear", endBeat: 160, endBPM : -200  });
+			// automation.add_bpm_marker({type: "linear", endBeat: 200, endBPM : -1800 });
+			// automation.add_bpm_marker({type: "linear", endBeat: 250, endBPM : -100  });
 
-			// Add the line by appending an svg:path element with the data line we created above
-			// do this AFTER the axes above so that the line is above the tick-lines
-			graph.append("svg:path").attr("d", line(data));
+
+			Array.prototype.max = function() {
+				return Math.max.apply(null, this);
+			};
+
+			Array.prototype.min = function() {
+				return Math.min.apply(null, this);
+			};
+
+			var datasets = {
+				timeAtBeat : [],
+				beatAtTime : [],
+				valueAtTime: []
+			};
+			var markers = automation.get_markers();
+
+			// Create "timeAtBeat" dataset
+			var xmax = markers[markers.length-1].endBeat;
+			for (var i = 0; i < xmax; i+=0.01) {
+				datasets.timeAtBeat.push({ y: automation.time(i), x: i });
+			}
+			var ymax = datasets.timeAtBeat[datasets.timeAtBeat.length-1].y;
+
+			create_d3_xy_graph("graph1", w, h, m, datasets.timeAtBeat, xmax+50, ymax+100);
+
+
+			// Create "beatAtTime" dataset
+			var xmax = datasets.timeAtBeat.map(function(el, i){ return el.y; }).max();
+			var ymax = datasets.timeAtBeat.map(function(el, i){ return el.x; }).max();
+			for (var i = 0; i < datasets.timeAtBeat.length; i++) {
+				var beat = automation.beat(datasets.timeAtBeat[i].y);
+				datasets.beatAtTime.push({ y: beat, x: datasets.timeAtBeat[i].x });
+			}
+
+			create_d3_xy_graph("graph2", w, h, m, datasets.beatAtTime, xmax+50, ymax+100);
+
 		</script>
 	</body>
 </html>
