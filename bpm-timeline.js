@@ -4,59 +4,95 @@ function BPMTimeline(initialBPM) {
 
 	var F = new Formulas();
 
-	var bpmMarkers = {};
+	var bpmMarkers  = {};
+	var timeMarkers = {};
 
-	var index = [];
+	var beatsIndex = [];
+	var timeIndex  = [];
 
 
 	// converter from beat to time
 	this.time = function (beat) {
 
-		if (index.length == 0) 
-			return bpm_to_beat_period(initialBPM) * beat; // constant BPM
+		if (beatsIndex.length == 0) 
+			return beat * bpm_to_beat_period(initialBPM); // constant BPM
 		else {
-			var idx  = find_index(index, beat);
-			var previous;
-			var next;
-			if (idx.length == 1) {
-				previous = bpmMarkers[index[idx[0]]];
-				next     = index[index[idx[0]+1]];
-			} else if (idx[0]!=undefined && idx[1]!=undefined) {
-				previous = bpmMarkers[index[idx[0]]];
-				next     = bpmMarkers[index[idx[1]]];
-			} else if (idx[0]!=undefined && idx[1]==undefined) 
-				previous = bpmMarkers[index[idx[0]]];
-			else if (idx[0]==undefined && idx[1]!=undefined) 
-				next = bpmMarkers[index[idx[1]]];
+			var bi = beatsIndex;
+			var idx  = find_index(bi, beat);
+			var mks = bpmMarkers;
+			var previous, next;
+			var pi = idx[0];
+			var ni = idx[1];
 
-			if (!next) 
-				return (beat-previous.endBeat) * bpm_to_beat_period(previous.endBPM) + previous.total_time(previous.endBeat);
-			else 
+			if (idx.length == 1) {
+				previous = mks[bi[pi]];
+				next     = mks[bi[pi+1]];
+			} else if (pi!=undefined && ni!=undefined) {
+				previous = mks[bi[pi]];
+				next     = mks[bi[ni]];
+			} else if (pi!=undefined && ni==undefined) 
+				previous = mks[bi[pi]];
+			else if (pi==undefined && ni!=undefined) 
+				next = mks[bi[ni]];
+
+			if (!next) {
+				var pEndBeat = previous.endBeat, pEndBPM  = previous.endBPM;
+				return (beat-pEndBeat) * bpm_to_beat_period(pEndBPM) + previous.total_time(pEndBeat);
+			} else 
 				return next.total_time(beat);
 		}
-		
+
 	}
 
 	// converter from time to beat
 	this.beat = function (time) {
-		// TODO
-		var previous;
-		var next;
 
-		for (var i=0; i<bpmMarkers.length; i++) {
-			if (bpmMarkers[i].time > time) {
-				next = bpmMarkers[i];
-			} else {
-				previous = bpmMarkers[i];
-			}
+		if (timeIndex.length == 0) // constant BPM
+			return time / bpm_to_beat_period(initialBPM);
+		else {
+			var ti   = timeIndex;
+			var idx  = find_index(ti, time);
+			var mks = timeMarkers;
+			var previous, next;
+			var pi = idx[0];
+			var ni = idx[1];
+
+			if (idx.length == 1) {
+				previous = mks[ti[pi]];
+				next     = mks[ti[pi+1]];
+			} else if (pi!=undefined && ni!=undefined) {
+				previous = mks[ti[pi]];
+				next     = mks[ti[ni]];
+			} else if (pi!=undefined && ni==undefined) 
+				previous = mks[ti[pi]];
+			else if (pi==undefined && ni!=undefined) 
+				next = mks[ti[ni]];
+
+			if (!next) {
+				return ((time-previous.endTime) / bpm_to_beat_period(previous.endBPM)) + previous.endTime;
+
+			} else 
+				return next.total_beats(time);
 		}
 
-		if (!previous && !next) // constant BPM
-			return time / bpm_to_beat_period(initialBPM);
-		else if (previous && next)
-			return next.totalTime(time);
-		else if (previous && !next)
-			previous.beat 
+		// // TODO
+		// var previous;
+		// var next;
+
+		// for (var i=0; i<bpmMarkers.length; i++) {
+		// 	if (bpmMarkers[i].time > time) {
+		// 		next = bpmMarkers[i];
+		// 	} else {
+		// 		previous = bpmMarkers[i];
+		// 	}
+		// }
+
+		// if (!previous && !next) // constant BPM
+		// 	return time / bpm_to_beat_period(initialBPM);
+		// else if (previous && next)
+		// 	return next.totalTime(time);
+		// else if (previous && !next)
+		// 	previous.beat 
 	}
 
 	function update(_initialBPM, start, end) {
@@ -65,7 +101,20 @@ function BPMTimeline(initialBPM) {
 	}
 
 	function bpm_at_beat(beat) {
-		// TODO
+		// TODO: test this function.
+		if (beatsIndex.length == 0) 
+			return initialBPM;
+		else {
+			var bi = beatsIndex;
+			var idx = find_index(bi, beat);
+			var m = bpmMarkers[beatsIndex[idx[0]]+""];
+			if (idx.length==1 || (idx[0]!=undefined && idx[1]==undefined)) 
+				return m.endBPM;
+			else if (idx[1]!=undefined) 
+				return m.value_at_beat(beat);
+			else 
+				throw "Bad beat value ("+beat+") @ BPMTimeline.bpm_at_beat.";
+		}
 	}
 
 	function bpm_at_time(time) {
@@ -89,9 +138,18 @@ function BPMTimeline(initialBPM) {
 				var startBeatPeriod = 
 					(this.previous)? 
 						bpm_to_beat_period(this.previous.endBPM) : 
-						this.timeline.get_initial_bpm();
+						bpm_to_beat_period(this.timeline.get_initial_bpm());
 
-				return F[this.type+"_integral_inverse"](start, end, startBeatPeriod, endBeatPeriod, start, time);
+				var totalTimeAtStart;
+
+				if (!this.previous) {
+					totalTimeAtStart = 0;
+				} else 
+					totalTimeAtStart = 
+						this.previous.endTime 
+							= this.previous.total_time(start);
+
+				return F[this.type+"_integral_inverse"](start, end, startBeatPeriod, endBeatPeriod, totalTimeAtStart, time);
 			};
 
 			totalTimeFn  = function (beats) {
@@ -111,7 +169,7 @@ function BPMTimeline(initialBPM) {
 					totalTimeAtStart = 0;
 				} else 
 					totalTimeAtStart = 
-						this.previous.cache.total_time_at_end 
+						this.previous.endTime 
 							= this.previous.total_time(start);
 
 				return F[this.type+"_integral"](start, end, startBeatPeriod, endBeatPeriod, totalTimeAtStart, beats);
@@ -137,41 +195,55 @@ function BPMTimeline(initialBPM) {
 			type          : marker.type,
 			endBeat       : marker.endBeat, 
 			endBPM        : marker.endBPM, 
+			endTime       : undefined, 
 			total_beats   : totalBeatsFn, 
 			total_time    : totalTimeFn, 
-			value_at_beat : valueAtBeatFn, 
-			cache         : {
-				total_beats_at_end : undefined, 
-				total_time_at_end  : undefined, 
-			}
+			value_at_beat : valueAtBeatFn,
+			value_at_time : undefined
 		};
 
 		totalBeatsFn.bind(obj);
 		totalTimeFn.bind(obj);
 		valueAtBeatFn.bind(obj);
 
-		var idx = find_index(index, marker.endBeat);
+		var bi = beatsIndex;
+		var ti = timeIndex;
+		var eb = marker.endBeat;
+		var et = obj.endTime = obj.total_time(marker.endBeat);
+
+		var idx = find_index(bi, marker.endBeat);
+		var pi  = idx[0];
+		var ni  = idx[1];
 		
 		if (idx.length > 1) {
 
-			bpmMarkers[marker.endBeat+""] = obj;
+			var bmks = bpmMarkers;
+			var tmks = timeMarkers;
 
-			if (index.length==0) {
-				index.splice(0, 0, marker.endBeat);
-			} else if (idx[0] != undefined && idx[1] == undefined) {
+			bmks[eb+""] = tmks[et+""] = obj;
+
+			if (bi.length==0) {
+				bi.splice(0, 0, eb);
+				ti.splice(0, 0, et);
+			} else if (pi != undefined && ni == undefined) {
 				// Insert after the last marker in the array.
-				index.splice(idx[0]+1, 0, marker.endBeat);
-				obj.previous = bpmMarkers[index[idx[0]]+""];
-			} else if (idx[0] == undefined && idx[1] != undefined) {
+				bi.splice(pi+1, 0, eb);
+				ti.splice(pi+1, 0, et);
+				obj.previous = bmks[bi[pi]+""];
+			} else if (pi == undefined && ni != undefined) {
 				// Insert before the first marker in the array.
-				index.splice(idx[1], 0, marker.endBeat);
-				bpmMarkers[index[idx[1]]+""].previous = obj;
+				bi.splice(ni, 0, eb);
+				ti.splice(ni, 0, et);
+				bmks[bi[ni]+""].previous = obj;
+				tmks[ti[ni]+""].previous = obj;
 				obj.previous = undefined;
-			} else if (idx[0] != undefined && idx[1] != undefined) {
+			} else if (pi != undefined && ni != undefined) {
 				// Insert inbetween the markers in the array.
-				index.splice(idx[1], 0, marker.endBeat);
-				bpmMarkers[index[idx[1]]+""].previous = obj;
-				obj.previous = bpmMarkers[index[idx[0]]+""];
+				bi.splice(ni, 0, eb);
+				ti.splice(ni, 0, et);
+				bmks[bi[ni]+""].previous = obj;
+				tmks[ti[ni]+""].previous = obj;
+				obj.previous = bmks[bi[pi]+""];
 			}
 		} else 
 			throw "Illegal access to a BPM marker @ BPMTimeline.add_bpm_marker.";
@@ -188,11 +260,13 @@ function BPMTimeline(initialBPM) {
 
 	this.get_markers = function() {
 		var toReturn = [];
-		for (var i=0; i<index.length; i++) {
-			var m = bpmMarkers[index[i]];
+		var bi = beatsIndex;
+		for (var i=0; i<bi.length; i++) {
+			var m = bpmMarkers[bi[i]];
 			var obj = {
 				endBeat : m.endBeat,
 				endBPM  : m.endBPM, 
+				endTime : m.endTime, 
 				type    : m.type,
 			}
 			toReturn.splice(toReturn.length, 0, obj);
@@ -205,14 +279,8 @@ function BPMTimeline(initialBPM) {
 	}
 
 	this.set_initial_bpm = function(newBPM) {
+		// TODO: recalculated all marker.endTime values.
 		initialBPM = newBPM;
-	}
-
-	this.countMarkers = function() {
-		var c = 0;
-		for (var v in bpmMarkers)
-			c++;
-		return c;
 	}
 
 	/* 
