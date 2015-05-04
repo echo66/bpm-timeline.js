@@ -1,4 +1,4 @@
-function create_d3_xy_graph(svgContainerId, w, h, m, xyDataset, xMax, yMax) {
+function create_d3_xy_graph(svgContainerId, w, h, m, xyDatasets, xMax, yMax) {
 
 	var x = d3.scale.linear().domain([0, xMax]).range([0, w]);
 	var y = d3.scale.linear().domain([0, yMax]).range([h, 0]);
@@ -32,6 +32,14 @@ function create_d3_xy_graph(svgContainerId, w, h, m, xyDataset, xMax, yMax) {
 
 	// Add the line by appending an svg:path element with the data line we created above
 	// do this AFTER the axes above so that the line is above the tick-lines
-	graph.append("svg:path")
-		.attr("d", line(xyDataset));
+	for (var i in xyDatasets) {
+		if (i=="max" || i=="min" || i=="color") continue;
+		var dataset = xyDatasets[i];
+		// console.log(dataset);
+		graph.append("svg:path")
+			.attr("d", line(dataset))
+			.attr("stroke", dataset.color)
+			.attr("stroke-width", 1)
+			.attr("fill", "none");
+	}
 }

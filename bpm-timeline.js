@@ -37,7 +37,7 @@ function BPMTimeline(initialBPM) {
 
 			if (!next) {
 				var pEndBeat = previous.endBeat, pEndBPM  = previous.endBPM;
-				return (beat-pEndBeat) * bpm_to_beat_period(pEndBPM) + previous.total_time(pEndBeat);
+				return ((beat-pEndBeat) * bpm_to_beat_period(pEndBPM)) + previous.total_time(pEndBeat);
 			} else 
 				return next.total_time(beat);
 		}
@@ -58,19 +58,27 @@ function BPMTimeline(initialBPM) {
 			var ni = idx[1];
 
 			if (idx.length == 1) {
+				// console.log("Right on the marker.");
 				previous = mks[ti[pi]];
 				next     = mks[ti[pi+1]];
 			} else if (pi!=undefined && ni!=undefined) {
+				// console.log("Between two markers.");
 				previous = mks[ti[pi]];
 				next     = mks[ti[ni]];
-			} else if (pi!=undefined && ni==undefined) 
+			} else if (pi!=undefined && ni==undefined) {
+				// console.log("After the last marker.");
 				previous = mks[ti[pi]];
-			else if (pi==undefined && ni!=undefined) 
+			} else if (pi==undefined && ni!=undefined) {
+				// console.log("Before the first marker.");
 				next = mks[ti[ni]];
+			}
+
+			// console.log(next.endBeat)
 
 			if (!next) {
-				return ((time-previous.endTime) / bpm_to_beat_period(previous.endBPM)) + previous.endTime;
-
+				var pEndBPM  = previous.endBPM,
+				    pEndTime = previous.endTime;
+				return ((time-pEndTime) / bpm_to_beat_period(pEndBPM)) + previous.total_beats(pEndTime);
 			} else 
 				return next.total_beats(time);
 		}
@@ -132,36 +140,40 @@ function BPMTimeline(initialBPM) {
 
 			totalBeatsFn = function (time) {
 
-				var end = this.endBeat;
-				var endBeatPeriod = bpm_to_beat_period(this.endBPM);
 				var start = (this.previous)? this.previous.endBeat : 0;
 				var startBeatPeriod = 
 					(this.previous)? 
 						bpm_to_beat_period(this.previous.endBPM) : 
 						bpm_to_beat_period(this.timeline.get_initial_bpm());
 
+				var end = this.endBeat;
+				var endBeatPeriod = bpm_to_beat_period(this.endBPM);
+				
 				var totalTimeAtStart;
 
 				if (!this.previous) {
 					totalTimeAtStart = 0;
 				} else 
 					totalTimeAtStart = 
-						this.previous.endTime 
+						this.previous.endTime
 							= this.previous.total_time(start);
 
-				return F[this.type+"_integral_inverse"](start, end, startBeatPeriod, endBeatPeriod, totalTimeAtStart, time);
+				var value = F[this.type+"_integral_inverse"](start, end, startBeatPeriod, endBeatPeriod, totalTimeAtStart, time);
+				console.log("fn_linear_integral_inverse(" + start + ", " + end + ", " + startBeatPeriod + ", " + endBeatPeriod + ", " + totalTimeAtStart + ", "+ time +") = " + value);
+
+				return value;
 			};
 
 			totalTimeFn  = function (beats) {
 
-				var end = this.endBeat;
-				var endBeatPeriod = bpm_to_beat_period(this.endBPM);
 				var start = (this.previous)? this.previous.endBeat : 0;
-
 				var startBeatPeriod = 
 					(this.previous)? 
 						bpm_to_beat_period(this.previous.endBPM) : 
 						bpm_to_beat_period(this.timeline.get_initial_bpm());
+
+				var end = this.endBeat;
+				var endBeatPeriod = bpm_to_beat_period(this.endBPM);
 
 				var totalTimeAtStart;
 
@@ -189,7 +201,7 @@ function BPMTimeline(initialBPM) {
 			throw "Unsupported marker type (" + marker.type + ") @ BPMTimeline.add_bpm_marker.";
 		}
 
-		var obj = {
+				var obj = {
 			previous      : undefined,
 			timeline      : this, 
 			type          : marker.type,
@@ -220,34 +232,34 @@ function BPMTimeline(initialBPM) {
 			var bmks = bpmMarkers;
 			var tmks = timeMarkers;
 
-			bmks[eb+""] = tmks[et+""] = obj;
-
 			if (bi.length==0) {
 				bi.splice(0, 0, eb);
 				ti.splice(0, 0, et);
 			} else if (pi != undefined && ni == undefined) {
 				// Insert after the last marker in the array.
 				bi.splice(pi+1, 0, eb);
-				ti.splice(pi+1, 0, et);
 				obj.previous = bmks[bi[pi]+""];
+				et = obj.endTime = obj.total_time(marker.endBeat);
+				ti.splice(pi+1, 0, et);
 			} else if (pi == undefined && ni != undefined) {
 				// Insert before the first marker in the array.
 				bi.splice(ni, 0, eb);
-				ti.splice(ni, 0, et);
 				bmks[bi[ni]+""].previous = obj;
-				tmks[ti[ni]+""].previous = obj;
 				obj.previous = undefined;
+				et = obj.endTime = obj.total_time(marker.endBeat);
+				ti.splice(ni, 0, et);
 			} else if (pi != undefined && ni != undefined) {
 				// Insert inbetween the markers in the array.
 				bi.splice(ni, 0, eb);
-				ti.splice(ni, 0, et);
 				bmks[bi[ni]+""].previous = obj;
-				tmks[ti[ni]+""].previous = obj;
 				obj.previous = bmks[bi[pi]+""];
+				et = obj.endTime = obj.total_time(marker.endBeat);
+				ti.splice(ni, 0, et);
 			}
+
+			bmks[eb+""] = tmks[et+""] = obj;
 		} else 
 			throw "Illegal access to a BPM marker @ BPMTimeline.add_bpm_marker.";
-
 	}
 
 	this.remove_bpm_marker = function(markerTime) {
@@ -266,12 +278,23 @@ function BPMTimeline(initialBPM) {
 			var obj = {
 				endBeat : m.endBeat,
 				endBPM  : m.endBPM, 
-				endTime : m.endTime, 
+				endTime : m.endTime,
+				previous: (m.previous)? get_marker(bi[i-1]) : undefined,
 				type    : m.type,
 			}
 			toReturn.splice(toReturn.length, 0, obj);
 		}
 		return toReturn;
+	}
+
+	var get_marker = function(index) {
+		var m = bpmMarkers[index];
+		return {
+			endBeat : m.endBeat,
+			endBPM  : m.endBPM, 
+			endTime : m.endTime,
+			type    : m.type,
+		};
 	}
 
 	this.get_initial_bpm = function() {

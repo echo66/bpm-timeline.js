@@ -56,15 +56,15 @@ Formulas.prototype.linear_integral_inverse = function(x0, x1, y0, y1, constant, 
 	dx  = x1 - x0;
 	dy  = y1 - y0;
 	A   = 0.5 * (dy / dx);
-	B   = y0 - 2 * A * x0;
-	C   = A * (x0*x0) - y0 * x0 + constant;
+	B   = y0;
+	C   = constant;
 
 	square_root = Math.sqrt(B*B - 4*A*(C-y));
 	sol1 = (-B + square_root) / (2*A);
 	sol2 = (-B - square_root) / (2*A);
 
 	if (sol1>=0)
-		return sol1;
+		return sol1 + x0;
 	else 
-		return sol2;
+		return sol2 + x0;
 }

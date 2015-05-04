@@ -6,30 +6,7 @@
 		<script type="text/javascript" src="bpm-timeline.js"></script>
 		<script type="text/javascript" src="d3.v2.js"></script>
 		<script type="text/javascript" src="create-d3-xy-graph.js"></script>
-		<style>
-			/* tell the SVG path to be a thin blue line without any area fill */
-			path {
-				stroke: steelblue;
-				stroke-width: 1;
-				fill: none;
-			}
-			.axis {
-				shape-rendering: crispEdges;
-			}
-			.x.axis line {
-				stroke: lightgrey;
-			}
-			.x.axis .minor {
-				stroke-opacity: .5;
-			}
-			.x.axis path {
-				display: none;
-			}
-			.y.axis line, .y.axis path {
-				fill: none;
-				stroke: #000;
-			}
-		</style>
+		<link 	type="text/css" rel="stylesheet" href="style.css"></link>
 	</head>
 	<body>
 		<h3>Beat to Time</h3>
@@ -74,19 +51,10 @@
 			automation.add_bpm_marker({type: "linear", endBeat: 100, endBPM : 140   });
 			automation.add_bpm_marker({type: "linear", endBeat: 120, endBPM : 50    });
 			automation.add_bpm_marker({type: "linear", endBeat: 125, endBPM : 10    });
-			automation.add_bpm_marker({type: "linear", endBeat: 130, endBPM : 100   });
+			automation.add_bpm_marker({type: "linear", endBeat: 130, endBPM : 1000   });
 			// automation.add_bpm_marker({type: "linear", endBeat: 160, endBPM : -200  });
 			// automation.add_bpm_marker({type: "linear", endBeat: 200, endBPM : -1800 });
 			// automation.add_bpm_marker({type: "linear", endBeat: 250, endBPM : -100  });
-
-
-			Array.prototype.max = function() {
-				return Math.max.apply(null, this);
-			};
-
-			Array.prototype.min = function() {
-				return Math.min.apply(null, this);
-			};
 
 			var datasets = {
 				timeAtBeat : [],
@@ -94,27 +62,52 @@
 				valueAtTime: []
 			};
 			var markers = automation.get_markers();
+			for (var mi in markers)
+				markers[mi].color = random_color_v2();
 
 			// Create "timeAtBeat" dataset
 			var xmax = markers[markers.length-1].endBeat;
-			for (var i = 0; i < xmax; i+=0.01) {
-				datasets.timeAtBeat.push({ y: automation.time(i), x: i });
+			for (var mi in markers) {
+
+				console.log("----------mi:"+mi+"--------------");
+
+				var arr1 = [];
+				var arr2 = [];
+
+				var Ms = markers[mi];
+
+				for (var x=(Ms.previous)?Ms.previous.endBeat:0; x<=Ms.endBeat; x+=0.1) {
+					var time = automation.time(x);
+					var beat = automation.beat(time);
+					arr1.push({
+						x: x, 
+						y: time
+					});
+					arr2.push({
+						x: x,
+						y: beat
+					});
+				}
+
+				arr1.color = arr2.color = Ms.color;
+				
+				datasets.timeAtBeat.push(arr1);
+				datasets.beatAtTime.push(arr2);
+
 			}
-			var ymax = datasets.timeAtBeat[datasets.timeAtBeat.length-1].y;
+
+			var ymax = automation.time(markers[markers.length-1].endBeat);
 
 			create_d3_xy_graph("graph1", w, h, m, datasets.timeAtBeat, xmax+50, ymax+100);
-
-
-			// Create "beatAtTime" dataset
-			var xmax = datasets.timeAtBeat.map(function(el, i){ return el.y; }).max();
-			var ymax = datasets.timeAtBeat.map(function(el, i){ return el.x; }).max();
-			for (var i = 0; i < datasets.timeAtBeat.length; i++) {
-				var beat = automation.beat(datasets.timeAtBeat[i].y);
-				datasets.beatAtTime.push({ y: beat, x: datasets.timeAtBeat[i].x });
-			}
-
 			create_d3_xy_graph("graph2", w, h, m, datasets.beatAtTime, xmax+50, ymax+100);
 
+			function random_color_v2() {
+				return 'rgb(' + [
+					~~(Math.random() * 255),
+					~~(Math.random() * 255),
+					~~(Math.random() * 255)
+				] + ')';
+			}
 		</script>
 	</body>
 </html>
