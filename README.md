@@ -2,13 +2,16 @@
 
 A class that provides a similar way to schedule beat period changes like Web Audio API AudioParam but, in order to convert between Time (seconds) and Beat, we need to calculate the integrals and inverse of the integrals of the automation functions.
 
-
-
-**Add a BPM marker**
+**Create a BPMTimeline object**
 
 ```javascript
 var initialBPM = 60;
 var automation = new BPMTimeline(initialBPM);
+```
+
+**Add a BPM marker**
+
+```javascript
 automation.add_bpm_marker({
   	type: "linear", 
 	endBeat: 50,  
