@@ -82,30 +82,6 @@ function BPMTimeline(initialBPM) {
 			} else 
 				return next.total_beats(time);
 		}
-
-		// // TODO
-		// var previous;
-		// var next;
-
-		// for (var i=0; i<bpmMarkers.length; i++) {
-		// 	if (bpmMarkers[i].time > time) {
-		// 		next = bpmMarkers[i];
-		// 	} else {
-		// 		previous = bpmMarkers[i];
-		// 	}
-		// }
-
-		// if (!previous && !next) // constant BPM
-		// 	return time / bpm_to_beat_period(initialBPM);
-		// else if (previous && next)
-		// 	return next.totalTime(time);
-		// else if (previous && !next)
-		// 	previous.beat 
-	}
-
-	function update(_initialBPM, start, end) {
-		// TODO
-		bpmMarkers.sort(function(m1, m2) { return m1.beat - m2.beat; });
 	}
 
 	function bpm_at_beat(beat) {
