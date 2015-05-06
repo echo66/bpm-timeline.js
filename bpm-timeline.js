@@ -105,9 +105,9 @@ function BPMTimeline(initialBPM) {
 		// TODO
 	}
 
-	// marker: {time|beat, bpm}
+	// marker: {endTime|endBeat, endBPM}
 	this.add_bpm_marker = function(marker) {
-		// TODO
+		// TODO: one could use "time" instead of "beat" in the marker object.
 		var totalBeatsFn;
 		var totalTimeFn;
 		var valueAtBeatFn;
@@ -135,7 +135,6 @@ function BPMTimeline(initialBPM) {
 							= this.previous.total_time(start);
 
 				var value = F[this.type+"_integral_inverse"](start, end, startBeatPeriod, endBeatPeriod, totalTimeAtStart, time);
-				console.log("fn_linear_integral_inverse(" + start + ", " + end + ", " + startBeatPeriod + ", " + endBeatPeriod + ", " + totalTimeAtStart + ", "+ time +") = " + value);
 
 				return value;
 			};
@@ -160,7 +159,9 @@ function BPMTimeline(initialBPM) {
 						this.previous.endTime 
 							= this.previous.total_time(start);
 
-				return F[this.type+"_integral"](start, end, startBeatPeriod, endBeatPeriod, totalTimeAtStart, beats);
+				var value = F[this.type+"_integral"](start, end, startBeatPeriod, endBeatPeriod, totalTimeAtStart, beats);
+
+				return value;
 			};
 
 			valueAtBeatFn = function (beats) {
@@ -170,14 +171,16 @@ function BPMTimeline(initialBPM) {
 				var start = (this.previous)? this.previous.endBeat : 0;
 				var startBeatPeriod = (this.previous)? bpm_to_beat_period(this.previous.endBPM) : this.timeline.get_initial_bpm();
 
-				return F[this.type](start, end, startBeatPeriod, endBeatPeriod, beats);
+				var value = F[this.type](start, end, startBeatPeriod, endBeatPeriod, beats)
+
+				return value;
 			};
 
 		} else {
 			throw "Unsupported marker type (" + marker.type + ") @ BPMTimeline.add_bpm_marker.";
 		}
 
-				var obj = {
+		var obj = {
 			previous      : undefined,
 			timeline      : this, 
 			type          : marker.type,
@@ -186,8 +189,7 @@ function BPMTimeline(initialBPM) {
 			endTime       : undefined, 
 			total_beats   : totalBeatsFn, 
 			total_time    : totalTimeFn, 
-			value_at_beat : valueAtBeatFn,
-			value_at_time : undefined
+			value_at_beat : valueAtBeatFn
 		};
 
 		totalBeatsFn.bind(obj);
@@ -238,12 +240,87 @@ function BPMTimeline(initialBPM) {
 			throw "Illegal access to a BPM marker @ BPMTimeline.add_bpm_marker.";
 	}
 
-	this.remove_bpm_marker = function(markerTime) {
-		// TODO
+	// params: {endTime/endBeat}
+	this.remove_bpm_marker = function(params) {
+		if (!params) 
+			throw "Invalid arguments";
+
+		var t, firstIndexArr, secondIndexArr, firstMarkers, secondMarkers;
+
+		if (params.endBeat!=undefined) {
+			var m = bpmMarkers[params.endBeat+""];
+			if (m) {
+				t = params.endBeat;
+				firstIndexArr = beatsIndex;
+				firstMarkers = bpmMarkers;
+				secondIndexArr = timeIndex;
+				secondMarkers = timeMarkers;
+			} else
+				throw "Invalid endBeat";
+		} else if (params.endTime!=undefined) {
+			var m = timeMarkers[params.endTime+""];
+			if (m) {
+				t = params.endTime;
+				firstIndexArr = timeIndex;
+				firstMarkers = timeMarkers;
+				secondIndexArr = beatsIndex;
+				secondMarkers = bpmMarkers;
+			} else
+				throw "Invalid endTime";
+		} else 
+			throw "Invalid arguments";
+
+		var i = find_index(firstIndexArr, t)[0];
+		var T = timeIndex.splice(i, 1)[0];
+		var B = beatsIndex.splice(i, 1)[0];
+		var previousMarker = firstMarkers[t+""].previous;
+		delete bpmMarkers[B+""];
+		delete timeMarkers[T+""];
+
+		var nextMarker = firstMarkers[firstIndexArr[i]+""];
+		if (nextMarker)
+			nextMarker.previous = previousMarker;
+
+		if (firstIndexArr[i]!=undefined)
+			refreshEndTimes(i);
 	}
 
-	this.change_bpm_marker = function(markerTime) {
+	// params: {endTime/endBeat, endBPM}
+	this.change_bpm_marker = function(params) {
 		// TODO
+		if (!params || params.endBPM==undefined) 
+			throw "Invalid arguments";
+
+		if (beatsIndex.length==0)
+			throw "There are no markers";
+		else if (params.endTime) {
+
+			var m = timeMarkers[params.endTime+""];
+			if (m != undefined) {
+				m.endBPM = params.endBPM;
+				refreshEndTimes(find_index(beatsIndex, m.endBeat)[0]);
+			} else 
+				throw "Invalid endTime";
+
+		} else if (params.endBeat) {
+
+			var m = bpmMarkers[params.endBeat+""];
+			if (m != undefined) {
+				m.endBPM = params.endBPM;
+				refreshEndTimes(find_index(beatsIndex, m.endBeat)[0]);
+			} else 
+				throw "Invalid endBeat";
+
+		} else 
+			throw "Invalid arguments";
+
+	}
+
+	function refreshEndTimes(startTimeIndex) {
+		for (var i=startTimeIndex; i<timeIndex.length; i++) {
+			var m = bpmMarkers[beatsIndex[i]+""];
+			m.endTime = m.total_time(m.endBeat);
+		}
 	}
 
 	this.get_markers = function() {
