@@ -50,3 +50,5 @@ automation.bpm_at_time(60);
 * Exponential: v(t) = V0 * (V1 / V0) ^ ((t - T0) / (T1 - T0)) **NOT TESTED**
 
 ## Use cases
+* Scheduling events using beat values, relating them directly to time (seconds) values used by the scheduler.
+* Showing the time value of the beats in a DAW composer grid.
