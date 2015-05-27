@@ -84,25 +84,45 @@ function BPMTimeline(initialBPM) {
 		}
 	}
 
-	function bpm_at_beat(beat) {
-		// TODO: test this function.
+	this.bpm_at_beat = function(beat) {
 		if (beatsIndex.length == 0) 
 			return initialBPM;
 		else {
 			var bi = beatsIndex;
 			var idx = find_index(bi, beat);
-			var m = bpmMarkers[beatsIndex[idx[0]]+""];
-			if (idx.length==1 || (idx[0]!=undefined && idx[1]==undefined)) 
+			var m;
+			if (idx.length==1) {
+				m = bpmMarkers[bi[idx[0]]+""];
 				return m.endBPM;
-			else if (idx[1]!=undefined) 
-				return m.value_at_beat(beat);
-			else 
-				throw "Bad beat value ("+beat+") @ BPMTimeline.bpm_at_beat.";
+			} else {
+				if (is_first(idx)){
+					m = bpmMarkers[bi[idx[1]]+""];
+				} else if (is_last(idx)) {
+					m = bpmMarkers[bi[bi.length-1]+""];
+				} else if (is_inbetween(idx)) {
+					m = bpmMarkers[bi[idx[1]]+""];
+				} else 
+					throw "Bad beat value ("+beat+") @ BPMTimeline.bpm_at_beat.";
+
+				return beat_period_to_bpm(m.value_at_beat(beat));
+			}
 		}
 	}
 
-	function bpm_at_time(time) {
-		// TODO
+	this.bpm_at_time = function(time) {
+		return this.bpm_at_beat(this.beat(time));
+	}
+
+	function is_last(idx) {
+		return idx.length > 1 && idx[0]!=undefined && idx[1]==undefined;
+	}
+
+	function is_first(idx) {
+		return idx.length > 1 && idx[0]==undefined && idx[1]!=undefined;
+	}
+
+	function is_inbetween(idx) {
+		return idx.length > 1 && !is_first(idx) && !is_last(idx);
 	}
 
 	// marker: {endTime|endBeat, endBPM}
@@ -169,7 +189,7 @@ function BPMTimeline(initialBPM) {
 				var end = this.endBeat;
 				var endBeatPeriod = bpm_to_beat_period(this.endBPM);
 				var start = (this.previous)? this.previous.endBeat : 0;
-				var startBeatPeriod = (this.previous)? bpm_to_beat_period(this.previous.endBPM) : this.timeline.get_initial_bpm();
+				var startBeatPeriod = (this.previous)? bpm_to_beat_period(this.previous.endBPM) : bpm_to_beat_period(this.timeline.get_initial_bpm());
 
 				var value = F[this.type](start, end, startBeatPeriod, endBeatPeriod, beats)
 

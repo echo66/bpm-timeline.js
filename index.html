@@ -13,10 +13,10 @@
 		<div id="graph1" class="aGraph" style=""></div>
 		<h3>Time to Beat</h3>
 		<div id="graph2" class="aGraph" style=""></div>
-		<h3>Value at Beat</h3>
+		<h3>BPM at Beat</h3>
 		<div id="graph3" class="aGraph" style=""></div>
-		<h3>Value at Time</h3>
-		<div id="graph3" class="aGraph" style=""></div>
+		<h3>BPM at Time</h3>
+		<div id="graph4" class="aGraph" style=""></div>
 
 		<script type="text/javascript">
 
@@ -57,9 +57,10 @@
 			// automation.add_bpm_marker({type: "linear", endBeat: 250, endBPM : -100  });
 
 			var datasets = {
-				timeAtBeat : [],
-				beatAtTime : [],
-				valueAtTime: []
+				timeAtBeat : [], 
+				beatAtTime : [], 
+				bpmAtBeat: [], 
+				bpmAtTime: []
 			};
 			var markers = automation.get_markers();
 			for (var mi in markers)
@@ -73,26 +74,40 @@
 
 				var arr1 = [];
 				var arr2 = [];
+				var arr3 = [];
+				var arr4 = [];
 
 				var Ms = markers[mi];
 
-				for (var x=(Ms.previous)?Ms.previous.endBeat:0; x<=Ms.endBeat; x+=0.1) {
-					var time = automation.time(x);
+				for (var b=(Ms.previous)?Ms.previous.endBeat:0; b<=Ms.endBeat; b+=0.1) {
+					var time = automation.time(b);
 					var beat = automation.beat(time);
+					var bpmAtBeat = automation.bpm_at_beat(b);
+					var bpmAtTime = automation.bpm_at_time(b);
 					arr1.push({
-						x: x, 
+						x: b, 
 						y: time
 					});
 					arr2.push({
-						x: x,
+						x: b,
 						y: beat
+					});
+					arr3.push({
+						x: b, 
+						y: bpmAtBeat
+					});
+					arr4.push({
+						x: b, 
+						y: bpmAtTime
 					});
 				}
 
-				arr1.color = arr2.color = Ms.color;
+				arr1.color = arr2.color = arr3.color = Ms.color;
 				
 				datasets.timeAtBeat.push(arr1);
 				datasets.beatAtTime.push(arr2);
+				datasets.bpmAtBeat.push(arr3);
+				datasets.bpmAtTime.push(arr4);
 
 			}
 
@@ -100,6 +115,8 @@
 
 			create_d3_xy_graph("graph1", w, h, m, datasets.timeAtBeat, xmax+50, ymax+100);
 			create_d3_xy_graph("graph2", w, h, m, datasets.beatAtTime, xmax+50, ymax+100);
+			create_d3_xy_graph("graph3", w, h, m, datasets.bpmAtBeat, xmax+50, 1010);
+			create_d3_xy_graph("graph4", w, h, m, datasets.bpmAtBeat, xmax+50, 1010);
 
 			function random_color_v2() {
 				return 'rgb(' + [
