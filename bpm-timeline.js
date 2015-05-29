@@ -113,18 +113,6 @@ function BPMTimeline(initialBPM) {
 		return this.bpm_at_beat(this.beat(time));
 	}
 
-	function is_last(idx) {
-		return idx.length > 1 && idx[0]!=undefined && idx[1]==undefined;
-	}
-
-	function is_first(idx) {
-		return idx.length > 1 && idx[0]==undefined && idx[1]!=undefined;
-	}
-
-	function is_inbetween(idx) {
-		return idx.length > 1 && !is_first(idx) && !is_last(idx);
-	}
-
 	// marker: {endTime|endBeat, endBPM}
 	this.add_bpm_marker = function(marker) {
 		// TODO: one could use "time" instead of "beat" in the marker object.
@@ -258,6 +246,15 @@ function BPMTimeline(initialBPM) {
 			bmks[eb+""] = tmks[et+""] = obj;
 		} else 
 			throw "Illegal access to a BPM marker @ BPMTimeline.add_bpm_marker.";
+
+		_emit('add-bpm-marker', {
+			newMarker: {
+				endBeat : obj.endBeat, 
+				endTime : obj.endTime, 
+				endBPM  : obj.endBPM, 
+				type    : obj.type
+			}
+		});
 	}
 
 	// params: {endTime/endBeat}
@@ -265,10 +262,10 @@ function BPMTimeline(initialBPM) {
 		if (!params) 
 			throw "Invalid arguments";
 
-		var t, firstIndexArr, secondIndexArr, firstMarkers, secondMarkers;
+		var t, m, firstIndexArr, secondIndexArr, firstMarkers, secondMarkers;
 
 		if (params.endBeat!=undefined) {
-			var m = bpmMarkers[params.endBeat+""];
+			m = bpmMarkers[params.endBeat+""];
 			if (m) {
 				t = params.endBeat;
 				firstIndexArr = beatsIndex;
@@ -278,7 +275,7 @@ function BPMTimeline(initialBPM) {
 			} else
 				throw "Invalid endBeat";
 		} else if (params.endTime!=undefined) {
-			var m = timeMarkers[params.endTime+""];
+			m = timeMarkers[params.endTime+""];
 			if (m) {
 				t = params.endTime;
 				firstIndexArr = timeIndex;
@@ -303,20 +300,38 @@ function BPMTimeline(initialBPM) {
 
 		if (firstIndexArr[i]!=undefined)
 			refreshEndTimes(i);
+
+		_emit('remove-bpm-marker', {
+			oldMarker: {
+				endBeat : m.endBeat, 
+				endTime : m.endTime, 
+				endBPM  : m.endBPM, 
+				type    : m.type
+			}
+		});
 	}
 
 	// params: {endTime/endBeat, endBPM}
 	this.change_bpm_marker = function(params) {
-		// TODO
+		
 		if (!params || params.endBPM==undefined) 
 			throw "Invalid arguments";
 
+		var m; 
+		var oldMarker;
+
 		if (beatsIndex.length==0)
 			throw "There are no markers";
-		else if (params.endTime) {
+		else if (params.endTime != undefined) {
 
-			var m = timeMarkers[params.endTime+""];
-			if (m != undefined) {
+			m = timeMarkers[params.endTime+""];
+			oldMarker = {
+				endBeat : m.endBeat, 
+				endTime : m.endTime, 
+				endBPM  : m.endBPM, 
+				type    : m.type
+			};
+			if (m != undefined != undefined) {
 				m.endBPM = params.endBPM;
 				refreshEndTimes(find_index(beatsIndex, m.endBeat)[0]);
 			} else 
@@ -324,7 +339,13 @@ function BPMTimeline(initialBPM) {
 
 		} else if (params.endBeat) {
 
-			var m = bpmMarkers[params.endBeat+""];
+			m = bpmMarkers[params.endBeat+""];
+			oldMarker = {
+				endBeat : m.endBeat, 
+				endTime : m.endTime, 
+				endBPM  : m.endBPM, 
+				type    : m.type
+			};
 			if (m != undefined) {
 				m.endBPM = params.endBPM;
 				refreshEndTimes(find_index(beatsIndex, m.endBeat)[0]);
@@ -333,6 +354,16 @@ function BPMTimeline(initialBPM) {
 
 		} else 
 			throw "Invalid arguments";
+
+		_emit('change-bpm-marker', {
+			oldMarker: oldMarker, 
+			newMarker: {
+				endBeat : m.endBeat, 
+				endTime : m.endTime, 
+				endBPM  : m.endBPM, 
+				type    : m.type
+			}
+		})
 
 	}
 
@@ -396,14 +427,54 @@ function BPMTimeline(initialBPM) {
 		return endTime - startTime;
 	}
 
-	// helper
+	// helpers
 	function bpm_to_beat_period(bpm) { 
 		return 60/bpm; 
 	}
 
-	// helper
 	function beat_period_to_bpm(beatPeriod) { 
 		return 60/beatPeriod; 
+	}
+
+	function is_last(idx) {
+		return idx.length > 1 && idx[0]!=undefined && idx[1]==undefined;
+	}
+
+	function is_first(idx) {
+		return idx.length > 1 && idx[0]==undefined && idx[1]!=undefined;
+	}
+
+	function is_inbetween(idx) {
+		return idx.length > 1 && !is_first(idx) && !is_last(idx);
+	}
+
+	// events handling
+	var _callbacks =  {};
+
+	var _emit = function(evenType, data) {
+		for (var ci in _callbacks[evenType]) 
+			_callbacks[evenType][ci](data);
+	}
+
+	this.on = function(observerID, eventType, callback) {
+
+		if (!eventType || _callbacks[eventType]==undefined) 
+			throw "Unsupported event type";
+
+		if (observerID!=undefined && _callbacks[eventType][observerID]!=undefined) 
+			throw "Illegal modification of callback";
+
+		var __id = (observerID==undefined)? _id + "-associate-" + (_idCounter++) : observerID;
+		_callbacks[eventType][__id] = callback;
+		return __id;
+	}
+
+	this.off = function(observerID, eventType) {
+
+		if (!eventType || _callbacks[eventType]==undefined) 
+			throw "Unsupported event type";
+
+		delete _callbacks[eventType][observerID];
 	}
 	
 }
