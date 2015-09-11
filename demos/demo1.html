@@ -1,11 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-EN">
 	<head>
-		<script type="text/javascript" src="modified-binary-search.js"></script>
-		<script type="text/javascript" src="formulas.js"></script>
-		<script type="text/javascript" src="bpm-timeline.js"></script>
-		<script type="text/javascript" src="d3.v2.js"></script>
-		<script type="text/javascript" src="create-d3-xy-graph.js"></script>
+		<meta charset="utf-8">
 		<link 	type="text/css" rel="stylesheet" href="style.css"></link>
 	</head>
 	<body>
@@ -18,11 +14,16 @@
 		<h3>BPM at Time</h3>
 		<div id="graph4" class="aGraph" style=""></div>
 
+		<script type="text/javascript" src="modified-binary-search.js"></script>
+		<script type="text/javascript" src="formulas.js"></script>
+		<script type="text/javascript" src="../bpm-timeline.js"></script>
+		<script type="text/javascript" src="d3.js"></script>
+		<script type="text/javascript" src="create-d3-xy-graph.js"></script>
 		<script type="text/javascript">
 
 			// define dimensions of graph
 			var m = [0, 0, 20, 80]; // margins
-			var w = 600 - m[1] - m[3]; // width
+			var w = 1000 - m[1] - m[3]; // width
 			var h = 400 - m[0] - m[2]; // height
 
 			d3.select("#graph1")
@@ -47,20 +48,20 @@
 
 
 			var automation = new BPMTimeline(60);
-			automation.add_bpm_marker({type: "linear", endBeat: 50,  endBPM : 120    });
-			automation.add_bpm_marker({type: "linear", endBeat: 100, endBPM : 140   });
-			automation.add_bpm_marker({type: "linear", endBeat: 120, endBPM : 50    });
-			automation.add_bpm_marker({type: "linear", endBeat: 125, endBPM : 10    });
-			automation.add_bpm_marker({type: "linear", endBeat: 130, endBPM : 1000   });
-			// automation.add_bpm_marker({type: "linear", endBeat: 160, endBPM : -200  });
-			// automation.add_bpm_marker({type: "linear", endBeat: 200, endBPM : -1800 });
-			// automation.add_bpm_marker({type: "linear", endBeat: 250, endBPM : -100  });
+			automation.add_tempo_marker({type: "linear", endBeat: 30,  endTempo : 200 });
+			automation.add_tempo_marker({type: "step", endBeat: 40,  endTempo : 150 });
+			automation.add_tempo_marker({type: "exponential", endBeat: 50,  endTempo : 200 });
+			automation.add_tempo_marker({type: "exponential", endBeat: 70,  endTempo : 50 });
+			automation.add_tempo_marker({type: "exponential", endBeat: 80,  endTempo : 120 });
+			// automation.add_tempo_marker({type: "step", endBeat: 90,  endTempo : 140 });
+			// automation.add_tempo_marker({type: "linear", endBeat: 100,  endTempo : 50 });
+
 
 			var datasets = {
 				timeAtBeat : [], 
 				beatAtTime : [], 
-				bpmAtBeat: [], 
-				bpmAtTime: []
+				tempoAtBeat: [], 
+				tempoAtTime: []
 			};
 			var markers = automation.get_markers();
 			for (var mi in markers)
@@ -80,16 +81,17 @@
 				var Ms = markers[mi];
 
 				for (var b=(Ms.previous)?Ms.previous.endBeat:0; b<=Ms.endBeat; b+=0.1) {
+					// console.log("beat: "+b);
 					var time = automation.time(b);
 					var beat = automation.beat(time);
-					var bpmAtBeat = automation.bpm_at_beat(b);
-					var bpmAtTime = automation.bpm_at_time(b);
+					var bpmAtBeat = automation.tempo_at_beat(b);
+					var bpmAtTime = automation.tempo_at_time(time);
 					arr1.push({
 						x: b, 
 						y: time
 					});
 					arr2.push({
-						x: b,
+						x: time,
 						y: beat
 					});
 					arr3.push({
@@ -97,26 +99,26 @@
 						y: bpmAtBeat
 					});
 					arr4.push({
-						x: b, 
+						x: time, 
 						y: bpmAtTime
 					});
 				}
 
-				arr1.color = arr2.color = arr3.color = Ms.color;
+				arr1.color = arr2.color = arr3.color = arr4.color = Ms.color;
 				
 				datasets.timeAtBeat.push(arr1);
 				datasets.beatAtTime.push(arr2);
-				datasets.bpmAtBeat.push(arr3);
-				datasets.bpmAtTime.push(arr4);
+				datasets.tempoAtBeat.push(arr3);
+				datasets.tempoAtTime.push(arr4);
 
 			}
 
 			var ymax = automation.time(markers[markers.length-1].endBeat);
 
-			create_d3_xy_graph("graph1", w, h, m, datasets.timeAtBeat, xmax+50, ymax+100);
+			create_d3_xy_graph("graph1", w, h, m, datasets.timeAtBeat, xmax+50, ymax);
 			create_d3_xy_graph("graph2", w, h, m, datasets.beatAtTime, xmax+50, ymax+100);
-			create_d3_xy_graph("graph3", w, h, m, datasets.bpmAtBeat, xmax+50, 1010);
-			create_d3_xy_graph("graph4", w, h, m, datasets.bpmAtBeat, xmax+50, 1010);
+			create_d3_xy_graph("graph3", w, h, m, datasets.tempoAtBeat, xmax+50, automation.get_max_tempo());
+			create_d3_xy_graph("graph4", w, h, m, datasets.tempoAtTime, datasets.tempoAtTime[datasets.tempoAtTime.length-1][datasets.tempoAtTime[datasets.tempoAtTime.length-1].length-1].x, automation.get_max_tempo());
 
 			function random_color_v2() {
 				return 'rgb(' + [

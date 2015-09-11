@@ -1,148 +1,269 @@
-function BPMTimeline(initialBPM) {
+function BPMTimeline(initialTempo) {
 
-	var initialBPM = initialBPM;
+	var initialTempo = initialTempo || 60;
 
-	var F = new Formulas();
+	var tempoMarkers  = [];
 
-	var bpmMarkers  = {};
-	var timeMarkers = {};
+	var formulas = {
 
-	var beatsIndex = [];
-	var timeIndex  = [];
+		linear : {
+			value : function(x0, x1, y0, y1, x) {
+				// var c = (y1 - y0) / (x1-x0);
+				// return y0 + c * (x-x0);
+				// console.log([x0, x1, y0, y1, x])
+				return y0 + (y1 - y0) * ((x - x0) / (x1 - x0));
+			},
+
+			integral: function(x0, x1, y0, y1, constant, x) {
+
+				// Integral of the following function: 
+				// v(t) = V0 + (V1 - V0) * ((t - T0) / (T1 - T0))
+				
+				var dy  = y1 - y0;
+				var dx  = x1 - x0;
+				var M   = dy / dx;
+				var C   = y0;
+
+				return (M/2) * Math.pow((x - x0), 2) + C * (x - x0) + constant;
+			},
+
+			integral_inverse : function(x0, x1, y0, y1, constant, y) {
+
+				var dx  = x1 - x0;
+				var dy  = y1 - y0;
+				var A   = 0.5 * (dy / dx);
+				var B   = y0;
+				var C   = constant;
+
+				var square_root = Math.sqrt(B*B - 4*A*(C-y));
+				var sol1 = (-B + square_root) / (2*A);
+				var sol2 = (-B - square_root) / (2*A);
+
+				if (sol1 >= 0)
+					return sol1 + x0;
+				else 
+					return sol2 + x0;
+			}	
+		},
+
+		exponential : {
+			value : function(x0, x1, y0, y1, x) {
+
+				return y0 * Math.exp(Math.log(y1/y0) * (x - x0) / (x1 - x0));
+				// return y0 * Math.pow((y1/y0), (x-x0)/(x1-x0));
+			}, 
+
+			integral : function(x0, x1, y0, y1, constant, x) {
+
+				var c = Math.log(y1/y0) / (x1-x0);
+				var y = y0 * (Math.exp(c*(x-x0)) - 1) / c + constant;
+				return y;
+
+				/* For whatever reason, the calculations bellow do not work. o.O */
+				// var ry = y1 / y0;
+				// var a = y0 * Math.pow(ry, 1/(x1 - x0));
+				// var b = ry;
+				// var y = a * Math.pow(b, x - x0) / Math.log(b) + constant;
+				// return res;
+
+			},
+
+			integral_inverse : function(x0, x1, y0, y1, constant, y) {
+
+				var c = Math.log(y1/y0) / (x1-x0);
+				var A = ((c / y0) * (y - constant)) + 1;
+				var x = Math.log(A) / c + x0;
+				return x;
+			}
+		},
+
+		step : {
+			value : function(x0, x1, y0, y1, x) {
+				return (x < x1) ? y0 : y1;
+			},
+
+			integral : function(x0, x1, y0, y1, constant, x) {
+				return y0 * (x - x0) + constant;
+			},
+
+			integral_inverse : function(x0, x1, y0, y1, constant, y) {
+				return (y - constant) / y0 + x0;
+			}
+		}
+	};
+
+	var tempo_to_marker_period = bpm_to_beat_period;
+
+	var marker_period_to_tempo = beat_period_to_bpm;
+
 
 
 	// converter from beat to time
 	this.time = function (beat) {
 
-		if (beatsIndex.length == 0) 
-			return beat * bpm_to_beat_period(initialBPM); // constant BPM
+		if (tempoMarkers.length == 0) 
+			return beat * tempo_to_marker_period(initialTempo); // constant Tempo
 		else {
-			var bi = beatsIndex;
-			var idx  = find_index(bi, beat);
-			var mks = bpmMarkers;
-			var previous, next;
-			var pi = idx[0];
-			var ni = idx[1];
+			
+			var idx = find_index(tempoMarkers, {endBeat: beat}, function(a, b) { return a.endBeat - b.endBeat; });
+			var prevIdx = idx[0];
+			var nextIdx = idx[1];
+			var previousMarker, nextMarker;
 
 			if (idx.length == 1) {
-				previous = mks[bi[pi]];
-				next     = mks[bi[pi+1]];
-			} else if (pi!=undefined && ni!=undefined) {
-				previous = mks[bi[pi]];
-				next     = mks[bi[ni]];
-			} else if (pi!=undefined && ni==undefined) 
-				previous = mks[bi[pi]];
-			else if (pi==undefined && ni!=undefined) 
-				next = mks[bi[ni]];
+				previousMarker = tempoMarkers[prevIdx];
+				nextMarker = tempoMarkers[nextIdx+1];
+			} else if (prevIdx!=undefined && nextIdx!=undefined) {
+				// In between
+				previousMarker = tempoMarkers[prevIdx];
+				nextMarker = tempoMarkers[nextIdx];
+			} else if (prevIdx!=undefined && nextIdx==undefined) {
+				// Before first
+				previousMarker = tempoMarkers[prevIdx];
+			} else if (prevIdx==undefined && nextIdx!=undefined) {
+				// After last
+				nextMarker = tempoMarkers[nextIdx];
+			}
 
-			if (!next) {
-				var pEndBeat = previous.endBeat, pEndBPM  = previous.endBPM;
-				return ((beat-pEndBeat) * bpm_to_beat_period(pEndBPM)) + previous.total_time(pEndBeat);
+			if (!nextMarker) {
+				var pEndBeat = previousMarker.endBeat;
+				var pEndTempo= previousMarker.endTempo;
+				return ((beat-pEndBeat) * tempo_to_marker_period(pEndTempo)) + previousMarker.total_time(pEndBeat);
 			} else 
-				return next.total_time(beat);
+				return nextMarker.total_time(beat);
 		}
-
 	}
 
 	// converter from time to beat
 	this.beat = function (time) {
 
-		if (timeIndex.length == 0) // constant BPM
-			return time / bpm_to_beat_period(initialBPM);
+		if (tempoMarkers.length == 0) // constant Tempo
+			return time / tempo_to_marker_period(initialTempo);
 		else {
-			var ti   = timeIndex;
-			var idx  = find_index(ti, time);
-			var mks = timeMarkers;
-			var previous, next;
-			var pi = idx[0];
-			var ni = idx[1];
+			
+			var idx = find_index(tempoMarkers, {endTime: time}, function(a, b) { return a.endTime - b.endTime; });
+			var prevIdx = idx[0];
+			var nextIdx = idx[1];
+			var previousMarker, nextMarker;
 
 			if (idx.length == 1) {
-				// console.log("Right on the marker.");
-				previous = mks[ti[pi]];
-				next     = mks[ti[pi+1]];
-			} else if (pi!=undefined && ni!=undefined) {
-				// console.log("Between two markers.");
-				previous = mks[ti[pi]];
-				next     = mks[ti[ni]];
-			} else if (pi!=undefined && ni==undefined) {
-				// console.log("After the last marker.");
-				previous = mks[ti[pi]];
-			} else if (pi==undefined && ni!=undefined) {
-				// console.log("Before the first marker.");
-				next = mks[ti[ni]];
+				previousMarker = tempoMarkers[prevIdx];
+				nextMarker = tempoMarkers[nextIdx+1];
+			} else if (prevIdx!=undefined && nextIdx!=undefined) {
+				// In between
+				previousMarker = tempoMarkers[prevIdx];
+				nextMarker = tempoMarkers[nextIdx];
+			} else if (prevIdx!=undefined && nextIdx==undefined) {
+				// Before first
+				previousMarker = tempoMarkers[prevIdx];
+			} else if (prevIdx==undefined && nextIdx!=undefined) {
+				// After last
+				nextMarker = tempoMarkers[nextIdx];
 			}
 
-			// console.log(next.endBeat)
-
-			if (!next) {
-				var pEndBPM  = previous.endBPM,
-				    pEndTime = previous.endTime;
-				return ((time-pEndTime) / bpm_to_beat_period(pEndBPM)) + previous.total_beats(pEndTime);
+			if (!nextMarker) {
+				var pEndTempo  = previousMarker.endTempo;
+				var pEndTime = previousMarker.endTime;
+				return ((time-pEndTime) / tempo_to_marker_period(pEndTempo)) + previousMarker.total_beats(pEndTime);
 			} else 
-				return next.total_beats(time);
+				return nextMarker.total_beats(time);
+
 		}
 	}
 
-	this.bpm_at_beat = function(beat) {
-		if (beatsIndex.length == 0) 
-			return initialBPM;
+	this.tempo_at_beat = function(beat) {
+		if (tempoMarkers.length == 0) 
+			return initialTempo;
 		else {
-			var bi = beatsIndex;
-			var idx = find_index(bi, beat);
+
+			var idx = find_index(tempoMarkers, {endBeat: beat}, function(a, b) { return a.endBeat - b.endBeat; });
 			var m;
-			if (idx.length==1) {
-				m = bpmMarkers[bi[idx[0]]+""];
-				return m.endBPM;
+
+			if (idx.length == 1) {
+				m = tempoMarkers[idx[0]];
+				return m.endTempo;
 			} else {
 				if (is_first(idx)){
-					m = bpmMarkers[bi[idx[1]]+""];
+					m = tempoMarkers[idx[1]];
 				} else if (is_last(idx)) {
-					m = bpmMarkers[bi[bi.length-1]+""];
+					m = tempoMarkers[tempoMarkers.length-1];
+					return m.endTempo;
 				} else if (is_inbetween(idx)) {
-					m = bpmMarkers[bi[idx[1]]+""];
+					m = tempoMarkers[idx[1]];
 				} else 
-					throw "Bad beat value ("+beat+") @ BPMTimeline.bpm_at_beat.";
+					throw "Bad beat value ("+beat+") @ BPMTimeline.tempo_at_beat.";
 
-				return beat_period_to_bpm(m.value_at_beat(beat));
+				// return marker_period_to_tempo(m.value_at_beat(beat));
+				var b0 = (m.previous)? m.previous.endBeat : 0;
+				var b1 = m.endBeat;
+				var T0 = (m.previous)? m.previous.endTempo : initialTempo;
+				var T1 = m.endTempo;
+				return formulas[m.type].value(b0, b1, T0, T1, beat);
 			}
+
 		}
 	}
 
-	this.bpm_at_time = function(time) {
-		return this.bpm_at_beat(this.beat(time));
+	this.tempo_at_time = function(time) {
+		if (tempoMarkers.length == 0) 
+			return initialTempo;
+		else {
+
+			var idx = find_index(tempoMarkers, {endTime: time}, function(a, b) { return a.endTime - b.endTime; });
+			var m;
+
+			if (idx.length == 1) {
+				m = tempoMarkers[idx[0]];
+				return m.endTempo;
+			} else {
+				if (is_first(idx)){
+					m = tempoMarkers[idx[1]];
+				} else if (is_last(idx)) {
+					m = tempoMarkers[tempoMarkers.length-1];
+					return m.endTempo;
+				} else if (is_inbetween(idx)) {
+					m = tempoMarkers[idx[1]];
+				} else 
+					throw "Bad time value ("+beat+") @ BPMTimeline.tempo_at_time.";
+
+				var t0 = (m.previous)? m.previous.endTime : 0;
+				var t1 = m.endTime;
+				var T0 = (m.previous)? m.previous.endTempo : initialTempo;
+				var T1 = m.endTempo;
+				return formulas[m.type].value(t0, t1, T0, T1, time);
+			}
+			
+		}
 	}
 
-	// marker: {endTime|endBeat, endBPM}
-	this.add_bpm_marker = function(marker) {
-		// TODO: one could use "time" instead of "beat" in the marker object.
+	// params: {endBeat, endTempo, type, customData}
+	this.add_tempo_marker = function(params) {
+		// TODO: one could use "time" instead of "beat" in the params object.
 		var totalBeatsFn;
 		var totalTimeFn;
 		var valueAtBeatFn;
 
-		if (marker.type=="linear" || marker.type=="exponential") {
+		if (formulas[params.type] != undefined) {
 
 			totalBeatsFn = function (time) {
 
 				var start = (this.previous)? this.previous.endBeat : 0;
 				var startBeatPeriod = 
 					(this.previous)? 
-						bpm_to_beat_period(this.previous.endBPM) : 
-						bpm_to_beat_period(this.timeline.get_initial_bpm());
+						tempo_to_marker_period(this.previous.endTempo) : 
+						tempo_to_marker_period(this.timeline.get_initial_tempo());
 
 				var end = this.endBeat;
-				var endBeatPeriod = bpm_to_beat_period(this.endBPM);
+				var endBeatPeriod = tempo_to_marker_period(this.endTempo);
 				
 				var totalTimeAtStart;
 
 				if (!this.previous) {
 					totalTimeAtStart = 0;
 				} else 
-					totalTimeAtStart = 
-						this.previous.endTime
-							= this.previous.total_time(start);
+					totalTimeAtStart = this.previous.endTime;
 
-				var value = F[this.type+"_integral_inverse"](start, end, startBeatPeriod, endBeatPeriod, totalTimeAtStart, time);
+				var value = formulas[this.type].integral_inverse(start, end, startBeatPeriod, endBeatPeriod, totalTimeAtStart, time);
 
 				return value;
 			};
@@ -152,22 +273,20 @@ function BPMTimeline(initialBPM) {
 				var start = (this.previous)? this.previous.endBeat : 0;
 				var startBeatPeriod = 
 					(this.previous)? 
-						bpm_to_beat_period(this.previous.endBPM) : 
-						bpm_to_beat_period(this.timeline.get_initial_bpm());
+						tempo_to_marker_period(this.previous.endTempo) : 
+						tempo_to_marker_period(this.timeline.get_initial_tempo());
 
 				var end = this.endBeat;
-				var endBeatPeriod = bpm_to_beat_period(this.endBPM);
+				var endBeatPeriod = tempo_to_marker_period(this.endTempo);
 
 				var totalTimeAtStart;
 
 				if (!this.previous) {
 					totalTimeAtStart = 0;
 				} else 
-					totalTimeAtStart = 
-						this.previous.endTime 
-							= this.previous.total_time(start);
+					totalTimeAtStart = this.previous.endTime;
 
-				var value = F[this.type+"_integral"](start, end, startBeatPeriod, endBeatPeriod, totalTimeAtStart, beats);
+				var value = formulas[this.type].integral(start, end, startBeatPeriod, endBeatPeriod, totalTimeAtStart, beats);
 
 				return value;
 			};
@@ -175,243 +294,208 @@ function BPMTimeline(initialBPM) {
 			valueAtBeatFn = function (beats) {
 
 				var end = this.endBeat;
-				var endBeatPeriod = bpm_to_beat_period(this.endBPM);
+				var endBeatPeriod = tempo_to_marker_period(this.endTempo);
 				var start = (this.previous)? this.previous.endBeat : 0;
-				var startBeatPeriod = (this.previous)? bpm_to_beat_period(this.previous.endBPM) : bpm_to_beat_period(this.timeline.get_initial_bpm());
+				var startBeatPeriod = (this.previous)? tempo_to_marker_period(this.previous.endTempo) : tempo_to_marker_period(this.timeline.get_initial_tempo());
 
-				var value = F[this.type](start, end, startBeatPeriod, endBeatPeriod, beats)
+				var value = formulas[this.type].value(start, end, startBeatPeriod, endBeatPeriod, beats)
 
 				return value;
 			};
 
 		} else {
-			throw "Unsupported marker type (" + marker.type + ") @ BPMTimeline.add_bpm_marker.";
+			throw "Unsupported marker type (" + params.type + ") @ BPMTimeline.add_tempo_marker.";
 		}
 
 		var obj = {
 			previous      : undefined,
 			timeline      : this, 
-			type          : marker.type,
-			endBeat       : marker.endBeat, 
-			endBPM        : marker.endBPM, 
+			type          : params.type,
+			endBeat       : params.endBeat, 
+			endTempo      : params.endTempo, 
 			endTime       : undefined, 
 			total_beats   : totalBeatsFn, 
 			total_time    : totalTimeFn, 
-			value_at_beat : valueAtBeatFn
+			value_at_beat : valueAtBeatFn,
+			customData	  : params.customData
 		};
 
 		totalBeatsFn.bind(obj);
 		totalTimeFn.bind(obj);
 		valueAtBeatFn.bind(obj);
 
-		var bi = beatsIndex;
-		var ti = timeIndex;
-		var eb = marker.endBeat;
-		var et = obj.endTime = obj.total_time(marker.endBeat);
-
-		var idx = find_index(bi, marker.endBeat);
-		var pi  = idx[0];
-		var ni  = idx[1];
+		if (tempoMarkers.length == 0) {
+			tempoMarkers[0] = obj;
+			refresh_end_times(0);
+		}else {
+			var idx = find_index(tempoMarkers, {endBeat: params.endBeat}, function(a, b) { return a.endBeat - b.endBeat; });
 		
-		if (idx.length > 1) {
+			if (idx.length > 1) {
 
-			var bmks = bpmMarkers;
-			var tmks = timeMarkers;
+				var prevIdx = idx[0];
+				var nextIdx = idx[1];
 
-			if (bi.length==0) {
-				bi.splice(0, 0, eb);
-				ti.splice(0, 0, et);
-			} else if (pi != undefined && ni == undefined) {
-				// Insert after the last marker in the array.
-				bi.splice(pi+1, 0, eb);
-				obj.previous = bmks[bi[pi]+""];
-				et = obj.endTime = obj.total_time(marker.endBeat);
-				ti.splice(pi+1, 0, et);
-			} else if (pi == undefined && ni != undefined) {
-				// Insert before the first marker in the array.
-				bi.splice(ni, 0, eb);
-				bmks[bi[ni]+""].previous = obj;
-				obj.previous = undefined;
-				et = obj.endTime = obj.total_time(marker.endBeat);
-				ti.splice(ni, 0, et);
-			} else if (pi != undefined && ni != undefined) {
-				// Insert inbetween the markers in the array.
-				bi.splice(ni, 0, eb);
-				bmks[bi[ni]+""].previous = obj;
-				obj.previous = bmks[bi[pi]+""];
-				et = obj.endTime = obj.total_time(marker.endBeat);
-				ti.splice(ni, 0, et);
-			}
+				if (prevIdx != undefined && nextIdx == undefined) {
+					// Insert after the last marker in the array.
+					obj.previous = tempoMarkers[tempoMarkers.length-1];
+					tempoMarkers[tempoMarkers.length] = obj;
+					refresh_end_times(tempoMarkers.length-1);
+				} else if (prevIdx == undefined && nextIdx != undefined) {
+					// Insert before the first marker in the array.
+					tempoMarkers[0].previous = obj;
+					tempoMarkers.splice(0, 0, obj);
+					refresh_end_times(0);
+				} else if (prevIdx != undefined && nextIdx != undefined) {
+					// Insert in between the markers in the array.
+					tempoMarkers[nextIdx].previous = obj;
+					obj.previous = tempoMarkers[prevIdx];
+					tempoMarkers.splice(nextIdx, 0, obj);
+					refresh_end_times(nextIdx);
+				}
 
-			bmks[eb+""] = tmks[et+""] = obj;
-		} else 
-			throw "Illegal access to a BPM marker @ BPMTimeline.add_bpm_marker.";
+			} else 
+				throw "Illegal access to a tempo marker @ BPMTimeline.add_tempo_marker.";
+		}
+		
 
-		_emit('add-bpm-marker', {
+		_emit('add-tempo-marker', {
 			newMarker: {
 				endBeat : obj.endBeat, 
 				endTime : obj.endTime, 
-				endBPM  : obj.endBPM, 
+				endTempo: obj.endTempo, 
 				type    : obj.type
 			}
 		});
 	}
 
-	// params: {endTime/endBeat}
-	this.remove_bpm_marker = function(params) {
-		if (!params) 
-			throw "Invalid arguments";
-
-		var t, m, firstIndexArr, secondIndexArr, firstMarkers, secondMarkers;
-
+	// params: {endBeat}
+	this.remove_tempo_marker = function(params) {
 		if (params.endBeat!=undefined) {
-			m = bpmMarkers[params.endBeat+""];
-			if (m) {
-				t = params.endBeat;
-				firstIndexArr = beatsIndex;
-				firstMarkers = bpmMarkers;
-				secondIndexArr = timeIndex;
-				secondMarkers = timeMarkers;
+			var idx = find_index(tempoMarkers, {endBeat: params.endBeat}, function(a, b){ return a.endBeat - b.endBeat; });
+			if (idx.length == 1) {
+				var oldPreviousMarker = tempoMarkers[idx[0]].previous;
+				var m = tempoMarkers[idx[0]];
+				tempoMarkers.splice(idx[0], 1);
+				tempoMarkers[idx[0]].previous = oldPreviousMarker;
+				refresh_end_times(idx[0]);
+				_emit('remove-tempo-marker', {
+					oldMarker: {
+						endBeat 	: m.endBeat, 
+						endTime 	: m.endTime, 
+						endTempo  	: m.endTempo, 
+						type    	: m.type
+					}
+				});
 			} else
 				throw "Invalid endBeat";
-		} else if (params.endTime!=undefined) {
-			m = timeMarkers[params.endTime+""];
-			if (m) {
-				t = params.endTime;
-				firstIndexArr = timeIndex;
-				firstMarkers = timeMarkers;
-				secondIndexArr = beatsIndex;
-				secondMarkers = bpmMarkers;
-			} else
-				throw "Invalid endTime";
-		} else 
+		} else {
 			throw "Invalid arguments";
-
-		var i = find_index(firstIndexArr, t)[0];
-		var T = timeIndex.splice(i, 1)[0];
-		var B = beatsIndex.splice(i, 1)[0];
-		var previousMarker = firstMarkers[t+""].previous;
-		delete bpmMarkers[B+""];
-		delete timeMarkers[T+""];
-
-		var nextMarker = firstMarkers[firstIndexArr[i]+""];
-		if (nextMarker)
-			nextMarker.previous = previousMarker;
-
-		if (firstIndexArr[i]!=undefined)
-			refreshEndTimes(i);
-
-		_emit('remove-bpm-marker', {
-			oldMarker: {
-				endBeat : m.endBeat, 
-				endTime : m.endTime, 
-				endBPM  : m.endBPM, 
-				type    : m.type
-			}
-		});
+		}
 	}
 
-	// params: {endTime/endBeat, endBPM}
-	this.change_bpm_marker = function(params) {
+	// params: {oldEndBeat, newEndTempo, newType, newEndBeat}
+	this.change_tempo_marker = function(params) {
 		
-		if (!params || params.endBPM==undefined) 
+		if (!params || params.oldEndBeat == undefined) 
 			throw "Invalid arguments";
 
-		var m; 
-		var oldMarker;
+		var idx = find_index(tempoMarkers, {endBeat: params.oldEndBeat}, function(a, b){ return a.endBeat - b.endBeat; });
 
-		if (beatsIndex.length==0)
-			throw "There are no markers";
-		else if (params.endTime != undefined) {
+		if (idx.length == 1) {
+			var m = tempoMarkers[idx[0]];
 
-			m = timeMarkers[params.endTime+""];
-			oldMarker = {
+			var oldMarker = {
 				endBeat : m.endBeat, 
 				endTime : m.endTime, 
-				endBPM  : m.endBPM, 
+				endTempo: m.endTempo, 
 				type    : m.type
 			};
-			if (m != undefined != undefined) {
-				m.endBPM = params.endBPM;
-				refreshEndTimes(find_index(beatsIndex, m.endBeat)[0]);
-			} else 
-				throw "Invalid endTime";
 
-		} else if (params.endBeat) {
+			m.endBeat  = (params.newEndBeat!=undefined)? params.newEndBeat : m.endBeat;
+			m.endTempo = (params.newEndTempo!=undefined)? params.newEndTempo : m.endTempo;
+			m.type     = (params.newType!=undefined && formulas[m.type])? params.newType : m.type;
+			m.endTime  = undefined;
+			
+			if (params.oldEndBeat != params.newEndBeat)
+				refresh_end_times(idx[0]);
 
-			m = bpmMarkers[params.endBeat+""];
-			oldMarker = {
-				endBeat : m.endBeat, 
-				endTime : m.endTime, 
-				endBPM  : m.endBPM, 
-				type    : m.type
-			};
-			if (m != undefined) {
-				m.endBPM = params.endBPM;
-				refreshEndTimes(find_index(beatsIndex, m.endBeat)[0]);
-			} else 
-				throw "Invalid endBeat";
-
+			_emit('change-tempo-marker', {
+				oldMarker: oldMarker, 
+				newMarker: {
+					endBeat : m.endBeat, 
+					endTime : m.endTime, 
+					endTempo: m.endTempo, 
+					type    : m.type
+				}
+			});
 		} else 
-			throw "Invalid arguments";
+			throw "Invalid endBeat";
 
-		_emit('change-bpm-marker', {
-			oldMarker: oldMarker, 
-			newMarker: {
-				endBeat : m.endBeat, 
-				endTime : m.endTime, 
-				endBPM  : m.endBPM, 
-				type    : m.type
-			}
-		})
+		
 
 	}
 
-	function refreshEndTimes(startTimeIndex) {
-		for (var i=startTimeIndex; i<timeIndex.length; i++) {
-			var m = bpmMarkers[beatsIndex[i]+""];
+	// params: {type, tempoFn, integralFn, inverseIntegralFn}
+	this.add_tempo_function = function(params) {
+		// TODO: include 'minTempoFn' and 'maxTempoFn'
+		this.formulas[params.type] = {
+			value: tempoFn, 
+			integral: integralFn, 
+			inverse_integral: inverseIntegralFn
+		}
+	}
+
+	function refresh_end_times(index) {
+		for (var i=index; i<tempoMarkers.length; i++) {
+			var m = tempoMarkers[i];
 			m.endTime = m.total_time(m.endBeat);
 		}
 	}
 
 	this.get_markers = function() {
-		var toReturn = [];
-		var bi = beatsIndex;
-		for (var i=0; i<bi.length; i++) {
-			var m = bpmMarkers[bi[i]];
+		var toReturn = new Array(tempoMarkers.length );
+		for (var i=0; i<tempoMarkers.length; i++) {
+			var m = tempoMarkers[i];
+			var previous = undefined;
+			if (m.previous) {
+				previous = {
+					endBeat : m.previous.endBeat,
+					endTempo  : m.previous.endTempo, 
+					endTime : m.previous.endTime,
+					type : m.previous.type
+				};
+			}
 			var obj = {
 				endBeat : m.endBeat,
-				endBPM  : m.endBPM, 
+				endTempo: m.endTempo, 
 				endTime : m.endTime,
-				previous: (m.previous)? get_marker(bi[i-1]) : undefined,
+				previous: previous, 
 				type    : m.type,
+				customData: m.customData
 			}
-			toReturn.splice(toReturn.length, 0, obj);
+			toReturn[i] = obj;
 		}
 		return toReturn;
 	}
 
 	var get_marker = function(index) {
-		var m = bpmMarkers[index];
+		var m = tempoMarkers[index];
 		return {
 			endBeat : m.endBeat,
-			endBPM  : m.endBPM, 
+			endTempo: m.endTempo, 
 			endTime : m.endTime,
 			type    : m.type,
+			customData: m.customData
 		};
 	}
 
-	this.get_initial_bpm = function() {
-		return initialBPM;
+	this.get_initial_tempo = function() {
+		return initialTempo;
 	}
 
-	this.set_initial_bpm = function(newBPM) {
-		// TODO: Test this function.
-		initialBPM = newBPM;
-		for (var i in beatsIndex) {
-			var m = bpmMarkers[beatsIndex[i]+""];
-			m.endTime = m.total_time(m.endBeat);
-		}
+	this.set_initial_tempo = function(newTempo) {
+		initialTempo = newTempo;
+		refresh_end_times(0);
 	}
 
 	/* 
@@ -425,6 +509,26 @@ function BPMTimeline(initialBPM) {
 		var startTime = this.time(b0);
 		var endTime   = this.time(b0 + difB);
 		return endTime - startTime;
+	}
+
+	this.get_min_tempo = function(t0, t1, unit) {
+		// TODO: Fix this function
+		var minTempo = initialTempo;
+		for (var i=0; i < beatsIndex.length; i++)
+			if (minTempo > tempoMarkers[beatsIndex[i]+""].endTempo)
+				maxTempo = tempoMarkers[beatsIndex[i]+""].endTempo;
+
+		return minTempo;
+	}
+
+	this.get_max_tempo = function(t0, t1, unit) {
+		// TODO: Fix this function
+		var maxTempo = initialTempo;
+
+		for (var i=0; i < tempoMarkers.length; i++)
+			maxTempo = (maxTempo < tempoMarkers[i].endTempo)? tempoMarkers[i].endTempo : maxTempo;
+
+		return maxTempo;
 	}
 
 	// helpers
@@ -448,6 +552,32 @@ function BPMTimeline(initialBPM) {
 		return idx.length > 1 && !is_first(idx) && !is_last(idx);
 	}
 
+	function find_index(values, target, compareFn) {
+		if (values.length == 0 || compareFn(target,values[0]) < 0) { 
+			return [undefined, 0]; 
+		}
+		return modified_binary_search(values, 0, values.length - 1, target, compareFn);
+	};
+
+
+	function modified_binary_search(values, start, end, target, compareFn) {
+		// if the target is bigger than the last of the provided values.
+		if (start > end) { return [end, undefined]; } 
+
+		var middle = Math.floor((start + end) / 2);
+		var middleValue = values[middle];
+
+		if (compareFn(middleValue, target) < 0 && values[middle+1] && compareFn(values[middle+1], target) > 0)
+			// if the target is in between the two halfs.
+			return [middle, middle+1];
+		else if (compareFn(middleValue, target) > 0)
+			return modified_binary_search(values, start, middle-1, target, compareFn); 
+		else if (compareFn(middleValue, target) < 0)
+			return modified_binary_search(values, middle+1, end, target, compareFn); 
+		else 
+			return [middle]; //found!
+	}
+
 	// events handling
 	var _callbacks =  {};
 
@@ -456,7 +586,7 @@ function BPMTimeline(initialBPM) {
 			_callbacks[evenType][ci](data);
 	}
 
-	this.on = function(observerID, eventType, callback) {
+	this.add_event_listener = function(observerID, eventType, callback) {
 
 		if (!eventType || _callbacks[eventType]==undefined) 
 			throw "Unsupported event type";
@@ -469,7 +599,7 @@ function BPMTimeline(initialBPM) {
 		return __id;
 	}
 
-	this.off = function(observerID, eventType) {
+	this.remove_event_listener = function(observerID, eventType) {
 
 		if (!eventType || _callbacks[eventType]==undefined) 
 			throw "Unsupported event type";

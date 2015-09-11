@@ -48,6 +48,7 @@ automation.bpm_at_time(60);
 ## Supported automation functions
 * Linear: v(t) = V0 + (V1 - V0) * ((t - T0) / (T1 - T0))
 * Exponential: v(t) = V0 * (V1 / V0) ^ ((t - T0) / (T1 - T0)) **NOT TESTED**
+* Step: v(t) = (t < T1)? V0 : V1
 
 ## Use cases
 * Scheduling events using beat values, relating them directly to time (seconds) values used by the scheduler.

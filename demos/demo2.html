@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en-EN">
+	<head>
+		<meta charset="utf-8">
+		<link 	type="text/css" rel="stylesheet" href="style.css"></link>
+		<title>BPMTimeline Demo</title>
+	</head>
+	<body>
+
+		<div id="graphs-div" style="float:left">
+			
+		</div>
+
+		<label for="end-beat-for-graphs">End Beat for Graphs</label>
+		<input id ="end-beat-for-graphs" value=""></input>
+		
+		<div id="markers-table-div" style="float:left">
+			<button type="button" onclick="add_new_marker_to_table()">new marker</button>
+			<button type="button" onclick="refresh()">refresh</button>
+			<hr>
+			<table>
+				<tr class="tempo-markers-table-header">
+					<th>Type</th>
+					<th>End Tempo</th>
+					<th>End Beat</th>
+				</tr>
+				<tbody id="markers-table">
+				</tbody>
+			</table>
+		</div>
+
+		
+		<script type="text/javascript" src="../bpm-timeline.js"></script>
+		<script type="text/javascript" src="d3.js"></script>
+		<script type="text/javascript" src="create-d3-xy-graph_v2.js"></script>
+		<script type="text/javascript" src="app.js"></script>
+	</body>
+</html>
