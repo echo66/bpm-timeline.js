@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en-EN">
+	<head>
+		<meta charset="utf-8">
+		<title>BPMTimeline demo: Note duration</title>
+	</head>
+	<body>
+		<script type="text/javascript" src="../bpm-timeline.js"></script>
+		<script type="text/javascript">
+
+			/* Adapted from https://github.com/kevincennis/TinyMusic/blob/master/src/Note.js */
+
+			var enharmonics = 'B#-C|C#-Db|D|D#-Eb|E-Fb|E#-F|F#-Gb|G|G#-Ab|A|A#-Bb|B-Cb';
+			var middleC = 440 * Math.pow( Math.pow( 2, 1 / 12 ), -9 );
+			var num = /(\d+)/;
+			var offsets = {};
+
+			// populate the offset lookup (note distance from C, in semitones)
+			enharmonics.split('|').forEach(function( val, i ) {
+				val.split('-').forEach(function( note ) {
+					offsets[ note ] = i;
+				});
+			});
+
+			function getFrequency( name ) {
+				var couple = name.split( num );
+				var distance = offsets[ couple[ 0 ] ];
+				var octaveDiff = ( couple[ 1 ] || 4 ) - 4;
+				var freq = middleC * Math.pow( Math.pow( 2, 1 / 12 ), distance );
+				return freq * Math.pow( 2, octaveDiff );
+			};
+
+			function scheduleNote(osc, note, startBeat, numBeats, constant) {
+				var _constant = constant || 0;
+				var t0 = tl.time(startBeat);
+				var t1 = tl.time(startBeat + numBeats);
+				osc.frequency.setValueAtTime(getFrequency(note), _constant + t0);
+				osc.frequency.setValueAtTime(0, _constant + t1);
+				// console.log([_constant + t0, _constant + t1]);
+			}
+
+			/* Initial tempo of 60 bpm. */
+			var tl = new BPMTimeline(60);
+
+			/* Linear ramp, from <b=0, T=120> to <b=60, T=130>. */
+			tl.add_tempo_marker({type: "linear", endBeat: 10, endTempo: 200});
+			tl.add_tempo_marker({type: "linear", endBeat: 15, endTempo: 10});
+			tl.add_tempo_marker({type: "linear", endBeat: 20, endTempo: 400});
+			tl.add_tempo_marker({type: "linear", endBeat: 60, endTempo: 60});
+
+			var ctx = new AudioContext();
+
+			var osc = ctx.createOscillator();
+
+			// ctx.suspend();
+
+			for (var i=0; i<20; i++) {
+				scheduleNote(osc, 'G3', i, 0.5, ctx.currentTime);
+			}
+
+			osc.connect(ctx.destination);
+
+			osc.start();
+		</script>
+	</body>
+</html>

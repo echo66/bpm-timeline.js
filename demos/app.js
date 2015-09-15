@@ -93,8 +93,8 @@ function create_tempo_markers_table_row(params) {
 	var deleteButtonCell = create_delete_button_cell(params, markerId);
 
 	markerRow.appendChild(typeCell);
-	markerRow.appendChild(endTempoCell);
 	markerRow.appendChild(endBeatCell);
+	markerRow.appendChild(endTempoCell);
 	markerRow.appendChild(saveButtonCell);
 	markerRow.appendChild(deleteButtonCell);
 
@@ -174,7 +174,12 @@ function create_delete_button_cell(params, markerId) {
 	deleteButton.innerHTML = 'delete';
 	deleteButton.dataset['markerId'] = markerId;
 	deleteButton.disabled = (params.canDelete)? false : true ;
-	deleteButton.onclick = function(e) { delete_tempo_marker(e.target.dataset["markerId"]); };
+	if (params.endTempo && params.endBeat) {
+		deleteButton.onclick = function(e) { delete_tempo_marker(e.target.dataset["markerId"]); refresh(); };
+	} else {
+		deleteButton.onclick = function(e) { delete_tempo_marker(e.target.dataset["markerId"]); };
+	}
+	
 	deleteButtonCell.appendChild(deleteButton);
 	return deleteButtonCell;
 }
@@ -193,8 +198,8 @@ function refresh_graphs(tl) {
 	for (var mi in markers)
 		markers[mi].color = random_color_v2();
 
-	// Create "timeAtBeat" dataset
-	var xmax = markers[markers.length-1].endBeat;
+	// Create "tempoAtBeat" dataset
+
 	for (var mi in markers) {
 
 		console.log("----------mi:"+mi+"--------------");
@@ -203,10 +208,9 @@ function refresh_graphs(tl) {
 
 		var Ms = markers[mi];
 
-		for (var beat = (Ms.previous)? Ms.previous.endBeat : 0; beat <= Ms.endBeat; beat += 0.1) {
+		for (var beat = (Ms.previous)? Ms.previous.endBeat : 0; beat <= Ms.endBeat; beat += 0.01) {
 			var tempoAtBeat = tl.tempo_at_beat(beat);
 			arr1.push({ x: beat, y: tempoAtBeat });
-			// console.log({ x: beat, y: tempoAtBeat });
 		}
 
 		arr1.color = Ms.color;
@@ -216,6 +220,7 @@ function refresh_graphs(tl) {
 	}
 
 	var ymax = tl.get_max_tempo();
+	var xmax = markers[markers.length-1].endBeat;
 
 	create_d3_xy_graph("graphs-div", "graph1", w, h, m, datasets.tempoAtBeat, xmax+50, ymax+10);
 
@@ -237,7 +242,6 @@ function delete_tempo_marker(markerId) {
 		tl.remove_tempo_marker({endBeat: endBeat});
 	}
 	markerRow.remove();
-	refresh();
 }
 
 function save_tempo_marker(markerId) {
