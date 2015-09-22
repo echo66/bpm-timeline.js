@@ -1,0 +1,67 @@
+Theoretical definitions
+
+	T0 and T1 are the tempos at times t0 and t1, correspondingly.
+
+	t is a (real) number belonging to absolute time.
+
+	m is a (real) number belonging to logic time.
+
+	M(t) is the function mapping absolute time to logic time and M'(m) maps logic time to absolute time.
+
+	In our implementation, we provide three basis functions: linear, exponential and step. 
+
+	The provided functions are required to be bijective in order to have a unique absolute-logic time mapping. That is, the value of the provided functions must be bigger than zero for their domain.
+
+
+
+	Linear Function
+
+		value: $T0 + (T1 - T0) * \frac{t - t0}{t1 - t0}$
+
+		integral: $\frac{T1-T0}{2*(t1-t0)} * (t-t0)^{2} + T0 * (t-t0) + C$
+
+		inverse of the integral: $\sqrt{T0^{2} - 4 * 0.5 * \frac{dy}{dx} * (C * m)}$
+
+		var dx  = x1 - x0;
+				var dy  = y1 - y0;
+				var A   = 0.5 * (dy / dx);
+				var B   = y0;
+				var C   = constant;
+
+				var square_root = Math.sqrt(B*B - 4*A*(C-y));
+				var sol1 = (-B + square_root) / (2*A);
+				var sol2 = (-B - square_root) / (2*A);
+
+				if (sol1 >= 0)
+					return sol1 + x0;
+				else 
+					return sol2 + x0;
+		
+
+
+	Exponential Function
+
+		value: $T0 * e^{\log{\frac{T1}{T0}} * \frac{t-t0}{t1-t0}} $
+
+		integral:  	$ k = $\frac{\log{\frac{T1}{T0}}}{t1-t0} $
+
+					$ T0 * \frac{e^{k*(t-t0)} - 1}{k + C} $
+
+		inverse of integral:
+
+			var c = Math.log(y1/y0) / (x1-x0);
+				var A = ((c / y0) * (y - constant)) + 1;
+				var x = Math.log(A) / c + x0;
+
+					$ k = \frac{\log{\frac{T1}{T0}}}{t1-t0} $
+
+					$ A = \frac{c}{T0} * (m - C) + 1 $
+	
+
+	Step Function
+
+		value: (t < t1) ? T0 : T1
+
+		integral: $T0 * (t - t0) + C$
+
+		inverse of the integral: $\frac{m - C}{T0} + t0$

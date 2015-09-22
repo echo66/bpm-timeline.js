@@ -1,0 +1,104 @@
+@BOOK{jacquessteyn:music,
+	AUTHOR = "Jacques Steyn",
+	TITLE = "{Structuring Music through Markup Language: Designs and Architectures}",
+	PUBLISHER = "IGI Global",
+	ADDRESS = "Monash University, Australia",
+	YEAR = "2012"	}
+
+@CONFERENCE{wheresthebeat, 
+	AUTHOR = "Jan C. Schacher and Martin Neukom", 
+	TITLE = "{Where's the beat? Tools for Dynamic Tempo Calculations}", 
+	BOOKTITLE = "{Proceedings of International Computer Music Conference}",
+	YEAR = "2007", 
+	ORGANIZATION = "{Zurich University of Arts}", 
+}
+
+@ARTICLE{maccallum:2015, 
+	AUTHOR = "{Jean Bresson and John MacCallum}",
+	TITLE = "{Tempo Curving as a Framework for Interactive Computer-Aided Composition}",
+	BOOKTITLE = "{Proceedings of Sound and Music Computing Conference}", 
+	YEAR = "2015"
+}
+
+@CONFERENCE {maccallum:2010,
+	AUTHOR = "John MacCallum and Andy Schmeder", 
+	TITLE = "{Timewarp: A Graphical Tool for the Control of Polyphonic Smoothly Varying Tempos}",
+	BOOKTITLE = "{Proceedings of International Computer Music Conference}",
+	YEAR = "2010",
+	ADDRESS = "New York"
+}
+
+@CONFERENCE {wavesui:wac2015, 
+	AUTHOR = "{Victor Saiz and Benjamin Matuszewski and Samuel Goldszmidt}",
+	TITLE = "{Audio Oriented UI Components for the Web Platform}",
+	BOOKTITLE = "{Proceedings of the 1st Web Audio Conference}",
+	YEAR = "2015", 
+	ADDRESS = "Paris" }
+
+@CONFERENCE {tonejs:wac2015, 
+	AUTHOR = "{Yotam Mann}",
+	TITLE = "{Interactive Music with Tone.js}",
+	BOOKTITLE = "{Proceedings of the 1st Web Audio Conference}",
+	YEAR = "2015", 
+	ADDRESS = "Paris" }
+
+@CONFERENCE {nexusui:wac2015, 
+	AUTHOR = "{Ben Taylor and Jesse Allison}",
+	TITLE = "{BRAID: A Web Audio Instrument Builder with Embedded Code Blocks}",
+	BOOKTITLE = "{Proceedings of the 1st Web Audio Conference}",
+	YEAR = "2015", 
+	ADDRESS = "Paris" }
+
+@CONFERENCE {flocking:icmc2014, 
+	AUTHOR = "{Colin Clark and Adam Tindale}",
+	TITLE = "{Flocking: A Framework for Declarative Music-Making on the Web}",
+	BOOKTITLE = "{Proceedings of the 40st International Computer Music Conference}", 
+	YEAR = "2014", 
+	ADDRESS = "Athens" }
+
+@ARTICLE{honing:time2time,
+	AUTHOR = "{Henkjan Honing}",
+	TITLE = "{From Time to Time: The Representation of Timing and Tempo}",
+	JOURNAL = "{Computer Music Journal}",
+	VOLUME = {25},
+	NUMBER = {3},
+	PAGES = {50-61},
+	MONTH = "June",
+	YEAR = {2001}	}
+
+@CONFERENCE{polytemporal:2012, 
+	AUTHOR = "{Christopher Dobrian}",
+	TITLE = "{Techniques for Polytemporal Composition}",
+	JOURNAL = "{Proceedings of the Korean Electro-Acoustic Music Society Annual Conference}",
+	YEAR = "{2012}",
+	MONTH = "{October}"	}
+	
+
+@MISC{lissajouspresentation,
+	author = {Kyle Stetz},
+	title = {Lissajous: Performing Music with Javascript, presentation at the 1st Web Audio Conference},
+	year = 2015,
+	url = {http://lissajousjs.com/},
+	urldate = {2015-09-14}	}
+
+@MISC{timbrejs, 
+	author = {Mohayonao},
+	title = {Timbre.js: JavaScript library for objective sound programming (http://mohayonao.github.io/timbre.js/)},
+	year = 2014,
+	url = {http://mohayonao.github.io/timbre.js/}, 
+	urldata = {2015-09-14}	}
+
+@MISC{neumejs,
+	author = {Mohayonao},
+	title = {Neume.js: Web Audio API library for developing browser music}, 
+	year = 2015,
+	url = {https://github.com/mohayonao/neume.js}
+	urldata = {2015-09-14}	}
+
+@MISC{ciseauxjs,
+	author = {Mohayonao},
+	title = {Ciseaux: JavaScript utility to chop an audio buffer (http://mohayonao.github.io/ciseaux/)}, 
+	year = 2015,
+	url = {http://mohayonao.github.io/ciseaux/}
+	urldata = {2015-09-14}	}
+

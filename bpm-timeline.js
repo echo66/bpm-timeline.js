@@ -363,7 +363,13 @@ function BPMTimeline(initialTempo) {
 				endBeat : obj.endBeat, 
 				endTime : obj.endTime, 
 				endTempo: obj.endTempo, 
-				type    : obj.type
+				type    : obj.type, 
+				previous: (m.previous)? { 
+											endBeat: m.previous.endBeat, 
+											endTime: m.previous.endTime,
+											endTempo: m.previous.endTempo,
+											type: m.previous.type
+										} : undefined
 			}
 		});
 	}
@@ -383,7 +389,13 @@ function BPMTimeline(initialTempo) {
 						endBeat 	: m.endBeat, 
 						endTime 	: m.endTime, 
 						endTempo  	: m.endTempo, 
-						type    	: m.type
+						type    	: m.type,
+						previous 	: (m.previous)? { 
+											endBeat: m.previous.endBeat, 
+											endTime: m.previous.endTime,
+											endTempo: m.previous.endTempo,
+											type: m.previous.type
+										} : undefined
 					}
 				});
 			} else
@@ -408,7 +420,13 @@ function BPMTimeline(initialTempo) {
 				endBeat : m.endBeat, 
 				endTime : m.endTime, 
 				endTempo: m.endTempo, 
-				type    : m.type
+				type    : m.type, 
+				previous: (m.previous)? { 
+											endBeat: m.previous.endBeat, 
+											endTime: m.previous.endTime,
+											endTempo: m.previous.endTempo,
+											type: m.previous.type
+										} : undefined
 			};
 
 			m.endBeat  = (params.newEndBeat!=undefined)? params.newEndBeat : m.endBeat;
@@ -425,7 +443,13 @@ function BPMTimeline(initialTempo) {
 					endBeat : m.endBeat, 
 					endTime : m.endTime, 
 					endTempo: m.endTempo, 
-					type    : m.type
+					type    : m.type,
+					previous: (m.previous)? { 
+											endBeat: m.previous.endBeat, 
+											endTime: m.previous.endTime,
+											endTempo: m.previous.endTempo,
+											type: m.previous.type
+										} : undefined
 				}
 			});
 		} else 
