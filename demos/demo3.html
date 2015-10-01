@@ -42,11 +42,13 @@
 			/* Initial tempo of 60 bpm. */
 			var tl = new BPMTimeline(60);
 
+			var a_t_m = tl.add_tempo_marker;
+
 			/* Linear ramp, from <b=0, T=120> to <b=60, T=130>. */
-			tl.add_tempo_marker({type: "linear", endBeat: 10, endTempo: 200});
-			tl.add_tempo_marker({type: "linear", endBeat: 15, endTempo: 10});
-			tl.add_tempo_marker({type: "linear", endBeat: 20, endTempo: 400});
-			tl.add_tempo_marker({type: "linear", endBeat: 60, endTempo: 60});
+			a_t_m({type: "linear", endBeat: 10, endTempo: 200});
+			a_t_m({type: "linear", endBeat: 15, endTempo: 10});
+			a_t_m({type: "linear", endBeat: 20, endTempo: 400});
+			a_t_m({type: "linear", endBeat: 60, endTempo: 60});
 
 			var ctx = new AudioContext();
 

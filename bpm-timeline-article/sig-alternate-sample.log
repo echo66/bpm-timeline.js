@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.8.16)  15 SEP 2015 19:10
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.8.16)  30 SEP 2015 18:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -7,6 +7,223 @@ entering extended mode
 LaTeX2e <2015/01/01> patch level 2
 Babel <3.9m> and hyphenation patterns for 79 languages loaded.
 (./sig-alternate.cls
+(/usr/local/texlive/2015/texmf-dist/tex/latex/base/inputenc.sty
+Package: inputenc 2015/03/17 v1.2c Input encoding file
+\inpenc@prehook=\toks14
+\inpenc@posthook=\toks15
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/base/utf8.def
+File: utf8.def 2015/06/27 v1.1n UTF-8 support for inputenc
+Now handling font encoding OML ...
+... no UTF-8 mapping file for font encoding OML
+Now handling font encoding T1 ...
+... processing UTF-8 mapping file for font encoding T1
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/base/t1enc.dfu
+File: t1enc.dfu 2015/06/27 v1.1n UTF-8 support for inputenc
+   defining Unicode char U+00A1 (decimal 161)
+   defining Unicode char U+00A3 (decimal 163)
+   defining Unicode char U+00AB (decimal 171)
+   defining Unicode char U+00BB (decimal 187)
+   defining Unicode char U+00BF (decimal 191)
+   defining Unicode char U+00C0 (decimal 192)
+   defining Unicode char U+00C1 (decimal 193)
+   defining Unicode char U+00C2 (decimal 194)
+   defining Unicode char U+00C3 (decimal 195)
+   defining Unicode char U+00C4 (decimal 196)
+   defining Unicode char U+00C5 (decimal 197)
+   defining Unicode char U+00C6 (decimal 198)
+   defining Unicode char U+00C7 (decimal 199)
+   defining Unicode char U+00C8 (decimal 200)
+   defining Unicode char U+00C9 (decimal 201)
+   defining Unicode char U+00CA (decimal 202)
+   defining Unicode char U+00CB (decimal 203)
+   defining Unicode char U+00CC (decimal 204)
+   defining Unicode char U+00CD (decimal 205)
+   defining Unicode char U+00CE (decimal 206)
+   defining Unicode char U+00CF (decimal 207)
+   defining Unicode char U+00D0 (decimal 208)
+   defining Unicode char U+00D1 (decimal 209)
+   defining Unicode char U+00D2 (decimal 210)
+   defining Unicode char U+00D3 (decimal 211)
+   defining Unicode char U+00D4 (decimal 212)
+   defining Unicode char U+00D5 (decimal 213)
+   defining Unicode char U+00D6 (decimal 214)
+   defining Unicode char U+00D8 (decimal 216)
+   defining Unicode char U+00D9 (decimal 217)
+   defining Unicode char U+00DA (decimal 218)
+   defining Unicode char U+00DB (decimal 219)
+   defining Unicode char U+00DC (decimal 220)
+   defining Unicode char U+00DD (decimal 221)
+   defining Unicode char U+00DE (decimal 222)
+   defining Unicode char U+00DF (decimal 223)
+   defining Unicode char U+00E0 (decimal 224)
+   defining Unicode char U+00E1 (decimal 225)
+   defining Unicode char U+00E2 (decimal 226)
+   defining Unicode char U+00E3 (decimal 227)
+   defining Unicode char U+00E4 (decimal 228)
+   defining Unicode char U+00E5 (decimal 229)
+   defining Unicode char U+00E6 (decimal 230)
+   defining Unicode char U+00E7 (decimal 231)
+   defining Unicode char U+00E8 (decimal 232)
+   defining Unicode char U+00E9 (decimal 233)
+   defining Unicode char U+00EA (decimal 234)
+   defining Unicode char U+00EB (decimal 235)
+   defining Unicode char U+00EC (decimal 236)
+   defining Unicode char U+00ED (decimal 237)
+   defining Unicode char U+00EE (decimal 238)
+   defining Unicode char U+00EF (decimal 239)
+   defining Unicode char U+00F0 (decimal 240)
+   defining Unicode char U+00F1 (decimal 241)
+   defining Unicode char U+00F2 (decimal 242)
+   defining Unicode char U+00F3 (decimal 243)
+   defining Unicode char U+00F4 (decimal 244)
+   defining Unicode char U+00F5 (decimal 245)
+   defining Unicode char U+00F6 (decimal 246)
+   defining Unicode char U+00F8 (decimal 248)
+   defining Unicode char U+00F9 (decimal 249)
+   defining Unicode char U+00FA (decimal 250)
+   defining Unicode char U+00FB (decimal 251)
+   defining Unicode char U+00FC (decimal 252)
+   defining Unicode char U+00FD (decimal 253)
+   defining Unicode char U+00FE (decimal 254)
+   defining Unicode char U+00FF (decimal 255)
+   defining Unicode char U+0102 (decimal 258)
+   defining Unicode char U+0103 (decimal 259)
+   defining Unicode char U+0104 (decimal 260)
+   defining Unicode char U+0105 (decimal 261)
+   defining Unicode char U+0106 (decimal 262)
+   defining Unicode char U+0107 (decimal 263)
+   defining Unicode char U+010C (decimal 268)
+   defining Unicode char U+010D (decimal 269)
+   defining Unicode char U+010E (decimal 270)
+   defining Unicode char U+010F (decimal 271)
+   defining Unicode char U+0110 (decimal 272)
+   defining Unicode char U+0111 (decimal 273)
+   defining Unicode char U+0118 (decimal 280)
+   defining Unicode char U+0119 (decimal 281)
+   defining Unicode char U+011A (decimal 282)
+   defining Unicode char U+011B (decimal 283)
+   defining Unicode char U+011E (decimal 286)
+   defining Unicode char U+011F (decimal 287)
+   defining Unicode char U+0130 (decimal 304)
+   defining Unicode char U+0131 (decimal 305)
+   defining Unicode char U+0132 (decimal 306)
+   defining Unicode char U+0133 (decimal 307)
+   defining Unicode char U+0139 (decimal 313)
+   defining Unicode char U+013A (decimal 314)
+   defining Unicode char U+013D (decimal 317)
+   defining Unicode char U+013E (decimal 318)
+   defining Unicode char U+0141 (decimal 321)
+   defining Unicode char U+0142 (decimal 322)
+   defining Unicode char U+0143 (decimal 323)
+   defining Unicode char U+0144 (decimal 324)
+   defining Unicode char U+0147 (decimal 327)
+   defining Unicode char U+0148 (decimal 328)
+   defining Unicode char U+014A (decimal 330)
+   defining Unicode char U+014B (decimal 331)
+   defining Unicode char U+0150 (decimal 336)
+   defining Unicode char U+0151 (decimal 337)
+   defining Unicode char U+0152 (decimal 338)
+   defining Unicode char U+0153 (decimal 339)
+   defining Unicode char U+0154 (decimal 340)
+   defining Unicode char U+0155 (decimal 341)
+   defining Unicode char U+0158 (decimal 344)
+   defining Unicode char U+0159 (decimal 345)
+   defining Unicode char U+015A (decimal 346)
+   defining Unicode char U+015B (decimal 347)
+   defining Unicode char U+015E (decimal 350)
+   defining Unicode char U+015F (decimal 351)
+   defining Unicode char U+0160 (decimal 352)
+   defining Unicode char U+0161 (decimal 353)
+   defining Unicode char U+0162 (decimal 354)
+   defining Unicode char U+0163 (decimal 355)
+   defining Unicode char U+0164 (decimal 356)
+   defining Unicode char U+0165 (decimal 357)
+   defining Unicode char U+016E (decimal 366)
+   defining Unicode char U+016F (decimal 367)
+   defining Unicode char U+0170 (decimal 368)
+   defining Unicode char U+0171 (decimal 369)
+   defining Unicode char U+0178 (decimal 376)
+   defining Unicode char U+0179 (decimal 377)
+   defining Unicode char U+017A (decimal 378)
+   defining Unicode char U+017B (decimal 379)
+   defining Unicode char U+017C (decimal 380)
+   defining Unicode char U+017D (decimal 381)
+   defining Unicode char U+017E (decimal 382)
+   defining Unicode char U+200C (decimal 8204)
+   defining Unicode char U+2013 (decimal 8211)
+   defining Unicode char U+2014 (decimal 8212)
+   defining Unicode char U+2018 (decimal 8216)
+   defining Unicode char U+2019 (decimal 8217)
+   defining Unicode char U+201A (decimal 8218)
+   defining Unicode char U+201C (decimal 8220)
+   defining Unicode char U+201D (decimal 8221)
+   defining Unicode char U+201E (decimal 8222)
+   defining Unicode char U+2030 (decimal 8240)
+   defining Unicode char U+2031 (decimal 8241)
+   defining Unicode char U+2039 (decimal 8249)
+   defining Unicode char U+203A (decimal 8250)
+   defining Unicode char U+2423 (decimal 9251)
+)
+Now handling font encoding OT1 ...
+... processing UTF-8 mapping file for font encoding OT1
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/base/ot1enc.dfu
+File: ot1enc.dfu 2015/06/27 v1.1n UTF-8 support for inputenc
+   defining Unicode char U+00A1 (decimal 161)
+   defining Unicode char U+00A3 (decimal 163)
+   defining Unicode char U+00B8 (decimal 184)
+   defining Unicode char U+00BF (decimal 191)
+   defining Unicode char U+00C5 (decimal 197)
+   defining Unicode char U+00C6 (decimal 198)
+   defining Unicode char U+00D8 (decimal 216)
+   defining Unicode char U+00DF (decimal 223)
+   defining Unicode char U+00E6 (decimal 230)
+   defining Unicode char U+00EC (decimal 236)
+   defining Unicode char U+00ED (decimal 237)
+   defining Unicode char U+00EE (decimal 238)
+   defining Unicode char U+00EF (decimal 239)
+   defining Unicode char U+00F8 (decimal 248)
+   defining Unicode char U+0131 (decimal 305)
+   defining Unicode char U+0141 (decimal 321)
+   defining Unicode char U+0142 (decimal 322)
+   defining Unicode char U+0152 (decimal 338)
+   defining Unicode char U+0153 (decimal 339)
+   defining Unicode char U+2013 (decimal 8211)
+   defining Unicode char U+2014 (decimal 8212)
+   defining Unicode char U+2018 (decimal 8216)
+   defining Unicode char U+2019 (decimal 8217)
+   defining Unicode char U+201C (decimal 8220)
+   defining Unicode char U+201D (decimal 8221)
+)
+Now handling font encoding OMS ...
+... processing UTF-8 mapping file for font encoding OMS
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/base/omsenc.dfu
+File: omsenc.dfu 2015/06/27 v1.1n UTF-8 support for inputenc
+   defining Unicode char U+00A7 (decimal 167)
+   defining Unicode char U+00B6 (decimal 182)
+   defining Unicode char U+00B7 (decimal 183)
+   defining Unicode char U+2020 (decimal 8224)
+   defining Unicode char U+2021 (decimal 8225)
+   defining Unicode char U+2022 (decimal 8226)
+)
+Now handling font encoding OMX ...
+... no UTF-8 mapping file for font encoding OMX
+Now handling font encoding U ...
+... no UTF-8 mapping file for font encoding U
+   defining Unicode char U+00A9 (decimal 169)
+   defining Unicode char U+00AA (decimal 170)
+   defining Unicode char U+00AE (decimal 174)
+   defining Unicode char U+00BA (decimal 186)
+   defining Unicode char U+02C6 (decimal 710)
+   defining Unicode char U+02DC (decimal 732)
+   defining Unicode char U+200C (decimal 8204)
+   defining Unicode char U+2026 (decimal 8230)
+   defining Unicode char U+2122 (decimal 8482)
+   defining Unicode char U+2423 (decimal 9251)
+))
 (/usr/local/texlive/2015/texmf-dist/tex/latex/graphics/epsfig.sty
 Package: epsfig 1999/02/16 v1.7a (e)psfig emulation (SPQR)
 
@@ -15,7 +232,7 @@ Package: graphicx 2014/10/28 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
-\KV@toks@=\toks14
+\KV@toks@=\toks16
 )
 (/usr/local/texlive/2015/texmf-dist/tex/latex/graphics/graphics.sty
 Package: graphics 2014/10/28 v1.0p Standard LaTeX Graphics (DPC,SPQR)
@@ -50,7 +267,7 @@ Package: amssymb 2013/01/14 v3.01 AMS font symbols
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/amsfonts.sty
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
-\@emptytoks=\toks15
+\@emptytoks=\toks17
 \symAMSa=\mathgroup4
 \symAMSb=\mathgroup5
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
@@ -66,7 +283,7 @@ Package: amstext 2000/06/29 v2.01
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0
-\@emptytoks=\toks16
+\@emptytoks=\toks18
 \ex@=\dimen106
 ))
 (/usr/local/texlive/2015/texmf-dist/tex/latex/amsmath/amsbsy.sty
@@ -96,28 +313,28 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 567.
 \dotsspace@=\muskip10
 \c@parentequation=\count87
 \dspbrk@lvl=\count88
-\tag@help=\toks17
+\tag@help=\toks19
 \row@=\count89
 \column@=\count90
 \maxfields@=\count91
-\andhelp@=\toks18
+\andhelp@=\toks20
 \eqnshift@=\dimen109
 \alignsep@=\dimen110
 \tagshift@=\dimen111
 \tagwidth@=\dimen112
 \totwidth@=\dimen113
 \lineht@=\dimen114
-\@envbody=\toks19
+\@envbody=\toks21
 \multlinegap=\skip42
 \multlinetaggap=\skip43
-\mathdisplay@stack=\toks20
+\mathdisplay@stack=\toks22
 LaTeX Info: Redefining \[ on input line 2665.
 LaTeX Info: Redefining \] on input line 2666.
 )
 (/usr/local/texlive/2015/texmf-dist/tex/latex/listings/listings.sty
 \lst@mode=\count92
 \lst@gtempboxa=\box28
-\lst@token=\toks21
+\lst@token=\toks23
 \lst@length=\count93
 \lst@currlwidth=\dimen115
 \lst@column=\count94
@@ -161,6 +378,14 @@ Package caption Info: listings package is loaded.
 (/usr/local/texlive/2015/texmf-dist/tex/latex/caption/subcaption.sty
 Package: subcaption 2013/02/03 v1.1-62 Sub-captions (AR)
 )
+(/usr/local/texlive/2015/texmf-dist/tex/latex/graphics/color.sty
+Package: color 2014/10/28 v1.1a Standard LaTeX Color (DPC)
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/latexconfig/color.cfg
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package color Info: Driver file: pdftex.def on input line 142.
+)
 Document Class 'sig-alternate' <9th June '13>. Modified by G.K.M. Tobin/Gerry M
 urray/Boris Veytsman
 Based in part upon document Style `acmconf' <22 May 89>. Hacked 4/91 by
@@ -184,14 +409,14 @@ Excluding comment 'comment') Excluding comment 'CCSXML'
 \auskipcount=\count103
 \auskip=\dimen131
 \allauboxes=\dimen132
-\addauthors=\toks22
+\addauthors=\toks24
 \addauflag=\count104
-\subtitletext=\toks23
+\subtitletext=\toks25
 \savesection=\count105
 \sectioncntr=\count106
 \c@figure=\count107
 \c@table=\count108
-\titleboxnotes=\toks24
+\titleboxnotes=\toks26
 \titleboxnoteflag=\count109
 
 Document Class: sig-alternate 2013/05/12 v2.7 based on acmproc.cls V1.3 <Nov. 3
@@ -204,15 +429,15 @@ LaTeX Font Info:    Overwriting symbol font `lasy' in version `bold'
 )
 \@acmtitlebox=\box30
 \titlenotecount=\count110
-\tntoks=\toks25
-\tntokstwo=\toks26
-\tntoksthree=\toks27
-\tntoksfour=\toks28
-\tntoksfive=\toks29
+\tntoks=\toks27
+\tntokstwo=\toks28
+\tntoksthree=\toks29
+\tntoksfour=\toks30
+\tntoksfive=\toks31
 \catcount=\count111
-\copyrightnotice=\toks30
-\conf=\toks31
-\confinfo=\toks32
+\copyrightnotice=\toks32
+\conf=\toks33
+\confinfo=\toks34
 \c@part=\count112
 \c@section=\count113
 \c@subsection=\count114
@@ -220,13 +445,13 @@ LaTeX Font Info:    Overwriting symbol font `lasy' in version `bold'
 \c@paragraph=\count116
 
 Using 'Abbrev' bibliography style
-LaTeX Info: Redefining \cite on input line 1274.
+LaTeX Info: Redefining \cite on input line 1311.
 \bibindent=\dimen133
 \colcntr=\count117
 \saveb@x=\box31
-\copyrtyr=\toks33
-\acmcopyr=\toks34
-\boilerplate=\toks35
+\copyrtyr=\toks35
+\acmcopyr=\toks36
+\boilerplate=\toks37
 (/usr/local/texlive/2015/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip11
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
@@ -238,13 +463,13 @@ Package: xkeyval 2014/12/03 v2.7a package option processing (HA)
 
 (/usr/local/texlive/2015/texmf-dist/tex/generic/xkeyval/xkeyval.tex
 (/usr/local/texlive/2015/texmf-dist/tex/generic/xkeyval/xkvutils.tex
-\XKV@toks=\toks36
-\XKV@tempa@toks=\toks37
+\XKV@toks=\toks38
+\XKV@tempa@toks=\toks39
 )
 \XKV@depth=\count118
 File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
 )))
-\copyrightetc=\toks38
+\copyrightetc=\toks40
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/base/fontenc.sty
 Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
@@ -258,7 +483,7 @@ LaTeX Font Info:    Try loading font information for T1+aer on input line 105.
 (/usr/local/texlive/2015/texmf-dist/tex/latex/ae/t1aer.fd
 File: t1aer.fd 1997/11/16 Font definitions for T1/aer.
 ))
-LaTeX Info: Redefining \ttfamily on input line 1569.
+LaTeX Info: Redefining \ttfamily on input line 1606.
 )
 (./sig-alternate-sample.aux)
 \openout1 = `sig-alternate-sample.aux'.
@@ -283,12 +508,12 @@ LaTeX Font Info:    ... okay on input line 52.
 \scratchbox=\box32
 \nofMPsegments=\count120
 \nofMParguments=\count121
-\everyMPshowfont=\toks39
+\everyMPshowfont=\toks41
 \MPscratchCnt=\count122
 \MPscratchDim=\dimen135
 \MPnumerator=\count123
 \makeMPintoPDFobject=\count124
-\everyMPtoPDFconversion=\toks40
+\everyMPtoPDFconversion=\toks42
 ) (/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
 Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
 )
@@ -374,43 +599,50 @@ File: omsptm.fd
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <7> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 146.
 
-Overfull \hbox (2.77753pt too wide) in paragraph at lines 150--152
-\T1/aer/m/n/9 tween real time (sec-onds) and score time (beats), us-ing tempo
+<ableton-tempo-automation-1.png, id=2, 602.25pt x 200.75pt>
+File: ableton-tempo-automation-1.png Graphic file (type png)
+
+<use ableton-tempo-automation-1.png>
+Package pdftex.def Info: ableton-tempo-automation-1.png used on input line 210.
+
+(pdftex.def)             Requested size: 252.94499pt x 84.3144pt.
+
+Overfull \hbox (12.94499pt too wide) in paragraph at lines 210--211
+[][] 
  []
 
 
-Overfull \hbox (4.77808pt too wide) in paragraph at lines 206--207
-[]\T1/aer/m/n/9 Mainstream Dig-i-tal Au-dio Work-sta-tions (DAW), both com-
- []
-
-<ableton-tempo-automation.png, id=2, 1505.625pt x 200.75pt>
-File: ableton-tempo-automation.png Graphic file (type png)
-
-<use ableton-tempo-automation.png>
-Package pdftex.def Info: ableton-tempo-automation.png used on input line 211.
-(pdftex.def)             Requested size: 505.89pt x 67.45152pt.
-
-Overfull \hbox (1.89pt too wide) in paragraph at lines 211--212
- [][] 
+Overfull \hbox (1.61pt too wide) in paragraph at lines 218--219
+\T1/aer/m/n/9 tem-po-ral over-head for time map-pings and tempo search
  []
 
 
-Overfull \hbox (6.86583pt too wide) in paragraph at lines 221--222
+Overfull \hbox (6.86583pt too wide) in paragraph at lines 220--221
 []\T1/aer/bx/n/9 Seamless tempo ma-nip-u-la-tion: \T1/aer/m/n/9 the de-vel-oper
  should
  []
 
 
-Overfull \hbox (5.36931pt too wide) in paragraph at lines 223--224
+Overfull \hbox (5.36931pt too wide) in paragraph at lines 222--223
 \T1/aer/m/n/9 self-contained, with no need to in-clude ex-ter-nal li-braries. 
+ []
+
+
+Overfull \hbox (3.5091pt too wide) in paragraph at lines 234--235
+[]\T1/aer/m/n/9 The avail-able JavaScript live cod-ing frame-works and DAWs
+ []
+
+
+Overfull \hbox (7.49504pt too wide) in paragraph at lines 234--235
+\T1/aer/m/n/9 through both man-u-al/crisp changes and through a Tone.Signal
  []
 
 [1{/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 
- <./cc.png>]
+ <./cc.png> <./ableton-tempo-automation-1.png>]
 ! Undefined control sequence.
-l.270 	\subfloat
+l.277 	\subfloat
                 (a) \includegraphics[width=1.4in]{eps/constant-bpm}
 ? 
 Package epstopdf Info: Source file: <eps/constant-bpm.eps>
@@ -421,18 +653,18 @@ Package epstopdf Info: Source file: <eps/constant-bpm.eps>
 (epstopdf)                    size: 5486 bytes
 (epstopdf)             Command: <repstopdf --outfile=eps/constant-bpm-eps-conve
 rted-to.pdf eps/constant-bpm.eps>
-(epstopdf)             \includegraphics on input line 270.
+(epstopdf)             \includegraphics on input line 277.
 Package epstopdf Info: Output file is already uptodate.
-<eps/constant-bpm-eps-converted-to.pdf, id=21, 232.87pt x 168.63pt>
+<eps/constant-bpm-eps-converted-to.pdf, id=20, 232.87pt x 168.63pt>
 File: eps/constant-bpm-eps-converted-to.pdf Graphic file (type pdf)
 
 <use eps/constant-bpm-eps-converted-to.pdf>
 Package pdftex.def Info: eps/constant-bpm-eps-converted-to.pdf used on input li
-ne 270.
+ne 277.
 (pdftex.def)             Requested size: 101.17755pt x 73.26596pt.
 
 ! Undefined control sequence.
-l.271 	\subfloat
+l.278 	\subfloat
                 (b) \includegraphics[width=1.4in]{eps/step-bpm}
 ? 
 Package epstopdf Info: Source file: <eps/step-bpm.eps>
@@ -443,18 +675,18 @@ Package epstopdf Info: Source file: <eps/step-bpm.eps>
 (epstopdf)                    size: 5520 bytes
 (epstopdf)             Command: <repstopdf --outfile=eps/step-bpm-eps-converted
 -to.pdf eps/step-bpm.eps>
-(epstopdf)             \includegraphics on input line 271.
+(epstopdf)             \includegraphics on input line 278.
 Package epstopdf Info: Output file is already uptodate.
-<eps/step-bpm-eps-converted-to.pdf, id=22, 232.87pt x 168.63pt>
+<eps/step-bpm-eps-converted-to.pdf, id=21, 232.87pt x 168.63pt>
 File: eps/step-bpm-eps-converted-to.pdf Graphic file (type pdf)
 
 <use eps/step-bpm-eps-converted-to.pdf>
 Package pdftex.def Info: eps/step-bpm-eps-converted-to.pdf used on input line 2
-71.
+78.
 (pdftex.def)             Requested size: 101.17755pt x 73.26596pt.
 
 ! Undefined control sequence.
-l.272 	\subfloat
+l.279 	\subfloat
                 (c) \includegraphics[width=1.4in]{eps/aprox-bpm}
 ? 
 Package epstopdf Info: Source file: <eps/aprox-bpm.eps>
@@ -465,18 +697,18 @@ Package epstopdf Info: Source file: <eps/aprox-bpm.eps>
 (epstopdf)                    size: 5714 bytes
 (epstopdf)             Command: <repstopdf --outfile=eps/aprox-bpm-eps-converte
 d-to.pdf eps/aprox-bpm.eps>
-(epstopdf)             \includegraphics on input line 272.
+(epstopdf)             \includegraphics on input line 279.
 Package epstopdf Info: Output file is already uptodate.
-<eps/aprox-bpm-eps-converted-to.pdf, id=23, 232.87pt x 168.63pt>
+<eps/aprox-bpm-eps-converted-to.pdf, id=22, 232.87pt x 168.63pt>
 File: eps/aprox-bpm-eps-converted-to.pdf Graphic file (type pdf)
 
 <use eps/aprox-bpm-eps-converted-to.pdf>
 Package pdftex.def Info: eps/aprox-bpm-eps-converted-to.pdf used on input line 
-272.
+279.
 (pdftex.def)             Requested size: 101.17755pt x 73.26596pt.
 
 ! Undefined control sequence.
-l.273 	\subfloat
+l.280 	\subfloat
                 (d) \includegraphics[width=1.4in]{eps/linear-bpm}
 ? 
 Package epstopdf Info: Source file: <eps/linear-bpm.eps>
@@ -487,179 +719,174 @@ Package epstopdf Info: Source file: <eps/linear-bpm.eps>
 (epstopdf)                    size: 5513 bytes
 (epstopdf)             Command: <repstopdf --outfile=eps/linear-bpm-eps-convert
 ed-to.pdf eps/linear-bpm.eps>
-(epstopdf)             \includegraphics on input line 273.
+(epstopdf)             \includegraphics on input line 280.
 Package epstopdf Info: Output file is already uptodate.
-<eps/linear-bpm-eps-converted-to.pdf, id=24, 232.87pt x 168.63pt>
+<eps/linear-bpm-eps-converted-to.pdf, id=23, 232.87pt x 168.63pt>
 File: eps/linear-bpm-eps-converted-to.pdf Graphic file (type pdf)
 
 <use eps/linear-bpm-eps-converted-to.pdf>
 Package pdftex.def Info: eps/linear-bpm-eps-converted-to.pdf used on input line
- 273.
+ 280.
 (pdftex.def)             Requested size: 101.17755pt x 73.26596pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 307--307
+Underfull \hbox (badness 10000) in paragraph at lines 285--285
 [][]\T1/aer/m/n/9 http://webaudio.github.io/web-audio-api/#the-
  []
 
-[2 <./ableton-tempo-automation.png>] [3 <./eps/constant-bpm-eps-converted-to.pd
-f> <./eps/step-bpm-eps-converted-to.pdf> <./eps/aprox-bpm-eps-converted-to.pdf>
- <./eps/linear-bpm-eps-converted-to.pdf>]
-Overfull \hbox (1.96758pt too wide) in paragraph at lines 412--413
+
+Overfull \hbox (7.8923pt too wide) in paragraph at lines 303--304
+\T1/aer/m/n/9 mula used in Au-dioParam \T1/aer/m/it/9 lin-ear-Ramp-To-Val-ueAt-
+Time \T1/aer/m/n/9 method 
+ []
+
+[2] [3 <./eps/constant-bpm-eps-converted-to.pdf> <./eps/step-bpm-eps-converted-
+to.pdf> <./eps/aprox-bpm-eps-converted-to.pdf> <./eps/linear-bpm-eps-converted-
+to.pdf>]
+Overfull \hbox (1.96758pt too wide) in paragraph at lines 469--470
 []\T1/aer/m/n/9 in DAWs and DJ soft-ware, tempo maps are not changed
  []
 
 
-Overfull \hbox (2.103pt too wide) in paragraph at lines 421--422
+Overfull \hbox (2.103pt too wide) in paragraph at lines 479--480
 []\T1/aer/m/it/9 add_tempo_marker(String type, Num-ber end-Beat, Num-
  []
 
 
-Overfull \hbox (10.65219pt too wide) in paragraph at lines 421--422
-\T1/aer/m/n/9 A and B, where $\OML/cmm/m/it/9 A:endBeat < B:endBeat$ $\OMS/cmsy
-/m/n/9 ^$ $\OML/cmm/m/it/9 A:endBeat <
+Overfull \hbox (1.67131pt too wide) in paragraph at lines 479--480
+\T1/aer/m/n/9 and B, where $\OML/cmm/m/it/9 A:endBeat < B:endBeat$ $\OMS/cmsy/m
+/n/9 ^$ $\OML/cmm/m/it/9 A:endBeat <
  []
 
 
-Overfull \hbox (26.95334pt too wide) in paragraph at lines 423--424
+Overfull \hbox (26.95334pt too wide) in paragraph at lines 481--482
 []\T1/aer/m/it/9 change_tempo_marker(Number old-End-Beat, Num-ber newEnd-
  []
 
 <demo.png, id=58, 1505.625pt x 501.875pt>
 File: demo.png Graphic file (type png)
  <use demo.png>
-Package pdftex.def Info: demo.png used on input line 429.
-(pdftex.def)             Requested size: 505.89pt x 168.62885pt.
+Package pdftex.def Info: demo.png used on input line 487.
+(pdftex.def)             Requested size: 433.62pt x 144.53682pt.
 
-Overfull \hbox (1.89pt too wide) in paragraph at lines 429--430
- [][] 
- []
-
-
-Overfull \hbox (1.0627pt too wide) in paragraph at lines 440--441
+Overfull \hbox (1.0627pt too wide) in paragraph at lines 498--499
 []\T1/aer/m/it/9 inverseIntegralFn(Number $\OML/cmm/m/it/9 b[]$\T1/aer/m/it/9 ,
  Num-ber $\OML/cmm/m/it/9 b[]$\T1/aer/m/it/9 , Num-ber $\OML/cmm/m/it/9 bP[]$\T
 1/aer/m/it/9 ,
  []
 
 
-Overfull \hbox (9.88487pt too wide) in paragraph at lines 451--452
+Overfull \hbox (9.88487pt too wide) in paragraph at lines 509--510
 \OML/cmm/m/it/9 A:endBeat < B:endBeat \OMS/cmsy/m/n/9 ^ \OML/cmm/m/it/9 A:endBe
 at < b < B:endBeat$\T1/aer/m/n/9 .
  []
 
 
-Overfull \hbox (13.3547pt too wide) in paragraph at lines 451--452
+Overfull \hbox (13.3547pt too wide) in paragraph at lines 509--510
 \T1/aer/m/n/9 search re-turns just a marker, then then $\OML/cmm/m/it/9 t\OT1/c
 mr/m/n/9 (\OML/cmm/m/it/9 b\OT1/cmr/m/n/9 ) = \OML/cmm/m/it/9 A:endTime$\T1/aer
 /m/n/9 . 
  []
 
-
-Overfull \hbox (1.41158pt too wide) in paragraph at lines 462--463
+[4]
+Overfull \hbox (1.41158pt too wide) in paragraph at lines 520--521
 []\T1/aer/m/it/9 add_event_listener(String ob-serverId, String event-Type,
  []
 
-[4]
-Overfull \hbox (14.26242pt too wide) in paragraph at lines 476--477
+LaTeX Font Info:    Try loading font information for T1+lmtt on input line 526.
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/lm/t1lmtt.fd
+File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+Overfull \hbox (14.26242pt too wide) in paragraph at lines 532--533
 \T1/aer/m/it/9 tempo-marker"\T1/aer/m/n/9 , \T1/aer/m/it/9 "remove-tempo-marker
 " \T1/aer/m/n/9 or \T1/aer/m/it/9 "edit-tempo-marker"\T1/aer/m/n/9 .
  []
 
 
-Overfull \hbox (6.44113pt too wide) in paragraph at lines 486--487
+Overfull \hbox (6.44113pt too wide) in paragraph at lines 540--541
 []\T1/aer/m/it/9 startBeat\T1/aer/m/n/9 , \T1/aer/m/it/9 end-Beat\T1/aer/m/n/9 
 : Num-bers stat-ing where does the marker
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 486--487
+Underfull \hbox (badness 10000) in paragraph at lines 540--541
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 488--489
+Underfull \hbox (badness 10000) in paragraph at lines 542--543
 
  []
 
-LaTeX Font Info:    Try loading font information for OMS+aer on input line 499.
+LaTeX Font Info:    Try loading font information for OMS+lmtt on input line 553
+.
+LaTeX Font Info:    No file OMSlmtt.fd. on input line 553.
 
-(/usr/local/texlive/2015/texmf-dist/tex/latex/ae/omsaer.fd
-File: omsaer.fd 1999/12/27
-)
-LaTeX Font Info:    Font shape `OMS/aer/m/n' in size <9> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 499.
+LaTeX Font Warning: Font shape `OMS/lmtt/m/n' undefined
+(Font)              using `OMS/cmsy/m/n' instead
+(Font)              for symbol `textasteriskcentered' on input line 553.
 
-Overfull \hbox (20.6522pt too wide) in paragraph at lines 503--504
-[][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (15.10641pt too wide) in paragraph at lines 504--505
-[][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (20.6522pt too wide) in paragraph at lines 505--506
-[][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (15.10641pt too wide) in paragraph at lines 506--508
-[][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (37.28958pt too wide) in paragraph at lines 514--515
-[][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 523--523
+LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <9> not available
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 554.
+[5 <./demo.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 569--569
 [][]\T1/aer/m/n/9 https://github.com/echo66/bpm-
  []
 
-[5 <./demo.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 527--527
+
+Underfull \hbox (badness 10000) in paragraph at lines 573--573
 [][]\T1/aer/m/n/9 https://github.com/echo66/OLA-
  []
 
 
-Overfull \hbox (9.07103pt too wide) in paragraph at lines 541--542
+Overfull \hbox (9.07103pt too wide) in paragraph at lines 591--592
 \T1/aer/m/n/9 BPM-Time-line in projects like QTrac-tor [], Ar-dour and LMMS. 
  []
 
-(./sig-alternate-sample.bbl) [6] (./sig-alternate-sample.aux) ) 
+
+Overfull \hbox (4.52585pt too wide) in paragraph at lines 596--597
+\T1/aer/m/n/9 ^^U Fun-dação para a Ciên-cia e Tec-nolo-gia (ref-er-ence UID/CEC
+/
+ []
+
+(./sig-alternate-sample.bbl) [6] (./sig-alternate-sample.aux)
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+ ) 
 Here is how much of TeX's memory you used:
- 5499 strings out of 493091
- 79516 string characters out of 6134970
- 165526 words of memory out of 5000000
- 8840 multiletter control sequences out of 15000+600000
- 56975 words of font info for 74 fonts, out of 8000000 for 9000
+ 6277 strings out of 493091
+ 87163 string characters out of 6134970
+ 227946 words of memory out of 5000000
+ 9594 multiletter control sequences out of 15000+600000
+ 57612 words of font info for 76 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 43i,10n,42p,1170b,1081s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texl
-ive/2015/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/texlive/2015/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/local/texlive/2015/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmbxti10.pfb></usr/local/texlive/2015/texmf-d
-ist/fonts/type1/public/amsfonts/cmextra/cmex9.pfb></usr/local/texlive/2015/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texlive/2015/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2015/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/texlive/2015/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2015/texmf-dist/fo
-nts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2015/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2015/texmf-dist/fonts/ty
-pe1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2015/texmf-dist/fonts/type
-1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/pu
-blic/amsfonts/cm/cmti9.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/
-helvetic/uhvb8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/helveti
-c/uhvr8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/times/utmb8a.p
-fb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/l
-ocal/texlive/2015/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on sig-alternate-sample.pdf (6 pages, 320250 bytes).
+ 43i,16n,42p,979b,1621s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/
+texlive/2015/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/texlive/2015/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/local/texlive/2015/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb></usr/local/texlive/2015/tex
+mf-dist/fonts/type1/public/amsfonts/cmextra/cmex9.pfb></usr/local/texlive/2015/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texlive/2015/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2015/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/texlive/2015/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2015/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2015/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2015/texmf-dist/font
+s/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2015/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2015/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2015/texmf-dist/fonts/type
+1/public/amsfonts/cm/cmti9.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/
+public/lm/lmtk10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/lm/
+lmtt9.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.p
+fb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></us
+r/local/texlive/2015/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/te
+xlive/2015/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2015
+/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on sig-alternate-sample.pdf (6 pages, 362352 bytes).
 PDF statistics:
- 126 PDF objects out of 1000 (max. 8388607)
- 86 compressed objects within 1 object stream
+ 135 PDF objects out of 1000 (max. 8388607)
+ 93 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  36 words of extra memory for PDF output out of 10000 (max. 10000000)
 

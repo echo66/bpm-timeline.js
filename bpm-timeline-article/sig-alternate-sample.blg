@@ -3,44 +3,46 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: sig-alternate-sample.aux
 The style file: abbrv.bst
 Database file #1: sigproc.bib
+Warning--I didn't find a database entry for "lissajouspresentation"
 You've used 11 entries,
             2118 wiz_defined-function locations,
-            543 strings with 5127 characters,
-and the built_in function-call counts, 2598 in all, are:
-= -- 241
-> -- 89
+            563 strings with 5227 characters,
+and the built_in function-call counts, 3120 in all, are:
+= -- 300
+> -- 124
 < -- 0
-+ -- 37
-- -- 26
-* -- 115
-:= -- 444
-add.period$ -- 30
++ -- 50
+- -- 38
+* -- 191
+:= -- 532
+add.period$ -- 33
 call.type$ -- 11
-change.case$ -- 46
+change.case$ -- 52
 chr.to.int$ -- 0
 cite$ -- 11
-duplicate$ -- 123
-empty$ -- 272
-format.name$ -- 26
-if$ -- 566
+duplicate$ -- 135
+empty$ -- 290
+format.name$ -- 38
+if$ -- 666
 int.to.chr$ -- 0
 int.to.str$ -- 11
-missing$ -- 7
-newline$ -- 54
+missing$ -- 10
+newline$ -- 57
 num.names$ -- 22
-pop$ -- 88
+pop$ -- 73
 preamble$ -- 1
-purify$ -- 35
+purify$ -- 41
 quote$ -- 0
-skip$ -- 70
+skip$ -- 71
 stack$ -- 0
-substring$ -- 70
+substring$ -- 147
 swap$ -- 12
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 44
 warning$ -- 0
-while$ -- 23
+while$ -- 27
 width$ -- 13
-write$ -- 111
+write$ -- 120
+(There was 1 warning)

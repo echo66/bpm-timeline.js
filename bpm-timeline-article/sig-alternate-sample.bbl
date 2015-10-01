@@ -1,61 +1,60 @@
 \begin{thebibliography}{10}
 
-\bibitem{nexusui:wac2015}
-{Ben Taylor and Jesse Allison}.
-\newblock {BRAID: A Web Audio Instrument Builder with Embedded Code Blocks}.
-\newblock In {\em {Proceedings of the 1st Web Audio Conference}}, Paris, 2015.
-
 \bibitem{flocking:icmc2014}
-{Colin Clark and Adam Tindale}.
+C.~Clark and A.~Tindale.
 \newblock {Flocking: A Framework for Declarative Music-Making on the Web}.
-\newblock In {\em {Proceedings of the 40st International Computer Music
-  Conference}}, Athens, 2014.
+\newblock In {\em International Computer Music Conference}, Athens, 2014.
+
+\bibitem{Dannenberg:1997}
+R.~B. Dannenberg.
+\newblock {Abstract Time Warping of Compound Events and Signals}.
+\newblock {\em Computer Music Journal}, 21(3):pp. 61--70, 1997.
+
+\bibitem{honing:1993}
+P.~Desain and H.~Honing.
+\newblock Tempo curves considered harmful.
+\newblock {\em Contemporary Music Review}, 7(2):123--138, 1993.
 
 \bibitem{honing:time2time}
-{Henkjan Honing}.
+H.~Honing.
 \newblock {From Time to Time: The Representation of Timing and Tempo}.
 \newblock {\em {Computer Music Journal}}, 25(3):50--61, June 2001.
+
+\bibitem{Kirke:2009}
+A.~Kirke and E.~R. Miranda.
+\newblock A survey of computer systems for expressive music performance.
+\newblock {\em ACM Computer Surveys}, 42(1):3:1--3:41, Dec. 2009.
 
 \bibitem{maccallum:2010}
 J.~MacCallum and A.~Schmeder.
 \newblock {Timewarp: A Graphical Tool for the Control of Polyphonic Smoothly
   Varying Tempos}.
-\newblock In {\em {Proceedings of International Computer Music Conference}},
-  New York, 2010.
+\newblock In {\em International Computer Music Conference}, New York, 2010.
+
+\bibitem{tonejs:wac2015}
+Y.~Mann.
+\newblock {Interactive Music with Tone.js}.
+\newblock In {\em 1st Web Audio Conference}, Paris, 2015.
 
 \bibitem{timbrejs}
 Mohayonao.
 \newblock Timbre.js: Javascript library for objective sound programming
   (http://mohayonao.github.io/timbre.js/), 2014.
 
-\bibitem{ciseauxjs}
-Mohayonao.
-\newblock Ciseaux: Javascript utility to chop an audio buffer
-  (http://mohayonao.github.io/ciseaux/), 2015.
-
-\bibitem{neumejs}
-Mohayonao.
-\newblock Neume.js: Web audio api library for developing browser music, 2015.
+\bibitem{wavesui:wac2015}
+V.~Saiz, B.~Matuszewski, and S.~Goldszmidt.
+\newblock {Audio Oriented UI Components for the Web Platform}.
+\newblock In {\em 1st Web Audio Conference}, Paris, 2015.
 
 \bibitem{wheresthebeat}
 J.~C. Schacher and M.~Neukom.
 \newblock {Where's the beat? Tools for Dynamic Tempo Calculations}.
-\newblock In {\em {Proceedings of International Computer Music Conference}}.
-  {Zurich University of Arts}, 2007.
+\newblock In {\em {International Computer Music Conference}}. {Zurich
+  University of Arts}, 2007.
 
-\bibitem{lissajouspresentation}
-K.~Stetz.
-\newblock Lissajous: Performing music with javascript, presentation at the 1st
-  web audio conference, 2015.
-
-\bibitem{wavesui:wac2015}
-{Victor Saiz and Benjamin Matuszewski and Samuel Goldszmidt}.
-\newblock {Audio Oriented UI Components for the Web Platform}.
-\newblock In {\em {Proceedings of the 1st Web Audio Conference}}, Paris, 2015.
-
-\bibitem{tonejs:wac2015}
-{Yotam Mann}.
-\newblock {Interactive Music with Tone.js}.
-\newblock In {\em {Proceedings of the 1st Web Audio Conference}}, Paris, 2015.
+\bibitem{nexusui:wac2015}
+B.~Taylor and J.~Allison.
+\newblock {BRAID: A Web Audio Instrument Builder with Embedded Code Blocks}.
+\newblock In {\em 1st Web Audio Conference}, Paris, 2015.
 
 \end{thebibliography}

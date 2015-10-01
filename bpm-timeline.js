@@ -612,8 +612,8 @@ function BPMTimeline(initialTempo) {
 
 	this.add_event_listener = function(observerID, eventType, callback) {
 
-		if (!eventType || _callbacks[eventType]==undefined) 
-			throw "Unsupported event type";
+		// if (!eventType || _callbacks[eventType]==undefined) 
+		// 	throw "Unsupported event type";
 
 		if (observerID!=undefined && _callbacks[eventType][observerID]!=undefined) 
 			throw "Illegal modification of callback";
@@ -625,8 +625,8 @@ function BPMTimeline(initialTempo) {
 
 	this.remove_event_listener = function(observerID, eventType) {
 
-		if (!eventType || _callbacks[eventType]==undefined) 
-			throw "Unsupported event type";
+		// if (!eventType || _callbacks[eventType]==undefined) 
+		// 	throw "Unsupported event type";
 
 		delete _callbacks[eventType][observerID];
 	}
