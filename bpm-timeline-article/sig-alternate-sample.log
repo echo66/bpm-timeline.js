@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.8.16)  30 SEP 2015 18:17
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.8.16)  3 OCT 2015 18:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -612,6 +612,12 @@ Overfull \hbox (12.94499pt too wide) in paragraph at lines 210--211
  []
 
 
+Overfull \hbox (14.38954pt too wide) in paragraph at lines 215--216
+\T1/aer/m/n/9 The de-vel-op-ment of BPM-Time-line fol-lowed three non-functiona
+l
+ []
+
+
 Overfull \hbox (1.61pt too wide) in paragraph at lines 218--219
 \T1/aer/m/n/9 tem-po-ral over-head for time map-pings and tempo search
  []
@@ -628,13 +634,19 @@ Overfull \hbox (5.36931pt too wide) in paragraph at lines 222--223
  []
 
 
+Underfull \hbox (badness 10000) in paragraph at lines 234--234
+[][]\T1/aer/m/n/9 http://webaudio.github.io/web-audio-api/#the-
+ []
+
+
 Overfull \hbox (3.5091pt too wide) in paragraph at lines 234--235
 []\T1/aer/m/n/9 The avail-able JavaScript live cod-ing frame-works and DAWs
  []
 
 
-Overfull \hbox (7.49504pt too wide) in paragraph at lines 234--235
-\T1/aer/m/n/9 through both man-u-al/crisp changes and through a Tone.Signal
+Overfull \hbox (10.12306pt too wide) in paragraph at lines 234--235
+\T1/aer/m/n/9 tempo ma-nip-u-la-tion is achieved through man-u-al/crisp changes
+,
  []
 
 [1{/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
@@ -646,95 +658,90 @@ l.277 	\subfloat
                 (a) \includegraphics[width=1.4in]{eps/constant-bpm}
 ? 
 Package epstopdf Info: Source file: <eps/constant-bpm.eps>
-(epstopdf)                    date: 2015-09-09 17:31:31
-(epstopdf)                    size: 14458 bytes
+(epstopdf)                    date: 2015-10-03 16:45:09
+(epstopdf)                    size: 24844 bytes
 (epstopdf)             Output file: <eps/constant-bpm-eps-converted-to.pdf>
-(epstopdf)                    date: 2015-09-09 17:42:42
-(epstopdf)                    size: 5486 bytes
+(epstopdf)                    date: 2015-10-03 16:45:30
+(epstopdf)                    size: 5438 bytes
 (epstopdf)             Command: <repstopdf --outfile=eps/constant-bpm-eps-conve
 rted-to.pdf eps/constant-bpm.eps>
 (epstopdf)             \includegraphics on input line 277.
 Package epstopdf Info: Output file is already uptodate.
-<eps/constant-bpm-eps-converted-to.pdf, id=20, 232.87pt x 168.63pt>
+<eps/constant-bpm-eps-converted-to.pdf, id=22, 218.8175pt x 158.5925pt>
 File: eps/constant-bpm-eps-converted-to.pdf Graphic file (type pdf)
 
 <use eps/constant-bpm-eps-converted-to.pdf>
 Package pdftex.def Info: eps/constant-bpm-eps-converted-to.pdf used on input li
 ne 277.
-(pdftex.def)             Requested size: 101.17755pt x 73.26596pt.
+(pdftex.def)             Requested size: 101.17755pt x 73.33093pt.
 
 ! Undefined control sequence.
 l.278 	\subfloat
                 (b) \includegraphics[width=1.4in]{eps/step-bpm}
 ? 
 Package epstopdf Info: Source file: <eps/step-bpm.eps>
-(epstopdf)                    date: 2015-09-09 17:32:05
-(epstopdf)                    size: 14643 bytes
+(epstopdf)                    date: 2015-10-03 16:45:10
+(epstopdf)                    size: 25025 bytes
 (epstopdf)             Output file: <eps/step-bpm-eps-converted-to.pdf>
-(epstopdf)                    date: 2015-09-09 17:42:42
-(epstopdf)                    size: 5520 bytes
+(epstopdf)                    date: 2015-10-03 16:45:31
+(epstopdf)                    size: 5469 bytes
 (epstopdf)             Command: <repstopdf --outfile=eps/step-bpm-eps-converted
 -to.pdf eps/step-bpm.eps>
 (epstopdf)             \includegraphics on input line 278.
 Package epstopdf Info: Output file is already uptodate.
-<eps/step-bpm-eps-converted-to.pdf, id=21, 232.87pt x 168.63pt>
+<eps/step-bpm-eps-converted-to.pdf, id=23, 218.8175pt x 158.5925pt>
 File: eps/step-bpm-eps-converted-to.pdf Graphic file (type pdf)
 
 <use eps/step-bpm-eps-converted-to.pdf>
 Package pdftex.def Info: eps/step-bpm-eps-converted-to.pdf used on input line 2
 78.
-(pdftex.def)             Requested size: 101.17755pt x 73.26596pt.
+(pdftex.def)             Requested size: 101.17755pt x 73.33093pt.
 
 ! Undefined control sequence.
 l.279 	\subfloat
                 (c) \includegraphics[width=1.4in]{eps/aprox-bpm}
 ? 
 Package epstopdf Info: Source file: <eps/aprox-bpm.eps>
-(epstopdf)                    date: 2015-09-09 17:31:14
-(epstopdf)                    size: 16429 bytes
+(epstopdf)                    date: 2015-10-03 16:45:08
+(epstopdf)                    size: 26825 bytes
 (epstopdf)             Output file: <eps/aprox-bpm-eps-converted-to.pdf>
-(epstopdf)                    date: 2015-09-09 17:42:43
-(epstopdf)                    size: 5714 bytes
+(epstopdf)                    date: 2015-10-03 16:45:31
+(epstopdf)                    size: 5674 bytes
 (epstopdf)             Command: <repstopdf --outfile=eps/aprox-bpm-eps-converte
 d-to.pdf eps/aprox-bpm.eps>
 (epstopdf)             \includegraphics on input line 279.
 Package epstopdf Info: Output file is already uptodate.
-<eps/aprox-bpm-eps-converted-to.pdf, id=22, 232.87pt x 168.63pt>
+<eps/aprox-bpm-eps-converted-to.pdf, id=24, 218.8175pt x 158.5925pt>
 File: eps/aprox-bpm-eps-converted-to.pdf Graphic file (type pdf)
 
 <use eps/aprox-bpm-eps-converted-to.pdf>
 Package pdftex.def Info: eps/aprox-bpm-eps-converted-to.pdf used on input line 
 279.
-(pdftex.def)             Requested size: 101.17755pt x 73.26596pt.
+(pdftex.def)             Requested size: 101.17755pt x 73.33093pt.
 
 ! Undefined control sequence.
 l.280 	\subfloat
                 (d) \includegraphics[width=1.4in]{eps/linear-bpm}
 ? 
 Package epstopdf Info: Source file: <eps/linear-bpm.eps>
-(epstopdf)                    date: 2015-09-09 17:31:47
-(epstopdf)                    size: 14546 bytes
+(epstopdf)                    date: 2015-10-03 16:45:09
+(epstopdf)                    size: 24924 bytes
 (epstopdf)             Output file: <eps/linear-bpm-eps-converted-to.pdf>
-(epstopdf)                    date: 2015-09-09 17:42:43
-(epstopdf)                    size: 5513 bytes
+(epstopdf)                    date: 2015-10-03 16:45:31
+(epstopdf)                    size: 5460 bytes
 (epstopdf)             Command: <repstopdf --outfile=eps/linear-bpm-eps-convert
 ed-to.pdf eps/linear-bpm.eps>
 (epstopdf)             \includegraphics on input line 280.
 Package epstopdf Info: Output file is already uptodate.
-<eps/linear-bpm-eps-converted-to.pdf, id=23, 232.87pt x 168.63pt>
+<eps/linear-bpm-eps-converted-to.pdf, id=25, 218.8175pt x 158.5925pt>
 File: eps/linear-bpm-eps-converted-to.pdf Graphic file (type pdf)
 
 <use eps/linear-bpm-eps-converted-to.pdf>
 Package pdftex.def Info: eps/linear-bpm-eps-converted-to.pdf used on input line
  280.
-(pdftex.def)             Requested size: 101.17755pt x 73.26596pt.
+(pdftex.def)             Requested size: 101.17755pt x 73.33093pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 285--285
-[][]\T1/aer/m/n/9 http://webaudio.github.io/web-audio-api/#the-
- []
-
-
-Overfull \hbox (7.8923pt too wide) in paragraph at lines 303--304
+Overfull \hbox (7.8923pt too wide) in paragraph at lines 305--306
 \T1/aer/m/n/9 mula used in Au-dioParam \T1/aer/m/it/9 lin-ear-Ramp-To-Val-ueAt-
 Time \T1/aer/m/n/9 method 
  []
@@ -742,126 +749,91 @@ Time \T1/aer/m/n/9 method
 [2] [3 <./eps/constant-bpm-eps-converted-to.pdf> <./eps/step-bpm-eps-converted-
 to.pdf> <./eps/aprox-bpm-eps-converted-to.pdf> <./eps/linear-bpm-eps-converted-
 to.pdf>]
-Overfull \hbox (1.96758pt too wide) in paragraph at lines 469--470
-[]\T1/aer/m/n/9 in DAWs and DJ soft-ware, tempo maps are not changed
+Overfull \hbox (5.21643pt too wide) in paragraph at lines 498--499
+[]\T1/aer/m/it/9 add_tempo_marker(String type, Num-ber $\OML/cmm/m/it/9 b[]$\T1
+/aer/m/it/9 , Num-ber $\OML/cmm/m/it/9 T[]$\T1/aer/m/it/9 )\T1/aer/m/n/9 :
  []
 
 
-Overfull \hbox (2.103pt too wide) in paragraph at lines 479--480
-[]\T1/aer/m/it/9 add_tempo_marker(String type, Num-ber end-Beat, Num-
- []
-
-
-Overfull \hbox (1.67131pt too wide) in paragraph at lines 479--480
-\T1/aer/m/n/9 and B, where $\OML/cmm/m/it/9 A:endBeat < B:endBeat$ $\OMS/cmsy/m
-/n/9 ^$ $\OML/cmm/m/it/9 A:endBeat <
- []
-
-
-Overfull \hbox (26.95334pt too wide) in paragraph at lines 481--482
-[]\T1/aer/m/it/9 change_tempo_marker(Number old-End-Beat, Num-ber newEnd-
+Overfull \hbox (1.59915pt too wide) in paragraph at lines 498--499
+\T1/aer/m/n/9 neigh-bours, in-sert the new tempo marker be-tween them
  []
 
 <demo.png, id=58, 1505.625pt x 501.875pt>
 File: demo.png Graphic file (type png)
  <use demo.png>
-Package pdftex.def Info: demo.png used on input line 487.
+Package pdftex.def Info: demo.png used on input line 506.
 (pdftex.def)             Requested size: 433.62pt x 144.53682pt.
 
-Overfull \hbox (1.0627pt too wide) in paragraph at lines 498--499
+Overfull \hbox (1.0627pt too wide) in paragraph at lines 517--518
 []\T1/aer/m/it/9 inverseIntegralFn(Number $\OML/cmm/m/it/9 b[]$\T1/aer/m/it/9 ,
  Num-ber $\OML/cmm/m/it/9 b[]$\T1/aer/m/it/9 , Num-ber $\OML/cmm/m/it/9 bP[]$\T
 1/aer/m/it/9 ,
  []
 
-
-Overfull \hbox (9.88487pt too wide) in paragraph at lines 509--510
-\OML/cmm/m/it/9 A:endBeat < B:endBeat \OMS/cmsy/m/n/9 ^ \OML/cmm/m/it/9 A:endBe
-at < b < B:endBeat$\T1/aer/m/n/9 .
- []
-
-
-Overfull \hbox (13.3547pt too wide) in paragraph at lines 509--510
-\T1/aer/m/n/9 search re-turns just a marker, then then $\OML/cmm/m/it/9 t\OT1/c
-mr/m/n/9 (\OML/cmm/m/it/9 b\OT1/cmr/m/n/9 ) = \OML/cmm/m/it/9 A:endTime$\T1/aer
-/m/n/9 . 
- []
-
 [4]
-Overfull \hbox (1.41158pt too wide) in paragraph at lines 520--521
+Overfull \hbox (1.41158pt too wide) in paragraph at lines 539--540
 []\T1/aer/m/it/9 add_event_listener(String ob-serverId, String event-Type,
  []
 
-LaTeX Font Info:    Try loading font information for T1+lmtt on input line 526.
+LaTeX Font Info:    Try loading font information for T1+lmtt on input line 545.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-Overfull \hbox (14.26242pt too wide) in paragraph at lines 532--533
+Overfull \hbox (14.26242pt too wide) in paragraph at lines 551--552
 \T1/aer/m/it/9 tempo-marker"\T1/aer/m/n/9 , \T1/aer/m/it/9 "remove-tempo-marker
 " \T1/aer/m/n/9 or \T1/aer/m/it/9 "edit-tempo-marker"\T1/aer/m/n/9 .
  []
 
 
-Overfull \hbox (6.44113pt too wide) in paragraph at lines 540--541
-[]\T1/aer/m/it/9 startBeat\T1/aer/m/n/9 , \T1/aer/m/it/9 end-Beat\T1/aer/m/n/9 
-: Num-bers stat-ing where does the marker
+Overfull \hbox (2.33913pt too wide) in paragraph at lines 559--560
+[]\T1/aer/m/it/9 startBeat \T1/aer/m/n/9 and \T1/aer/m/it/9 end-Beat \T1/aer/m/
+n/9 de-fine where does the marker tempo
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 540--541
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 542--543
-
- []
-
-LaTeX Font Info:    Try loading font information for OMS+lmtt on input line 553
+[5 <./demo.png>]
+LaTeX Font Info:    Try loading font information for OMS+lmtt on input line 570
 .
-LaTeX Font Info:    No file OMSlmtt.fd. on input line 553.
+LaTeX Font Info:    No file OMSlmtt.fd. on input line 570.
+
 
 LaTeX Font Warning: Font shape `OMS/lmtt/m/n' undefined
 (Font)              using `OMS/cmsy/m/n' instead
-(Font)              for symbol `textasteriskcentered' on input line 553.
+(Font)              for symbol `textasteriskcentered' on input line 570.
 
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <9> not available
-(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 554.
-[5 <./demo.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 569--569
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 571.
+
+Underfull \hbox (badness 10000) in paragraph at lines 586--586
 [][]\T1/aer/m/n/9 https://github.com/echo66/bpm-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 573--573
+Underfull \hbox (badness 10000) in paragraph at lines 590--590
 [][]\T1/aer/m/n/9 https://github.com/echo66/OLA-
  []
 
 
-Overfull \hbox (9.07103pt too wide) in paragraph at lines 591--592
-\T1/aer/m/n/9 BPM-Time-line in projects like QTrac-tor [], Ar-dour and LMMS. 
+Overfull \hbox (14.20973pt too wide) in paragraph at lines 602--603
+\T1/aer/m/n/9 JavaScript en-vi-ron-ments be-sides a com-pli-ant EC-MAScript
  []
 
+(./sig-alternate-sample.bbl [6]) [7
 
-Overfull \hbox (4.52585pt too wide) in paragraph at lines 596--597
-\T1/aer/m/n/9 ^^U Fun-dação para a Ciên-cia e Tec-nolo-gia (ref-er-ence UID/CEC
-/
- []
-
-(./sig-alternate-sample.bbl) [6] (./sig-alternate-sample.aux)
+] (./sig-alternate-sample.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 6277 strings out of 493091
- 87163 string characters out of 6134970
- 227946 words of memory out of 5000000
- 9594 multiletter control sequences out of 15000+600000
+ 6275 strings out of 493091
+ 87136 string characters out of 6134970
+ 245938 words of memory out of 5000000
+ 9592 multiletter control sequences out of 15000+600000
  57612 words of font info for 76 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 43i,16n,42p,979b,1621s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 43i,16n,42p,979b,1292s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/
 texlive/2015/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/texlive/2015/te
 xmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/local/texlive/2015/texm
@@ -883,10 +855,10 @@ fb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></us
 r/local/texlive/2015/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/te
 xlive/2015/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2015
 /texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on sig-alternate-sample.pdf (6 pages, 362352 bytes).
+Output written on sig-alternate-sample.pdf (7 pages, 363662 bytes).
 PDF statistics:
- 135 PDF objects out of 1000 (max. 8388607)
- 93 compressed objects within 1 object stream
+ 140 PDF objects out of 1000 (max. 8388607)
+ 97 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  36 words of extra memory for PDF output out of 10000 (max. 10000000)
 

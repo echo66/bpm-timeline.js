@@ -1,4 +1,4 @@
-\begin{thebibliography}{10}
+\begin{thebibliography}{1}
 
 \bibitem{flocking:icmc2014}
 C.~Clark and A.~Tindale.
@@ -36,11 +36,6 @@ Y.~Mann.
 \newblock {Interactive Music with Tone.js}.
 \newblock In {\em 1st Web Audio Conference}, Paris, 2015.
 
-\bibitem{timbrejs}
-Mohayonao.
-\newblock Timbre.js: Javascript library for objective sound programming
-  (http://mohayonao.github.io/timbre.js/), 2014.
-
 \bibitem{wavesui:wac2015}
 V.~Saiz, B.~Matuszewski, and S.~Goldszmidt.
 \newblock {Audio Oriented UI Components for the Web Platform}.
@@ -51,10 +46,5 @@ J.~C. Schacher and M.~Neukom.
 \newblock {Where's the beat? Tools for Dynamic Tempo Calculations}.
 \newblock In {\em {International Computer Music Conference}}. {Zurich
   University of Arts}, 2007.
-
-\bibitem{nexusui:wac2015}
-B.~Taylor and J.~Allison.
-\newblock {BRAID: A Web Audio Instrument Builder with Embedded Code Blocks}.
-\newblock In {\em 1st Web Audio Conference}, Paris, 2015.
 
 \end{thebibliography}
