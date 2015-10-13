@@ -147,7 +147,7 @@ David M. Matos\\
 \begin{abstract}
 Time mapping is a common feature in many (commercial and/or open-source) Digital Audio Workstations, allowing the musician to automate tempo changes of a musical performance or work, as well as to visualize the relation between score time (beats) and real/performance time (seconds). Unfortunately, available music production, performance and remixing tools implemented with web technologies like JavaScript and Web Audio API do not offer any mechanism for flexible, and seamless, tempo manipulation and automation.
 
-In this paper, we present BPMTimeline, a time mapping library, providing a seamless mapping between score and performance time. To achieve this, we model tempo changes as tempo functions (a well documented subject in literature) and realize the mappings through integral and the inverse of the integral of tempo functions.
+In this paper, we present BPMTimeline, a time mapping library, providing a seamless mapping between score and performance time. To achieve this, we model tempo changes as tempo functions (a well documented subject in literature) and realize the mappings through integral and inverse of integral of tempo functions.
 \end{abstract}
 
 
@@ -203,7 +203,7 @@ In this paper, we present BPMTimeline, a time mapping library, providing a seaml
 
 \section{Introduction}
 
-Tempo manipulation of a musical expression or works is used to (1) make a musical expression, or work, more lively (through a faster tempo) or more solemn (slower tempo); (2) allow a DJ to synchronize the tempo of several songs playing simultaneously, in order to align the beats; (3) create climaxes in a musical expression or work. Mainstream Digital Audio Workstations (DAWs), either commercial and/or open-source, like Ableton Live (see figure \ref{fig:abletonautomation}), Logic Pro and Reaper allow tempo automation through time maps, offering a seamless relation between performance and score time, using a tempo function. Unfortunately, there are no time mapping implementations in JavaScript. 
+Tempo manipulation of a musical expression or works is used to (1) make a musical expression, or work, more lively (through a faster tempo) or more solemn (slower tempo); (2) allow a DJ to synchronize the tempo of several songs playing simultaneously,  to align the beats; (3) create climaxes in a musical expression or work. Mainstream Digital Audio Workstations (DAWs), either commercial and/or open-source, like Ableton Live, figure \ref{fig:abletonautomation}, Logic Pro and Reaper allow tempo automation through time maps, offering a seamless relation between performance and score time, using a tempo function. Unfortunately, to the best of our knowledge, there are no time mapping implementations in JavaScript. 
 
 \begin{figure}
 	%COLOCAR A IMAGEM ableton-tempo-automation.png [width=7in]
@@ -215,7 +215,7 @@ Tempo manipulation of a musical expression or works is used to (1) make a musica
 In this paper, we present the theory supporting time maps as well as our JavaScript implementation, BPMTimeline. The development of BPMTimeline followed three non-functional requirements:
 
 \begin{itemize}
-	\item \textbf{No real impact on application performance:} the temporal overhead for time mappings and tempo search and time mapping should remain unnoticed;
+	\item \textbf{No real impact on application performance:} the temporal overhead for time mapping and tempo search should remain unnoticed;
 
 	\item \textbf{Seamless tempo manipulation:} the developer should not be restricted to crisp tempo changes (e.g.: step functions) nor should tempo changes be only allowed on restricted time marks (e.g.: the beginning of a beat or measure);
 
@@ -229,42 +229,42 @@ Our implementation and demo pages are currently hosted at GitHub.\footnote{https
 
 \section{Related Work}
 
-Time mapping is a well document subject \cite{Dannenberg:1997,Kirke:2009,honing:time2time,wheresthebeat,honing:1993}. The main idea of a time map is to relate score time (beats) with real/performance time (seconds) through algebric manipulation of the closed form of tempo functions. A tempo function \textit{T} maps score, or performance, time to a tempo value (e.g.: $T(63\,secs) = 105.12\,BPM$). Besides tempo functions and time maps, anoher way of representing expressive tempo manipulation and timing is through time shifts \cite{honing:time2time}, a function that expresses deviations of certain events in relation to a reference score/performance time line.
+Time mapping is a well document subject \cite{Dannenberg:1997,Kirke:2009,honing:time2time,wheresthebeat,honing:1993}. The main idea of a time map is to relate score time (beats) with real/performance time (seconds) through mathematical manipulation of  tempo functions. A tempo function \textit{T} maps score, or performance, time to a tempo value, e.g.: $T(63\,secs) = 105.12\,bpm$). Besides tempo functions and time maps, another way of representing expressive tempo manipulation and timing is through time shifts \cite{honing:time2time}, a function that expresses deviations of certain events in relation to a reference score/performance time line.
 
-The available JavaScript live coding frameworks and DAWs do not offer time maps. In frameworks like Flocking \cite{flocking:icmc2014}, tempo manipulation is achieved through manual/crisp changes, and tempo automation can achieved through the use of the \textit{setInterval} or \textit{setTimeout} methods. In Tone.js \cite{tonejs:wac2015}, tempo manipulation and automation is achieved through both manual/crisp changes and through a Tone.Signal object, which offers a similar API to AudioParam.\footnote{http://webaudio.github.io/web-audio-api/\#the-audioparam-interface} Still, Tone.js offers no time mapping facilities.
+Available JavaScript live coding frameworks and DAWs do not offer time maps. In frameworks like Flocking \cite{flocking:icmc2014}, tempo manipulation is achieved through manual and crisp changes, and tempo automation can be achieved through the use of the \textit{setInterval} or \textit{setTimeout} methods. In Tone.js \cite{tonejs:wac2015}, tempo manipulation and automation is achieved through both (1) manual and crisp changes and (2) through a Tone.Signal object, which offers a similar API to AudioParam.\footnote{http://webaudio.github.io/web-audio-api/\#the-audioparam-interface} Still, Tone.js offers no time mapping facilities.
 
 
 \section{Theoretical Background}
 
-We start by describing the basic relation between time, beats and tempo in order to infer the desired mappings. For additional background, please see \cite{wheresthebeat,honing:time2time}. According to \cite{wheresthebeat}, music tempo $T$ is defined as the number of pulses/beats $b$ per $t$ time units \cite{maccallum:2010},
+We start by describing the basic relation between time, beats and tempo in order to infer the desired mappings. For additional background, please see \cite{wheresthebeat,honing:time2time}. According to \cite{wheresthebeat}, music tempo $T$ is defined as the number of beats $b$ per $t$ time units \cite{maccallum:2010},
 
 \begin{equation}
 T = \frac{b}{t}
 \end{equation}
 
-the number of beats $b$, after $t$ time units, with tempo $T$ is given by
+The number of beats $b$, after $t$ time units, with tempo $T$ is given by
 \begin{equation}
-b = T * t
+b = T \cdot t
 \end{equation}
 
-the duration $t$ of $b$ beats, with tempo $T$ is defined as 
+The duration $t$ of $b$ beats, with tempo $T$ is defined as 
 \begin{equation}
 t = \frac{b}{T}
 \end{equation}
 
-and the \textit{beat period}, which is the inverse of tempo $T$, is defined as 
+The $bP$, which is the inverse of tempo $T$, is defined as 
 
 \begin{equation}
-beatPeriod = \frac{1}{T} = \frac{t}{b}
+bP = \frac{1}{T} = \frac{t}{b}
 \end{equation}
 
-the equations 1, 2, 3 and 4  assumes that $T$, $t$, $b$ and $beatPeriod$ are constants.
+Equations 1, 2, 3 and 4  assume that $T$, $t$, $b$ and $bP$ are constants.
 
 
-To understand how do we map real time to score time using equations 1, 2, 3 and 4, we will use a set of examples. Consider the first one: how many minutes have passed when we reach beat 4, with a constant tempo of 120 bpm (beatPeriod = 0.5 secs)? According to equation 3, $t = \frac{4}{120} = 0.03\,min$, which is the same as the area under the curve in figure \ref{fig:tempochanges}(a). If we decide to do a sudden change at beat 2, $t = \frac{2}{120} + \frac{2}{110} = 0.0348\,min$. But how do we use those equations to model a linear tempo change, beats 0 and 4, as depicted in \ref{fig:tempochanges}(d)? One solution is to approximate the linear function through a sum of "steps" (figure \ref{fig:tempochanges}(c)). If we use infinitesimally small steps, the mapping from score time to real time, $t(b)$, is defined as the integral of the beat period function. To map real time to score time, $b(t)$, we use the inverse of $t(b)$
+To understand how to map real time to score time, let us analyse the following example: how many minutes have passed when we reach beat 4, with a constant tempo of 120 bpm (bP = 0.5 secs)? According to equation 3, $t = \frac{4}{120} = 0.03\,min$, which is the same as the area under the curve in figure \ref{fig:tempochanges}(a). If we decide to do a sudden change at beat 2, $t = \frac{2}{120} + \frac{2}{110} = 0.0348\,min$. But how do we use the equations to model a linear tempo change, TODO: FALTA ALGO beats 0 and 4, as depicted in \ref{fig:tempochanges}(d)? One solution is to approximate the linear function through a sum of "steps", figure \ref{fig:tempochanges}(c). If we use infinitesimally small steps, the mapping from score time to real time, $t(b)$, is defined as the integral of the beat period function. To map real time to score time, $b(t)$, we use the inverse of $t(b)$
 
 \begin{equation}
-t(b) = \int_{0}^{b} beatPeriod(\beta)\,d\beta
+t(b) = \int_{0}^{b} bP(\beta)\,d\beta
 \end{equation}
 
 \begin{equation}
@@ -278,60 +278,60 @@ b(t) = t^{-1}(b)
 	\subfloat(b) \includegraphics[width=1.4in]{eps/step-bpm}
 	\subfloat(c) \includegraphics[width=1.4in]{eps/aprox-bpm}
 	\subfloat(d) \includegraphics[width=1.4in]{eps/linear-bpm}
-	\caption{Examples of tempo functions, between beats 0 and 4. In (a), we have a constant tempo of 120 bpm \textit{(beatPeriod = 0.5\,secs)}. In (b), there is a sudden (step tempo function) change, at beat 2, from 120 to 110 bpm \textit{(beatPeriod = 0.(54)\,secs)}. In (c), there is a sequence of step tempo change that are used to approximate a linear tempo change as seen in (d). In these examples, we chose to use beat period instead of BPM, for the y-axis, to make the section 2 explanation, regarding b(t) and t(b), more intuitive. } 
+	\caption{Examples of tempo functions, between beats 0 and 4. In (a), we have a constant tempo of 120 bpm \textit{(bP = 0.5\,secs)}. In (b), there is a sudden (step tempo function) change, at beat 2, from 120 to 110 bpm \textit{(bP = 0.(54)\,secs)}. In (c), there is a sequence of step tempo change that are used to approximate a linear tempo change as seen in (d). In these examples, we chose to use beat period instead of BPM, for the y-axis, to make the section 2 explanation, regarding b(t) and t(b), more intuitive. } 
 	\label{fig:tempochanges} 
 \end{figure*} 
 
-in \cite{wheresthebeat}, the authors used $T(t)$ instead of $T(b)$, resulting in a different integral and inverse of the integral for the tempo function. Despite the differences, the time map will produce the same results.
+In \cite{wheresthebeat}, the authors used $T(t)$ instead of $T(b)$, resulting in a different integral and inverse of the integral for the tempo function. Despite the differences, the time map will produce the same results.
 
-According to the previous definitions, a time map can be defined by the closed form for $T(b)$, $beatPeriod(b)$, $t(b)$ and $b(t)$. For the current implementation, we provide three default closed forms for time mapping: linear, exponential and step tempo functions, all of them inspired in AudioParam automation functions.
+According to the previous definitions, a time map can be defined by $T(b)$, $bP(b)$, $t(b)$ and $b(t)$. For the current implementation, we provide three default for time mapping and tempo functions: linear, exponential and step tempo functions, all of them inspired in AudioParam automation functions.
 
 
-\subsection{Supported Closed Forms} 
+\subsection{Supported Functions} 
 
-In the following three subsections, we present the three closed forms for time maps included in our implementation: step, linear and exponential forms. All three closed forms share a set of terms related to tempo and time:
+In the following three subsections, we present the three forms for time maps included in our implementation: step, linear and exponential forms. All three share a set of terms related to tempo and time:
 \begin{itemize}
 	\item $b_0$, $b_1$: the initial and final score times;
 	\item $T_0$, $T_1$: the initial and final tempos;
 	\item $bP_0$, $bP_1$: the initial and final beat periods;
 	\item $t$, $b$: the target time for tempo search and time mappings, $t$ for real time and $b$ for score time;
-	\item $t_s$: the time offset, measure in seconds, for the function.
+	\item $t_s$: the time offset, measured in seconds, for the function.
 \end{itemize}
 
 For each subsection, we define the generic functions and how are they mapped to a closed form.
 
 \subsubsection{Linear}
 
-The linear closed form, based on the definition on the formula used in AudioParam \textit{linearRampToValueAtTime} method
+Based on the definition of the formula used in AudioParam \textit{linearRampToValueAtTime} method
 \begin{equation}
-lin_{X_0,X_1,Y_0,Y_1}(x) = Y_0 + \Delta * (x - X_0), \,\, \Delta = \frac{Y_1-Y_0}{X_1-X_0}
+lin_{X_0,X_1,Y_0,Y_1}(x) = Y_0 + \Delta \cdot (x - X_0)
 \end{equation}
-this function is not defined for $X_0=X_1$. Using this function, the tempo and beat period functions can be defined as
+with $\Delta = \frac{Y_1-Y_0}{X_1-X_0}$ defining the slope of $lin$. This function is not defined for $X_0=X_1$. Using this function, the tempo and beat period functions can be defined as
 \begin{displaymath}
-T(b)=lin_{b_0,b_1,T_0,T_1}(b),\,\,beatPeriod(b)=lin_{b_0,b_1,T_0,T_1}(b)
+T(b)=lin_{b_0,b_1,T_0,T_1}(b),\,\,bP(b)=lin_{b_0,b_1,T_0,T_1}(b)
 \end{displaymath}
-with both functions not defined for $b_0=b_1$. This "corner case" occurs when there is a sudden jump in tempo values. In that case, one should model the tempo change with a step tempo change function. To obtain the mappings, we integrated the linear function and then obtained the inverse of the integral
-\begin{displaymath}
+where both functions are not defined for $b_0=b_1$. This "corner case" occurs when there is a sudden jump in tempo values. In that case, one should model the tempo change with a step tempo function. To obtain the mappings, we integrated the linear function and then obtained the inverse of the integral
+\begin{equation}
 \begin{split}
 	 L_{X_0,X_1,Y_0,Y_1,C}(x) &=\int_{0}^{x} lin_{X_0,X_1,Y_0,Y_1}(x)\,d_x =\\
-	&= \frac{\Delta}{2} * (x-X_0)^{2} + Y_0 * (x-X_0) + C
+	&= \frac{\Delta}{2} \cdot (x-X_0)^{2} + Y_0 \cdot (x-X_0) + C
 \end{split}
-\end{displaymath}
+\end{equation}
 
-\begin{displaymath}
+\begin{equation}
 L_{X_0,X_1,Y_0,Y_1,C}^{-1}(y) = \left\{\begin{array}{lll}
 	sol_{1}(y) + X_0, & if\,\,sol_{1}(y)>0\\
 	sol_{2}(y) + X_0, & otherwise
             \end{array}\right.
-\end{displaymath}
+\end{equation}
 
 \begin{displaymath} 
-sol_{1}(y) = \frac{- Y_0 + k_1}{2 * \Delta} \,\, , sol_{2}(y) = \frac{- Y_0 - k_1}{2 * \Delta}
+sol_{1}(y) = \frac{- Y_0 + k_1}{2 \cdot \Delta} \,\, , sol_{2}(y) = \frac{- Y_0 - k_1}{2 \cdot \Delta}
 \end{displaymath}
 
-\begin{displaymath} k_1 = Y_{0}^2 - \frac{4}{2} * \Delta * (C - y) \end{displaymath}
+\begin{displaymath} k_1 = Y_{0}^2 - \frac{4}{2} \cdot \Delta \cdot (C - y) \end{displaymath}
 
-According to equations 5 and 6, the time mappings with the linear closed form are defined as
+According to equations 5 and 6, the time mappings  are defined as
 \begin{displaymath}
 t(b) = L_{b_0,b_1,bP_0,bP_1,t_s}(b),\,\,b(t) = L_{b_0,b_1,bP_0,bP_1,t_s}^{-1}(t)
 \end{displaymath}
@@ -340,33 +340,33 @@ t(b) = L_{b_0,b_1,bP_0,bP_1,t_s}(b),\,\,b(t) = L_{b_0,b_1,bP_0,bP_1,t_s}^{-1}(t)
 
 \subsubsection{Exponential}
 
-The exponential closed form uses the exponential tempo function defined in \cite{wheresthebeat}
+Consider the exponential function defined in \cite{wheresthebeat} as
 
-\begin{displaymath}
-exp_{X_0,X_1,Y_0,Y_1}(x) = Y_0 * e^{k_2 * (x - X_1)},\,\,k_2 =\frac{ \log{\frac{Y_1}{Y_0}}}{X_1 - X_0}
-\end{displaymath}
+\begin{equation}
+exp_{X_0,X_1,Y_0,Y_1}(x) = Y_0 \cdot e^{k_2 \cdot (x - X_1)},\,\,k_2 =\frac{ \log{\frac{Y_1}{Y_0}}}{X_1 - X_0}
+\end{equation}
 
 and the tempo and beat period functions defined as 
 
 \begin{displaymath}
-T(b)=exp_{b_0,b_1,T_0,T_1}(b),\,\,beatPeriod(b)=exp_{b_0,b_1,T_0,T_1}(b)
+T(b)=exp_{b_0,b_1,T_0,T_1}(b),\,\,bP(b)=exp_{b_0,b_1,T_0,T_1}(b)
 \end{displaymath}
 
-with both functions not defined for $b_0=b_1$. This is the same "corner case" as in the linear closed form. Regarding the time mappings for the exponential closed form, they can be obtained in a similar fashion to the linear closed form with the integral of the exponential function
+where all functions are not defined for $b_0=b_1$ (the same "corner case" as in the linear case). The time mappings for the exponential function can be obtained in a similar fashion:
 
-\begin{displaymath}
+\begin{equation}
 \begin{split}
 	E_{X_0,X_1,Y_0,Y_1,C}(x) &=\int_{0}^{x} exp_{X_0,X_1,Y_0,Y_1}(x)\,d_x = \\
-	&= Y_0 * \frac{e^{k_3 * (x-X_0)} - 1}{k_3} +C
+	&= Y_0 \cdot \frac{e^{k_3 \cdot (x-X_0)} - 1}{k_3} +C
 \end{split}
-\end{displaymath}
+\end{equation}
 
 and the inverse of the integral
-\begin{displaymath}
-E_{X_0,X_1,Y_0,Y_1,C}^{-1}(y) = \frac{\log{\frac{C * (y - C) + 1}{Y_0}}}{k_3} + X_0
-\end{displaymath}
+\begin{equation}
+E_{X_0,X_1,Y_0,Y_1,C}^{-1}(y) = \frac{\log{\frac{C \cdot (y - C) + 1}{Y_0}}}{k_3} + X_0
+\end{equation}
 
-and the final map between the generic functions and the time mapping functions
+and the final map between the generic functions and the time mapping functions is
 
 \begin{displaymath}
 t(b) = E_{b_0,b_1,bP_0,bP_1,t_s}(b),\,\,b(t) = E_{b_0,b_1,bP_0,bP_1,t_s}^{-1}(t)
@@ -374,35 +374,35 @@ t(b) = E_{b_0,b_1,bP_0,bP_1,t_s}(b),\,\,b(t) = E_{b_0,b_1,bP_0,bP_1,t_s}^{-1}(t)
 
 \subsubsection{Step}
 
-The step closed form uses a similar tempo function to the AudioParam \textit{setValueAtTime},
+The step function uses a similar tempo function to the AudioParam \textit{setValueAtTime},
 
-\begin{displaymath}
+\begin{equation}
 step_{X_0,X_1,Y_0,Y_1}(x) = \left\{\begin{array}{lll}
 	Y_{0}, & if\,\,x<X_1\\
 	Y_{1}, & otherwise
             \end{array}\right.
-\end{displaymath}
+\end{equation}
 
 with the difference that the value jumps to $Y_1$ only for $x=X_1$ instead of $x=X_0$, like \textit{setValueAtTime} formula. The integral and inverse of the integral are defined as 
 
-\begin{displaymath}
+\begin{equation}
 S_{X_0,X_1,Y_0,Y_1,C}(x) = \left\{\begin{array}{lll}
-	Y_0 * x + C, & if\,\,x<X_1\\
-	Y_1 * x + C, & otherwise
+	Y_0 \cdot x + C, & if\,\,x<X_1\\
+	Y_1 \cdot x + C, & otherwise
             \end{array}\right.
-\end{displaymath}
+\end{equation}
 
-\begin{displaymath}
+\begin{equation}
 S_{X_0,X_1,Y_0,Y_1,C}^{-1}(y) = \left\{\begin{array}{lll}
 	\frac{y - C}{Y_0}, & if\,\,y<Y_1\\
 	\frac{y - C}{Y_1}, & otherwise
             \end{array}\right.
-\end{displaymath}
+\end{equation}
 
-the inverse of the integral is not defined for $Y_0 = 0 \lor Y_1 = 0$.  According to the previous formulas, we define the tempo and beat period functions as
+Again, the inverse of the integral is not defined for $Y_0 = 0 \lor Y_1 = 0$.  According to the previous formulas, we define the tempo and beat period functions as
 
 \begin{displaymath}
-T(b)=step_{b_0,b_1,T_0,T_1}(b),\,\,beatPeriod(b)=step_{b_0,b_1,T_0,T_1}(b)
+T(b)=step_{b_0,b_1,T_0,T_1}(b),\,\,bP(b)=step_{b_0,b_1,T_0,T_1}(b)
 \end{displaymath}
 
 and the time mappings as 
@@ -416,46 +416,32 @@ with $b(t)$ not defined for $T_0 = 0 \lor T_1 = 0$. This "corner case" is only p
 
 
 
-\subsection{Beats Per Minute (BPM) definition}
+\subsection{Beats Per Minute definition}
 
 
-$T$ is (usually\footnote{In many DAWs like Ableton Live, Logic Pro Tools, Reaper, Ardour and LMMS, music tempo is expressed in BPM. Still, it should be noted that music tempo can be expressed using, for example, italian tempo markings like \textit{Largo}, \textit{Adagietto}, \textit{Andante moderato} and so on.}) expressed in BPM. For example, $120\,bpm = \frac{120\,beats}{1\,min}$. But, usually, BPM is defined as 
+$T$ is (usually\footnote{In many DAWs like Ableton Live, Logic Pro Tools, Reaper, Ardour and LMMS, music tempo is expressed in Beats Per Minute (BPM). Still, it should be noted that music tempo can be expressed using, for example, italian tempo markings like \textit{Largo}, \textit{Adagietto}, \textit{Andante moderato} and so on.}) expressed in BPM. For example, $120\,bpm = \frac{120\,beats}{1\,min}$. But, usually, BPM is defined as 
 
 \begin{equation}
-BPM = \frac{60\,(secs)}{beatPeriod}
+BPM = \frac{60\,(secs)}{bP}
 \end{equation}
 
-with \textit{beatPeriod} measured in seconds. How do we deduce equation 5 from equation 1? If music tempo $T$ is measured as BPM, then $t=1 min$ and we can deduce from equation 1 that $ BPM = \frac{b}{1} = b$. Due to the fact that $1\,min=60\,secs$, we can make the following deduction
+with beat period measured in seconds. How do we deduce equation 5 from equation 1? If music tempo $T$ is measured as BPM, then $t=1 min$ and we can deduce from equation 1 that $ BPM = \frac{b}{1} = b$. Due to the fact that $1\,min=60\,secs$, we can make the following deduction:\\\\
+$ T = \frac{b}{t} \Leftrightarrow \frac{1}{T} = bP = \frac{t}{b} $\\
+$For\,\,\,t = 1\,min \Rightarrow T = \frac{b}{1} = b = BPM$\\
+$For\,\,\,t = 60\,secs \Rightarrow bP = \frac{60\,(secs)}{BPM} \Leftrightarrow BPM = \frac{60\,(secs)}{bP}$\\
 
-\begin{displaymath}
- T = \frac{b}{t} \Leftrightarrow \frac{1}{T} = beatPeriod = \frac{t}{b} 
-\end{displaymath}
-
-\begin{displaymath}
-t = 1\,min \Rightarrow T = \frac{b}{1} = b = BPM
-\end{displaymath}
-
-\begin{displaymath}
-t = 1\,min \Rightarrow t = 60\,secs \Rightarrow  
-\end{displaymath}
-
-\begin{displaymath}
-%\frac{1}{BPM} = \frac{60\,secs}{b}
-beatPeriod = \frac{60\,(secs)}{BPM} \Leftrightarrow BPM = \frac{60\,(secs)}{beatPeriod}
-\end{displaymath}
-
-Through out the remainder of this paper, unless stated otherwise, $T$ and $t$ is measured as BPM and seconds. Additionally, we use equation 7 to relate BPM and beat period instead of using the generic tempo/time relations stated in equations 1 to 4.
+Throughout the remainder of this paper, unless stated otherwise, $T$ is measured as BPM and $t$ as seconds. Additionally, we use equation 16 to relate BPM and beat period instead of using the generic tempo/time relations stated in equations 1 to 4.
 
 
 
 \section{Implementation}
 
-In this section, we describe our JavaScript implementation for time maps, as defined in section 2. The current implementation has seven main features: 
+In this section, we describe our JavaScript implementation for time maps, as defined in section 3. The current implementation has seven main features: 
 \begin{itemize}
-	\item find tempo $T$ at beat $b$ (e.g.: what is the BPM $T$, at beat $b$);
-	\item find tempo  $T$ at time $t$ (e.g.: what is the BPM $T$, at $t$ seconds);
-	\item find what is the beat $b$ at time $t$ (i.e.: mapping time to beats);
-	\item find what how much time $t$ has passed at beat $b$. (i.e.: mapping beats to time);
+	\item find tempo $T$ at beat $b$, e.g.: what is the BPM $T$, at beat $b$;
+	\item find tempo  $T$ at time $t$, e.g.: what is the BPM $T$, at $t$ seconds;
+	\item find what is the beat $b$ at time $t$, e.g.: mapping time to beats;
+	\item find what how much time $t$ has passed at beat $b$,e.g.: mapping beats to time;
 	\item add, edit and remove tempo markers;
 	\item add new closed forms for tempo functions;
 	\item observe changes in a BPMTimeline instance through event listeners.
@@ -613,10 +599,9 @@ The next step will be the support for arbitrarily complex functions. Instead of 
 After that, we plan to integrate BPMTimeline in browser live coding environments like Flocking \cite{flocking:icmc2014}, Tone.js \cite{tonejs:wac2015} and UI libraries/frameworks like WAVES UI \cite{wavesui:wac2015}. 
 
 %ACKNOWLEDGMENTS are optional
-\section{Acknowledgments}
-
-This work was partly supported by national funds through FCT – Fundação  para a Ciência e Tecnologia, under project EXCL/EEI-ESS/0257/2012.
-This work was supported by national funds through Fundação para a Ciência e a Tecnologia (FCT) with reference UID/CEC/50021/2013.
+%\section{Acknowledgments}
+%This work was partly supported by national funds through FCT – Fundação  para a Ciência e Tecnologia, under project EXCL/EEI-ESS/0257/2012.
+%This work was supported by national funds through Fundação para a Ciência e a Tecnologia (FCT) with reference UID/CEC/50021/2013.
 
 %
 % The following two commands are all you need in the
@@ -631,4 +616,5 @@ This work was supported by national funds through Fundação para a Ciência e a
 %
 % ACM needs 'a single self-contained file'!
 %
+\balance
 \end{document}
