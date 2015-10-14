@@ -1,0 +1,20 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Related Work}{}% 2
+\BOOKMARK [1][-]{section.3}{Theoretical Background}{}% 3
+\BOOKMARK [2][-]{subsection.3.1}{Supported Functions}{section.3}% 4
+\BOOKMARK [3][-]{subsubsection.3.1.1}{Linear}{subsection.3.1}% 5
+\BOOKMARK [3][-]{subsubsection.3.1.2}{Exponential}{subsection.3.1}% 6
+\BOOKMARK [3][-]{subsubsection.3.1.3}{Step}{subsection.3.1}% 7
+\BOOKMARK [2][-]{subsection.3.2}{Beats Per Minute definition}{section.3}% 8
+\BOOKMARK [1][-]{section.4}{Implementation}{}% 9
+\BOOKMARK [2][-]{subsection.4.1}{Insertion, Edition and Removal of Tempo Markers}{section.4}% 10
+\BOOKMARK [2][-]{subsection.4.2}{Tempo Search and Time Mapping Methods}{section.4}% 11
+\BOOKMARK [2][-]{subsection.4.3}{Event Listeners}{section.4}% 12
+\BOOKMARK [1][-]{section.5}{Use Cases}{}% 13
+\BOOKMARK [2][-]{subsection.5.1}{Event Scheduling and Effect Automation}{section.5}% 14
+\BOOKMARK [2][-]{subsection.5.2}{Automatic Audio Player Synchronization}{section.5}% 15
+\BOOKMARK [2][-]{subsection.5.3}{Time Rulers}{section.5}% 16
+\BOOKMARK [1][-]{section.6}{Comparisons}{}% 17
+\BOOKMARK [1][-]{section.7}{Conclusions and Future Work}{}% 18
+\BOOKMARK [1][-]{section.8}{Acknowledgments}{}% 19
+\BOOKMARK [1][-]{section.9}{References}{}% 20
