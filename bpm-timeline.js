@@ -364,11 +364,11 @@ function BPMTimeline(initialTempo) {
 				endTime : obj.endTime, 
 				endTempo: obj.endTempo, 
 				type    : obj.type, 
-				previous: (m.previous)? { 
-											endBeat: m.previous.endBeat, 
-											endTime: m.previous.endTime,
-											endTempo: m.previous.endTempo,
-											type: m.previous.type
+				previous: (obj.previous)? { 
+											endBeat: obj.previous.endBeat, 
+											endTime: obj.previous.endTime,
+											endTempo: obj.previous.endTempo,
+											type: obj.previous.type
 										} : undefined
 			}
 		});
