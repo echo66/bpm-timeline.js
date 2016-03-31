@@ -382,7 +382,8 @@ function BPMTimeline(initialTempo) {
 				var oldPreviousMarker = tempoMarkers[idx[0]].previous;
 				var m = tempoMarkers[idx[0]];
 				tempoMarkers.splice(idx[0], 1);
-				tempoMarkers[idx[0]].previous = oldPreviousMarker;
+				if (tempoMarkers[idx[0]])
+					tempoMarkers[idx[0]].previous = oldPreviousMarker;
 				refresh_end_times(idx[0]);
 				_emit('remove-tempo-marker', {
 					oldMarker: {
@@ -603,7 +604,11 @@ function BPMTimeline(initialTempo) {
 	}
 
 	// events handling
-	var _callbacks =  {};
+	var _callbacks =  {
+		"add-tempo-marker": {}, 
+		"remove-tempo-marker": {},
+		"edit-tempo-marker": {}
+	};
 
 	var _emit = function(evenType, data) {
 		for (var ci in _callbacks[evenType]) 
